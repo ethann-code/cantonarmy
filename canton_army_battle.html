@@ -372,6 +372,59 @@
             border-radius: 50%;
         }
 
+        /* Tablet and smaller screens */
+@media (max-width: 768px) {
+    .node.player {
+        width: 45px !important;
+        height: 45px !important;
+        border: 2px solid #a4b848;
+    }
+    
+    .node.player img {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+    .node.player {
+        width: 35px !important;
+        height: 35px !important;
+        border: 2px solid #a4b848;
+    }
+    
+    .node.player img {
+        width: 30px !important;
+        height: 30px !important;
+    }
+}
+
+/* Tablet - All nodes */
+@media (max-width: 768px) {
+    .node {
+        width: 35px !important;
+        height: 35px !important;
+    }
+    
+    .node img {
+        width: 30px !important;
+        height: 30px !important;
+    }
+}
+
+/* Mobile - All nodes */
+@media (max-width: 480px) {
+    .node {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    
+    .node img {
+        width: 24px !important;
+        height: 24px !important;
+    }
+}
 
         .node.enemy {
             background: linear-gradient(45deg, #2f1b14, #5d4037);
@@ -747,6 +800,26 @@
             cursor: pointer;
             font-family: 'Orbitron', monospace;
             transition: transform 0.2s ease;
+        }
+
+        .share-btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #1DA1F2 0%, #0d8bd9 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(29, 161, 242, 0.5);
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn:hover {
+            background: linear-gradient(135deg, #0d8bd9 0%, #1DA1F2 100%);
+            box-shadow: 0 0 30px rgba(29, 161, 242, 0.8);
+            transform: scale(1.05);
         }
 
         .restart-btn:hover {
@@ -1266,6 +1339,7 @@
             <div>Targets Missed: <span id="finalMissed">0</span></div>
             <div>Best Combo: <span id="finalBestCombo">0</span></div>
             <button class="restart-btn" onclick="restartGame()">FIGHT AGAIN ⚔️</button>
+            <button class="share-btn" id="share-btn">SHARE YOUR SCORE ON X</button>
         </div>
     </div>
 
@@ -1498,21 +1572,21 @@ updateArenaDimensions() {
             nodeType = 'poison';
             isPoison = true;
             node.className = 'node poison';
-            node.innerHTML = '☢';
+            node.innerHTML = '<img src="xrp.png" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">';
         } else if (rand < 0.20) {
             nodeType = 'deadly-poison';
             isPoison = true;
             node.className = 'node deadly-poison';
-            node.innerHTML = '☣';
+            node.innerHTML = '<img src="eth.png" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">';
         } else if (rand < 0.35) {
             nodeType = 'super';
             isSuper = true;
             node.className = 'node super';
-            node.innerHTML = '🌀';
+            node.innerHTML = '<img src="cc.png" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">';
         } else {
             nodeType = 'enemy';
             node.className = 'node enemy';
-            node.innerHTML = ['🎯', '💫', '✨', '🌟'][Math.floor(Math.random() * 4)];
+            node.innerHTML = '<img src="cc.png" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">';
         }
         
         const side = Math.floor(Math.random() * 4);
@@ -2049,6 +2123,30 @@ document.addEventListener('DOMContentLoaded', () => {
         arena.style.webkitUserSelect = 'none';
     }
 });
+// Share on X (Twitter) Button
+document.addEventListener('DOMContentLoaded', function() {
+    const shareBtn = document.getElementById('share-btn');
+    if (shareBtn) {
+        shareBtn.addEventListener('click', function() {
+            // Get the score from the game
+            const scoreElement = document.getElementById('final-score');
+            const score = scoreElement ? scoreElement.textContent : '0';
+            
+            // Your game URL - CHANGE THIS to your actual URL!
+            const gameUrl = window.location.href;
+            
+            // Create tweet text
+            const tweetText = `I just scored ${score} on Canton Army Battle! 🎯 Try to beat my score and play here: ${gameUrl}`;
+            
+            // Encode for URL
+            const encodedTweet = encodeURIComponent(tweetText);
+            
+            // Open Twitter share
+            window.open(`https://twitter.com/intent/tweet?text=${encodedTweet}`, '_blank');
+        });
+    }
+});
+
 </script>
 </body>
 </html>
