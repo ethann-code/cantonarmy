@@ -1018,8 +1018,9 @@
         /* VERY SMALL SCREENS */
         @media screen and (max-width: 480px) {
             .arena {
-                width: 280px !important;
-                height: 200px !important;
+                width: 100vx !important;
+                height: 100vx !important;
+                max-height: 75vh;
             }
 
             .node {
@@ -1030,6 +1031,15 @@
             
             .health-damage {
                 font-size: 0.9rem !important;
+            }
+        }
+
+        /* Tablet - Make arena bigger */
+        @media (max-width: 768px) {
+            #arena {
+                width: 90vw !important;
+                height: 90vw !important;
+                max-height: 600px;
             }
         }
 
@@ -1365,26 +1375,91 @@ function initAudio() {
     if (!audioContext) {
         try {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            console.log('Audio context created:', audioContext.state);
+            console.log('Audio context created, state:', audioContext.state);
+            
+            // Ensure it's running
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
         } catch (e) {
             console.error('Failed to create audio context:', e);
         }
     }
 }
 
-function playTone(frequency, duration, type = 'sine') {
-    if (!soundEnabled || !audioContext) return;
+function playSound(type) {
+    if (!soundEnabled) return;
     
     try {
-        if (audioContext.state === 'suspended') {
-            audioContext.resume().then(() => {
-                actuallyPlayTone(frequency, duration, type);
-            });
-        } else {
-            actuallyPlayTone(frequency, duration, type);
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        const frequencies = {
+            'click': 800,
+            'super': 1200,
+            'poison': 200,
+            'death': 150
+        };
+        
+        oscillator.frequency.value = frequencies[type] || 440;
+        oscillator.type = 'sine';
+        
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.1);
+        
+        setTimeout(() => audioCtx.close(), 200);
+    } catch (e) {}
+}
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+    const btn = document.getElementById('sound-btn');
+    if (btn) {
+        btn.textContent = soundEnabled ? '🔊' : '🔇';
+    }
+}
+
+function playTone(frequency, duration, type = 'sine') {
+    if (!soundEnabled) return;
+    
+    if (!audioContext) {
+        initAudio();
+    }
+    
+    if (!audioContext) return;
+    
+    const play = () => {
+        try {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequency;
+            oscillator.type = type;
+            
+            gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        } catch (e) {
+            console.error('Error playing tone:', e);
         }
-    } catch (e) {
-        console.error('Error in playTone:', e);
+    };
+    
+    if (audioContext.state === 'suspended') {
+        audioContext.resume().then(() => play());
+    } else if (audioContext.state === 'running') {
+        play();
     }
 }
 
@@ -1734,6 +1809,7 @@ updateArenaDimensions() {
         if (!this.gameRunning || !nodeElement.parentNode) return;
         
         if (nodeType === 'poison') {
+            playSound('poison');
             this.privacyLevel = Math.max(0, this.privacyLevel - 10);
             this.resetCombo();
             this.showPoisonWarning();
@@ -1745,6 +1821,7 @@ updateArenaDimensions() {
         }
         
         if (nodeType === 'deadly-poison') {
+            playSound('poison');
             this.takeDamage();
             this.resetCombo();
             this.showDeadlyPoisonWarning();
@@ -1756,6 +1833,13 @@ updateArenaDimensions() {
         }
         
         const points = nodeType === 'super' ? 50 : 10;
+
+        if (nodeType === 'super') {
+            playSound('super');
+        } else {
+            playSound('click');
+        }
+
         this.score += points * Math.max(1, this.combo);
         this.combo += nodeType === 'super' ? 3 : 1;
         
@@ -1893,7 +1977,8 @@ updateArenaDimensions() {
     }
 
     endGame(reason = "GAME OVER!") {
-    this.gameRunning = false;
+        playSound('death');
+        this.gameRunning = false;
     
     globalFinalScore = this.score;
     
@@ -2062,6 +2147,9 @@ document.addEventListener('click', (e) => {
 let game = null;
 
 document.getElementById('start-game-button').addEventListener('click', () => {
+    playSound('super');
+    
+    document.getElementById('start-banner').style.display = 'none';
     document.getElementById('start-banner').style.display = 'none';
     
     document.querySelector('.title').style.display = 'block';
@@ -2176,6 +2264,24 @@ function shareOnTwitter() {
     
     window.open(`https://twitter.com/intent/tweet?text=${encodedTweet}`, '_blank', 'width=550,height=420');
 }
+
+document.addEventListener('click', function initAudioOnClick() {
+    if (!audioContext) {
+        initAudio();
+    }
+    if (audioContext && audioContext.state === 'suspended') {
+        audioContext.resume();
+    }
+}, { once: true });
+
+let audioPrewarmed = false;
+document.addEventListener('click', function() {
+    if (!audioPrewarmed) {
+        playSound('click');
+        audioPrewarmed = true;
+    }
+}, { once: true });
+
 </script>
 </body>
 </html>
