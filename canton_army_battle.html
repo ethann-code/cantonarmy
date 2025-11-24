@@ -1339,13 +1339,27 @@
             <div>Targets Missed: <span id="finalMissed">0</span></div>
             <div>Best Combo: <span id="finalBestCombo">0</span></div>
             <button class="restart-btn" onclick="restartGame()">FIGHT AGAIN ⚔️</button>
-            <button class="share-btn" id="share-btn">SHARE YOUR SCORE ON X</button>
+        <button class="restart-btn" id="share-btn" onclick="shareOnTwitter()" style="background: linear-gradient(45deg, #1DA1F2, #0d8bd9); margin-right: 10px;">
+            📤 SHARE ON X
+        </button>
         </div>
     </div>
 
    <script>
+
 let soundEnabled = true;
 let audioContext = null;
+let score = 0;
+let combo = 0;
+let bestCombo = 0;
+let level = 1;
+let timeLeft = 30;
+let missed = 0;
+let health = 10;
+let energy = 100;
+let beansDestroyed = 0;
+let gameActive = false;
+let globalFinalScore = 0;
 
 function initAudio() {
     if (!audioContext) {
@@ -1878,23 +1892,28 @@ updateArenaDimensions() {
         setTimeout(() => this.timer(), 1000);
     }
 
-    endGame(reason = 'GAME OVER!') {
-        this.gameRunning = false;
-
-        this.nodes.forEach(nodeData => {
-            if (nodeData.element && nodeData.element.parentNode) {
-                nodeData.element.style.pointerEvents = 'none';
-                nodeData.element.style.opacity = '0.5';
-            }
-        });
-        
-        document.getElementById('gameOver').children[0].textContent = reason;
-        document.getElementById('finalScore').textContent = this.score;
-        document.getElementById('finalBeans').textContent = this.nodesDestroyed;
-        document.getElementById('finalMissed').textContent = this.nodesMissed;
-        document.getElementById('finalBestCombo').textContent = this.bestCombo;
-        document.getElementById('gameOver').style.display = 'block';
-    }
+    endGame(reason = "GAME OVER!") {
+    this.gameRunning = false;
+    
+    globalFinalScore = this.score;
+    
+    this.nodes.forEach(nodeData => {
+        if (nodeData.element && nodeData.element.parentNode) {
+            nodeData.element.style.pointerEvents = 'none';
+            nodeData.element.style.opacity = '0.5';
+        }
+    });
+    
+    document.getElementById('gameOver').children[0].textContent = reason;
+    document.getElementById('finalScore').textContent = this.score;
+    document.getElementById('finalBeans').textContent = this.nodesDestroyed;
+    document.getElementById('finalMissed').textContent = this.nodesMissed;
+    document.getElementById('finalBestCombo').textContent = this.bestCombo;
+    
+    console.log('Game ended. Score stored:', globalFinalScore);
+    
+    document.getElementById('gameOver').style.display = 'block';
+}
 }
 
 function restartGame() {
@@ -2123,30 +2142,40 @@ document.addEventListener('DOMContentLoaded', () => {
         arena.style.webkitUserSelect = 'none';
     }
 });
-// Share on X (Twitter) Button
-document.addEventListener('DOMContentLoaded', function() {
-    const shareBtn = document.getElementById('share-btn');
-    if (shareBtn) {
-        shareBtn.addEventListener('click', function() {
-            // Get the score from the game
-            const scoreElement = document.getElementById('final-score');
-            const score = scoreElement ? scoreElement.textContent : '0';
-            
-            // Your game URL - CHANGE THIS to your actual URL!
-            const gameUrl = window.location.href;
-            
-            // Create tweet text
-            const tweetText = `I just scored ${score} on Canton Army Battle! 🎯 Try to beat my score and play here: ${gameUrl}`;
-            
-            // Encode for URL
-            const encodedTweet = encodeURIComponent(tweetText);
-            
-            // Open Twitter share
-            window.open(`https://twitter.com/intent/tweet?text=${encodedTweet}`, '_blank');
-        });
-    }
-});
 
+// Update your endGame() function to store the score
+function endGame() {
+    gameActive = false;
+    clearInterval(spawnInterval);
+    clearInterval(timerInterval);
+    clearInterval(energyDrainInterval);
+    
+    // Store score globally FIRST
+    globalFinalScore = score;
+    
+    // Then update the display
+    finalScoreEl.textContent = score;
+    beansDestroyedEl.textContent = beansDestroyed;
+    beansMissedEl.textContent = missed;
+    bestComboEl.textContent = bestCombo;
+    
+    console.log('Game ended. Final score:', globalFinalScore); // Debug
+    
+    gameOverEl.style.display = 'block';
+}
+
+// Share function that uses the global variable
+function shareOnTwitter() {
+    const scoreToShare = globalFinalScore || 0;
+    
+    console.log('Attempting to share score:', scoreToShare); // Debug
+    
+    const gameUrl = window.location.href;
+    const tweetText = `I just scored ${scoreToShare} points in Canton Army Battle! 🎯⚡\n\nCan you beat my score?\n\nPlay here: ${gameUrl}\n\n#CantonArmy #BeanBattle`;
+    const encodedTweet = encodeURIComponent(tweetText);
+    
+    window.open(`https://twitter.com/intent/tweet?text=${encodedTweet}`, '_blank', 'width=550,height=420');
+}
 </script>
 </body>
 </html>
