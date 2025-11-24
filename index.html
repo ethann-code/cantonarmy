@@ -650,6 +650,24 @@
                 transform: translateY(-100px) translateX(100px);
             }
         }
+
+        .community-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;  /* ensures centering */
+            gap: 1rem;
+        }
+
+        @media (max-width: 700px) {
+            .community-buttons {
+            flex-direction: column;
+            align-items: center;
+            }
+            .social-button {
+            width: 100%;
+            text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -660,6 +678,7 @@
             <li><a href="#about">ABOUT</a></li>
             <li><a href="#mission">MISSION</a></li>
             <li><a href="#features">FEATURES</a></li>
+            <li><a href="#battle">BATTLE GAME</a></li>
             <li><a href="#community">COMMUNITY</a></li>
         </ul>
         <button class="cta-button" onclick="scrollToSection('community')">JOIN NOW</button>
@@ -767,23 +786,63 @@
         </div>
     </section>
 
-    <!-- Community Section -->
-    <section class="community-section" id="community">
+    <!-- Battle Game Section -->
+    <section class="content-section section-dark" id="battle">
         <div class="content-wrapper">
-            <h2 class="section-title">JOIN THE<br>ARMY</h2>
-            <p style="font-size: 1.3rem; color: var(--text-secondary); max-width: 700px; margin: 2rem auto;">
-                Connect with fellow Canton supporters worldwide. Share insights, learn together, and help build the future of institutional blockchain.
-            </p>
-            <div class="community-buttons">
-                <a href="https://x.com/CantonArmy" target="_blank" class="social-button">TWITTER</a>
-                <a href="https://discord.com/invite/canton" target="_blank" class="social-button">DISCORD</a>
-                <a href="https://t.me/CantonNetwork1" target="_blank" class="social-button">TELEGRAM</a>
-            </div>
-            <div style="margin-top: 3rem;">
-                <button class="cta-button" style="padding: 1.2rem 3rem; font-size: 1.1rem;" onclick="window.open('https://www.canton.network', '_blank')">EXPLORE CANTON NETWORK</button>
+            <h2 class="section-title">CANTON ARMY<br>BATTLE</h2>
+            <div class="section-content">
+                <div class="content-text">
+                    <h3>Test Your Skills in Canton Battle Royale</h3>
+                    <p>Think you have what it takes to be a true Canton Army soldier? Jump into our exclusive Canton Battle game and prove your reflexes, strategy, and endurance!</p>
+                    <p>Defend the base, destroy enemy targets, avoid poison traps, and climb the leaderboard. Only the strongest survive!</p>
+                    <ul class="degen-list" style="list-style: none; margin-top: 2rem;">
+                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">⚡ Fast-paced action gameplay</li>
+                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">🎯 Multiple target types and challenges</li>
+                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">🏆 Combo system for high scores</li>
+                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">💪 Progressive difficulty levels</li>
+                    </ul>
+                    <button class="cta-button" style="margin-top: 2rem; padding: 1.2rem 3rem; font-size: 1.1rem;" onclick="window.location.href='canton_army_battle.html'">PLAY NOW</button>
+                </div>
+                <div class="battle-preview" style="width: 100%; height: 500px; background: var(--secondary-dark); border-radius: 20px; border: 2px solid var(--primary-yellow); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 20px 60px rgba(212, 225, 87, 0.3);">
+                    <div style="position: absolute; width: 200%; height: 200%; background: conic-gradient(from 0deg, transparent, rgba(212, 225, 87, 0.2), transparent, rgba(212, 225, 87, 0.2), transparent); animation: rotate 8s linear infinite;"></div>
+                    <div style="position: relative; z-index: 2; text-align: center;">
+                        <div style="font-size: 6rem; margin-bottom: 1rem;">⚡☕💀</div>
+                        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900; letter-spacing: 5px; background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--primary-green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">CANTON ARMY BATTLE</h3>
+                        <p style="color: var(--primary-yellow); font-size: 1.2rem; margin-top: 1rem; letter-spacing: 2px;">CLICK TO DEPLOY</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- Community Section -->
+
+    <section class="community-section" id="community">
+    <div class="content-wrapper">
+        <h2 class="section-title">JOIN THE<br>ARMY</h2>
+        <p style="font-size: 1.3rem; color: var(--text-secondary); max-width: 700px; margin: 2rem auto;">
+            Connect with fellow Canton supporters worldwide. Share insights, learn together, and help build the future of institutional blockchain.
+        </p>
+        
+        <!-- Army Community Link (centred)-->
+        <div class="community-buttons" style="justify-content: center; margin-bottom: 2.5rem;">
+            <a href="https://x.com/CantonArmy" target="_blank" class="social-button">TWITTER (Canton Army)</a>
+        </div>
+
+        <!-- Official Links Section -->
+        <div class="official-links-wrapper"
+            style="margin: 0 auto; max-width: 700px; background: rgba(212,225,87,0.05); padding:2rem 1rem; border-radius: 16px; border: 1px solid var(--primary-yellow); margin-bottom:2.5rem;">
+            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color:var(--primary-yellow); margin-bottom:1rem; text-transform:uppercase;">Official Links of Canton Network</h3>
+            <div class="community-buttons official-links"
+                style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;">
+                <a href="https://x.com/CantonNetwork" target="_blank" class="social-button">TWITTER (Official)</a>
+                <a href="https://discord.com/invite/canton" target="_blank" class="social-button">DISCORD (Official)</a>
+                <a href="https://t.me/CantonNetwork1" target="_blank" class="social-button">TELEGRAM (Official)</a>
+                <a href="https://canton.network" target="_blank" class="social-button">EXPLORE CANTON NETWORK</a>
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- Footer -->
     <footer>
