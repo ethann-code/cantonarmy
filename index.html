@@ -668,21 +668,167 @@
             text-align: center;
             }
         }
+        nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    background: var(--dark-bg);
+    border-bottom: 2px solid var(--primary-yellow);
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--primary-yellow);
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(212, 225, 87, 0.5);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: var(--primary-yellow);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-yellow);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: var(--primary-yellow);
+    margin: 4px 0;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+}
+
+/* Mobile Menu */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 70%;
+        max-width: 300px;
+        background: var(--dark-bg);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        transition: right 0.4s ease;
+        z-index: 1000;
+        border-left: 2px solid var(--primary-yellow);
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.8);
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links li {
+        opacity: 0;
+        transform: translateX(50px);
+        transition: all 0.3s ease;
+    }
+
+    .nav-links.active li {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .nav-links.active li:nth-child(1) { transition-delay: 0.1s; }
+    .nav-links.active li:nth-child(2) { transition-delay: 0.2s; }
+    .nav-links.active li:nth-child(3) { transition-delay: 0.3s; }
+    .nav-links.active li:nth-child(4) { transition-delay: 0.4s; }
+    .nav-links.active li:nth-child(5) { transition-delay: 0.5s; }
+    .nav-links.active li:nth-child(6) { transition-delay: 0.6s; }
+
+    .nav-links a {
+        font-size: 1.3rem;
+    }
+}
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="logo">CANTON ARMY</div>
-        <ul class="nav-links">
-            <li><a href="#about">ABOUT</a></li>
-            <li><a href="#mission">MISSION</a></li>
-            <li><a href="#features">FEATURES</a></li>
-            <li><a href="#battle">BATTLE GAME</a></li>
-            <li><a href="#community">COMMUNITY</a></li>
-        </ul>
-        <button class="cta-button" onclick="scrollToSection('community')">JOIN NOW</button>
-    </nav>
+    <div class="logo">CANTON ARMY</div>
+    <button class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <ul class="nav-links" id="navMenu">
+        <li><a href="#about" onclick="toggleMenu()">ABOUT</a></li>
+        <li><a href="#mission" onclick="toggleMenu()">MISSION</a></li>
+        <li><a href="#donate" onclick="toggleMenu()">DONATE TO ARMY</a></li>
+        <li><a href="#features" onclick="toggleMenu()">FEATURES</a></li>
+        <li><a href="#battle" onclick="toggleMenu()">BATTLE GAME</a></li>
+        <li><a href="#community" onclick="toggleMenu()">COMMUNITY</a></li>
+    </ul>
+</nav>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -741,6 +887,35 @@
             </div>
         </div>
     </section>
+
+    <!-- Donation Section -->
+<section class="content-section section-dark" id="donate" style="padding: 6rem 5%;">
+    <div class="content-wrapper">
+        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 3.5rem; font-weight: 900; color: var(--primary-yellow); margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 5px;">SUPPORT THE<br>MOVEMENT</h2>
+            
+            <p style="font-size: 1.3rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 3rem;">
+                Canton Army is powered by community contributions. All donations go directly toward building our ecosystem, creating content, hosting events, giveaways, and giving back to the Canton community. Every contribution helps us grow stronger together!
+            </p>
+
+            <div style="background: rgba(212, 225, 87, 0.05); padding: 2.5rem; border-radius: 20px; border: 2px solid var(--primary-yellow); box-shadow: 0 0 30px rgba(212, 225, 87, 0.3);">
+                <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--primary-yellow); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">Canton Wallet Address</h3>
+                
+                <div style="background: var(--secondary-dark); padding: 1.5rem; border-radius: 12px; font-family: 'Courier New', monospace; font-size: 0.95rem; word-break: break-all; color: var(--primary-yellow); border: 1px solid var(--primary-yellow); margin-bottom: 1.5rem; line-height: 1.6;">
+                    consolewallet-cantonarmy::1220f154b6078ac0969f9d7bfa696fc4b42b8e1c9723c77b9381d855f47483044159
+                </div>
+
+                <button onclick="copyDonationAddress()" style="padding: 1rem 2.5rem; background: linear-gradient(45deg, var(--primary-green), var(--primary-yellow)); color: var(--dark-bg); border: none; border-radius: 50px; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; box-shadow: 0 0 20px rgba(212, 225, 87, 0.5);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 5px 30px rgba(212, 225, 87, 0.7)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 0 20px rgba(212, 225, 87, 0.5)'">
+                    📋 COPY ADDRESS
+                </button>
+
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 2rem; font-style: italic;">
+                    💚 Thank you for supporting Canton Army and helping us build the future of the Canton Network community!
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- Features Section -->
     <section class="content-section section-dark" id="features">
@@ -945,6 +1120,36 @@
         fetchCCData();
 
         setInterval(fetchCCData, 60000);
+
+        function copyDonationAddress() {
+    const address = 'consolewallet-cantonarmy::1220f154b6078ac0969f9d7bfa696fc4b42b8e1c9723c77b9381d855f47483044159';
+    navigator.clipboard.writeText(address).then(() => {
+        alert('✅ Wallet address copied to clipboard!');
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+        alert('❌ Failed to copy. Please copy manually.');
+    });
+}
+
+function toggleMenu() {
+    const menu = document.getElementById('navMenu');
+    const hamburger = document.querySelector('.hamburger');
+    
+    menu.classList.toggle('active');
+    hamburger.classList.toggle('active');
+}
+
+window.onclick = function(event) {
+    const menu = document.getElementById('navMenu');
+    const hamburger = document.querySelector('.hamburger');
+    
+    if (!event.target.matches('.hamburger') && !event.target.matches('.hamburger span') && !event.target.matches('.nav-links') && !event.target.matches('.nav-links *')) {
+        if (menu.classList.contains('active')) {
+            menu.classList.remove('active');
+            hamburger.classList.remove('active');
+        }
+    }
+}
     </script>
 </body>
 </html>
