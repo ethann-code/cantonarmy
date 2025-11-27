@@ -2259,7 +2259,7 @@ function shareOnTwitter() {
     console.log('Attempting to share score:', scoreToShare); // Debug
     
     const gameUrl = window.location.href;
-    const tweetText = `I just scored ${scoreToShare} points in Canton Army Battle! 🎯⚡\n\nCan you beat my score?\n\nPlay here: ${gameUrl}\n\n#CantonArmy #BeanBattle`;
+    const tweetText = `I just scored ${scoreToShare} points in Canton Army Battle! 🎯⚡\n\nCan you beat my score?\n\nPlay here: ${gameUrl}\n\n`;
     const encodedTweet = encodeURIComponent(tweetText);
     
     window.open(`https://twitter.com/intent/tweet?text=${encodedTweet}`, '_blank', 'width=550,height=420');
