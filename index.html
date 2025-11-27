@@ -978,14 +978,19 @@
                     </ul>
                     <button class="cta-button" style="margin-top: 2rem; padding: 1.2rem 3rem; font-size: 1.1rem;" onclick="window.location.href='canton_army_battle.html'">PLAY NOW</button>
                 </div>
-                <div class="battle-preview" style="width: 100%; height: 500px; background: var(--secondary-dark); border-radius: 20px; border: 2px solid var(--primary-yellow); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 20px 60px rgba(212, 225, 87, 0.3);">
-                    <div style="position: absolute; width: 200%; height: 200%; background: conic-gradient(from 0deg, transparent, rgba(212, 225, 87, 0.2), transparent, rgba(212, 225, 87, 0.2), transparent); animation: rotate 8s linear infinite;"></div>
-                    <div style="position: relative; z-index: 2; text-align: center;">
-                        <div style="font-size: 6rem; margin-bottom: 1rem;">⚡☕💀</div>
-                        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900; letter-spacing: 5px; background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--primary-green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">CANTON ARMY BATTLE</h3>
-                        <p style="color: var(--primary-yellow); font-size: 1.2rem; margin-top: 1rem; letter-spacing: 2px;">CLICK TO DEPLOY</p>
-                    </div>
+                <div class="battle-preview" style="width: 100%; max-height: 500px; border-radius: 20px; border: 2px solid var(--primary-yellow); overflow: hidden; box-shadow: 0 20px 60px rgba(212, 225, 87, 0.3);">
+                    <video
+                        src="gameplayy.mp4"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 20px;"
+                    >
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
+
             </div>
         </div>
     </section>
@@ -1139,6 +1144,7 @@ function toggleMenu() {
     hamburger.classList.toggle('active');
 }
 
+// Close menu when clicking outside
 window.onclick = function(event) {
     const menu = document.getElementById('navMenu');
     const hamburger = document.querySelector('.hamburger');
