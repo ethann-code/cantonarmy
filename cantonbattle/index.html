@@ -1,0 +1,2861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>⚔️ CANTON ARMY BATTLE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js"></script>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', monospace;
+    background: linear-gradient(135deg, #000000 0%, #0a0a0a 30%, #1a1a1a 60%, #0d0d0d 100%);
+    color: white;
+    overflow-x: hidden;
+    position: relative;
+    user-select: none;
+}
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(164, 184, 72, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(196, 216, 111, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.hero-logo {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 30px rgba(196, 216, 111, 0.8));
+    animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        filter: drop-shadow(0 0 30px rgba(196, 216, 111, 0.8));
+    }
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+        filter: drop-shadow(0 0 50px rgba(196, 216, 111, 1));
+    }
+}
+
+.logo {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 900;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(196, 216, 111, 0.8), 0 0 40px rgba(196, 216, 111, 0.4);
+    letter-spacing: 5px;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.02); }
+}
+
+.tagline {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: #c4d86f;
+    margin-bottom: 40px;
+    letter-spacing: 3px;
+    font-weight: 500;
+}
+
+.cta-button {
+    background: linear-gradient(45deg, #a4b848, #c4d86f);
+    color: #000;
+    padding: 20px 50px;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 900;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 30px rgba(196, 216, 111, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Orbitron', monospace;
+}
+
+.cta-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 50px rgba(196, 216, 111, 0.8);
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.guest-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #c4d86f;
+    color: #c4d86f;
+    padding: 18px 40px;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.guest-button:hover {
+    background: rgba(196, 216, 111, 0.2);
+    border-color: #ffab52;
+    color: #ffab52;
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(196, 216, 111, 0.4);
+}
+
+.signin-button {
+    background: linear-gradient(45deg, #1DA1F2, #0d8bd9);
+    color: #fff;
+    padding: 18px 40px;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    font-weight: 900;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 30px rgba(29, 161, 242, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Orbitron', monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.signin-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 50px rgba(29, 161, 242, 0.8);
+    background: linear-gradient(45deg, #0d8bd9, #1DA1F2);
+}
+
+@media (max-width: 768px) {
+    .auth-buttons {
+        gap: 15px;
+    }
+    
+    .guest-button, .signin-button {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+    
+    .guest-button, .signin-button {
+        width: 100%;
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}
+
+.hero-rules-btn {
+    background: transparent;
+    border: 2px solid rgba(196, 216, 111, 0.3);
+    color: rgba(196, 216, 111, 0.7);
+    padding: 12px 30px;
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 20px;
+}
+
+.hero-rules-btn:hover {
+    background: rgba(196, 216, 111, 0.1);
+    border-color: #c4d86f;
+    color: #c4d86f;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(196, 216, 111, 0.3);
+}
+
+@media (max-width: 768px) {
+    .hero-rules-btn {
+        padding: 10px 25px;
+        font-size: 0.85rem;
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-rules-btn {
+        width: 100%;
+        padding: 10px 20px;
+        font-size: 0.8rem;
+        margin-top: 12px;
+    }
+}
+
+.game-container {
+    display: none;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+}
+
+.game-container.active {
+    display: block;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.game-title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 900;
+    text-shadow: 0 0 15px rgba(196, 216, 111, 0.8);
+}
+
+.control-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.control-btn, .leaderboard-btn {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #c4d86f;
+    color: #c4d86f;
+    padding: 10px 20px;
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 700;
+}
+
+.control-btn:hover, .leaderboard-btn:hover {
+    background: #c4d86f;
+    color: #000;
+    box-shadow: 0 0 20px rgba(196, 216, 111, 0.6);
+}
+
+.control-btn.muted {
+    border-color: #666;
+    color: #666;
+}
+
+.leaderboard-btn {
+    border-color: #ffab52;
+    color: #ffab52;
+}
+
+.leaderboard-btn:hover {
+    background: #ffab52;
+    color: #000;
+    box-shadow: 0 0 20px rgba(255, 171, 82, 0.6);
+}
+
+.stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #a4b848;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #c4d86f;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 900;
+    color: white;
+}
+
+.stat-value.time {
+    color: #ffab52;
+}
+
+.stat-value.combo {
+    background: linear-gradient(45deg, #c4d86f, #ffab52);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.health-container {
+    margin-bottom: 20px;
+}
+
+.health-bar {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.heart {
+    font-size: 2rem;
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.game-canvas {
+    width: 100%;
+    max-width: 800px;
+    height: 600px;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.95);
+    border: 3px solid #c4d86f;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(196, 216, 111, 0.3);
+}
+
+.privacy-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.privacy-label {
+    font-size: 0.9rem;
+    color: #c4d86f;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.privacy-bar-container {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #a4b848;
+    border-radius: 20px;
+    height: 30px;
+    overflow: hidden;
+}
+
+.privacy-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff4444 0%, #ffab52 50%, #c4d86f 100%);
+    transition: width 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.node {
+    position: absolute;
+    width: 30px;
+    height: 40px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 0 black;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.node img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.node.poison img, .node.deadly-poison img {
+    mix-blend-mode: screen;
+    filter: invert(1) brightness(1.5);
+}
+
+.node.player {
+    background: linear-gradient(45deg, #1e40af, #d2691e);
+    box-shadow: 0 0 20px rgba(196, 216, 111, 0.8);
+    z-index: 10;
+    border: 3px solid #c4d86f;
+    animation: fortressPulse 2s ease-in-out infinite;
+    width: 50px;
+    height: 50px;
+}
+
+.node.player img {
+    width: 40px;
+    height: 40px;
+}
+
+@keyframes fortressPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(196, 216, 111, 0.8);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(196, 216, 111, 1);
+    }
+}
+
+.node.enemy {
+    background: linear-gradient(45deg, #2f1b14, #5d4037);
+    box-shadow: 0 0 8px rgba(95, 64, 55, 0.5);
+}
+
+.node.super {
+    background: linear-gradient(45deg, #c4d86f, #ffab52);
+    box-shadow: 0 0 15px rgba(196, 216, 111, 0.8);
+    animation: superPulse 0.6s ease-in-out infinite;
+}
+
+.node.poison {
+    background: linear-gradient(45deg, #4b0082, #8b008b);
+    box-shadow: 0 0 15px rgba(139, 0, 139, 0.8);
+    animation: poisonPulse 0.8s ease-in-out infinite;
+    border: 2px solid #00ff00;
+}
+
+.node.deadly-poison {
+    background: linear-gradient(45deg, #8b0000, #ff0000);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.9);
+    animation: deadlyPulse 0.7s ease-in-out infinite;
+    border: 3px solid #ff0000;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes superPulse {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.15) rotate(180deg); }
+}
+
+@keyframes poisonPulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(139, 0, 139, 0.8);
+    }
+    50% { 
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(0, 255, 0, 0.9);
+    }
+}
+
+@keyframes deadlyPulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.9);
+    }
+    50% { 
+        transform: scale(1.15);
+        box-shadow: 0 0 28px rgba(255, 0, 0, 1);
+    }
+}
+
+.combo-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    font-weight: 900;
+    color: #c4d86f;
+    text-shadow: 3px 3px 0 black;
+    pointer-events: none;
+    opacity: 0;
+    animation: comboFlash 1s ease;
+}
+
+@keyframes comboFlash {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
+
+.health-damage, .miss-penalty, .poison-warning {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    font-weight: 900;
+    color: #ff0000;
+    text-shadow: 3px 3px 0 black;
+    pointer-events: none;
+    opacity: 0;
+    animation: damageFlash 1.5s ease;
+    z-index: 100;
+}
+
+@keyframes damageFlash {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    30% { opacity: 1; transform: translate(-50%, -50%) scale(1.3); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 40px 20px 20px;
+    align-items: flex-start;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    border: 3px solid #c4d86f;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 0 40px rgba(196, 216, 111, 0.4);
+    margin: 0 auto;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+}
+
+.modal-title {
+    font-size: 2rem;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #c4d86f;
+    text-shadow: 0 0 15px rgba(196, 216, 111, 0.8);
+}
+
+.rule-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    border-left: 4px solid #c4d86f;
+    border-radius: 10px;
+}
+
+.rule-title {
+    font-weight: 700;
+    color: #c4d86f;
+    margin-bottom: 5px;
+}
+
+.rule-desc {
+    color: #ddd;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.close-btn {
+    background: linear-gradient(45deg, #a4b848, #c4d86f);
+    color: #000;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    display: block;
+    margin: 30px auto 0;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', monospace;
+}
+
+.close-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(196, 216, 111, 0.5);
+}
+
+.gameover-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.98);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.gameover-modal.active {
+    display: flex;
+}
+
+.gameover-content {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    border: 3px solid #ff4444;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(255, 68, 68, 0.4);
+    animation: gameoverAppear 0.5s ease-out;
+}
+
+@keyframes gameoverAppear {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.gameover-title {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #ff4444;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(255, 68, 68, 0.8);
+}
+
+.final-stats {
+    margin: 30px 0;
+}
+
+.final-stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    font-size: 1.1rem;
+}
+
+.final-stat-label {
+    color: #c4d86f;
+}
+
+.final-stat-value {
+    font-weight: 900;
+}
+
+.gameover-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.retry-btn, .share-btn {
+    padding: 15px 35px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'Orbitron', monospace;
+    transition: all 0.3s ease;
+}
+
+.retry-btn {
+    background: linear-gradient(45deg, #a4b848, #c4d86f);
+    color: #000;
+}
+
+.share-btn {
+    background: rgba(29, 161, 242, 0.9);
+    color: white;
+}
+
+.retry-btn:hover, .share-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px currentColor;
+}
+
+.leaderboard-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1999;
+}
+
+.leaderboard-overlay.active {
+    display: block;
+}
+
+.leaderboard-panel {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    max-width: 450px;
+    height: 100vh;
+    background: linear-gradient(135deg, #000000 0%, #0a0a0a 30%, #1a1a1a 60%, #0d0d0d 100%);
+    border-left: 3px solid #ffab52;
+    z-index: 2000;
+    overflow-y: auto;
+    transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.7);
+}
+
+.leaderboard-panel.active {
+    right: 0;
+}
+
+.leaderboard-header {
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.8);
+    border-bottom: 2px solid #ffab52;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.leaderboard-title {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #ffab52;
+    text-shadow: 0 0 15px rgba(255, 171, 82, 0.8);
+    margin-bottom: 10px;
+}
+
+.leaderboard-subtitle {
+    color: #c4d86f;
+    font-size: 0.9rem;
+}
+
+.leaderboard-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: 2px solid #ff4444;
+    color: #ff4444;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.leaderboard-close:hover {
+    background: #ff4444;
+    color: #000;
+    transform: rotate(90deg);
+}
+
+.leaderboard-list {
+    padding: 20px 30px 30px;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #a4b848;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.leaderboard-item:hover {
+    background: rgba(196, 216, 111, 0.1);
+    border-color: #c4d86f;
+    transform: translateX(-5px);
+    box-shadow: 0 0 15px rgba(196, 216, 111, 0.2);
+}
+
+.leaderboard-rank {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #ffab52;
+    min-width: 40px;
+    text-align: center;
+}
+
+.leaderboard-item:nth-child(1) .leaderboard-rank {
+    color: #FFD700;
+    text-shadow: 0 0 10px #FFD700;
+}
+
+.leaderboard-item:nth-child(2) .leaderboard-rank {
+    color: #C0C0C0;
+    text-shadow: 0 0 10px #C0C0C0;
+}
+
+.leaderboard-item:nth-child(3) .leaderboard-rank {
+    color: #CD7F32;
+    text-shadow: 0 0 10px #CD7F32;
+}
+
+.leaderboard-player {
+    flex: 1;
+}
+
+.leaderboard-player-name {
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.leaderboard-score {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #c4d86f;
+    text-shadow: 0 0 8px rgba(196, 216, 111, 0.4);
+}
+
+.leaderboard-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+}
+
+@media (max-width: 1024px) {
+    .hero-logo {
+        width: 120px;
+        height: 120px;
+    }
+    .logo {
+        font-size: 3rem;
+    }
+    .game-canvas {
+        max-width: 700px;
+        height: 500px;
+    }
+    .node {
+        width: 26px;
+        height: 34px;
+        font-size: 16px;
+    }
+    .node img {
+        width: 26px;
+        height: 26px;
+    }
+    .node.player {
+        width: 40px;
+        height: 40px;
+    }
+    .node.player img {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    .hero {
+        padding: 15px;
+    }
+    .hero-logo {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+        animation: none;
+    }
+    .logo {
+        font-size: 2.2rem;
+        letter-spacing: 3px;
+    }
+    .tagline {
+        font-size: 0.9rem;
+        margin-bottom: 30px;
+    }
+    .cta-button {
+        padding: 15px 35px;
+        font-size: 1.2rem;
+    }
+    .game-container {
+        padding: 10px;
+    }
+    .top-bar {
+        margin-bottom: 10px;
+        gap: 8px;
+    }
+    .game-title {
+        font-size: 1.3rem;
+        width: 100%;
+        text-align: center;
+    }
+    .control-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+    .control-btn, .leaderboard-btn {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        flex: 1;
+        min-width: 80px;
+    }
+    .stats-bar {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+    .stat {
+        padding: 10px 8px;
+    }
+    .stat-label {
+        font-size: 0.75rem;
+        margin-bottom: 3px;
+    }
+    .stat-value {
+        font-size: 1.3rem;
+    }
+    .health-container {
+        margin-bottom: 10px;
+    }
+    .heart {
+        font-size: 1.4rem;
+        animation: none;
+    }
+    .game-canvas {
+        max-width: 100%;
+        width: 100%;
+        height: calc(100vh - 420px);
+        min-height: 400px;
+        max-height: 500px;
+        box-shadow: 0 0 20px rgba(196, 216, 111, 0.2);
+    }
+    .privacy-container {
+        top: 15px;
+        left: 15px;
+        right: 15px;
+    }
+    .privacy-label {
+        font-size: 0.75rem;
+        margin-bottom: 3px;
+    }
+    .privacy-bar-container {
+        height: 24px;
+    }
+    .privacy-bar {
+        font-size: 0.75rem;
+    }
+    .node {
+        width: 24px;
+        height: 32px;
+        font-size: 14px;
+        animation: none;
+    }
+    .node img {
+        width: 22px;
+        height: 22px;
+    }
+    .node.player {
+        width: 36px;
+        height: 36px;
+    }
+    .node.player img {
+        width: 30px;
+        height: 30px;
+    }
+    .node.super {
+        animation: superPulse 0.8s ease-in-out infinite;
+    }
+    .node.poison {
+        animation: poisonPulse 1s ease-in-out infinite;
+    }
+    .node.deadly-poison {
+        animation: deadlyPulse 0.9s ease-in-out infinite;
+    }
+    .node.poison img {
+        width: 20px !important;
+        height: 20px !important;
+    }
+    .node.deadly-poison img {
+        width: 18px !important;
+        height: 18px !important;
+    }
+    .combo-display {
+        font-size: 2.5rem;
+    }
+    .health-damage, .miss-penalty, .poison-warning {
+        font-size: 2rem;
+    }
+    .modal {
+        padding: 15px;
+        padding-top: 30px;
+    }
+    .modal-content {
+        padding: 25px 20px;
+        max-width: 95%;
+        max-height: calc(100vh - 60px);
+    }
+    .modal-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    .rule-item {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+    .rule-title {
+        font-size: 0.9rem;
+    }
+    .rule-desc {
+        font-size: 0.8rem;
+    }
+    .close-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+    .gameover-content {
+        padding: 25px 20px;
+        max-width: 90%;
+    }
+    .gameover-title {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+    .final-stats {
+        margin: 20px 0;
+    }
+    .final-stat {
+        padding: 8px 15px;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+    .retry-btn, .share-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    .leaderboard-panel {
+        max-width: 100%;
+    }
+    .leaderboard-header {
+        padding: 20px 15px;
+    }
+    .leaderboard-title {
+        font-size: 1.4rem;
+    }
+    .leaderboard-subtitle {
+        font-size: 0.8rem;
+    }
+    .leaderboard-list {
+        padding: 15px;
+    }
+    .leaderboard-item {
+        padding: 10px;
+        gap: 8px;
+    }
+    .leaderboard-rank {
+        font-size: 1.1rem;
+        min-width: 30px;
+    }
+    .leaderboard-player-name {
+        font-size: 0.85rem;
+        word-break: break-word;
+    }
+    .leaderboard-score {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+    .stat {
+        padding: 8px 6px;
+    }
+    .stat-label {
+        font-size: 0.7rem;
+    }
+    .stat-value {
+        font-size: 1.1rem;
+    }
+    .heart {
+        font-size: 1.2rem;
+    }
+    .game-canvas {
+        height: calc(100vh - 400px);
+        min-height: 350px;
+        max-height: 450px;
+        border-width: 2px;
+    }
+    .privacy-container {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+    }
+    .privacy-label {
+        font-size: 0.65rem;
+    }
+    .privacy-bar-container {
+        height: 20px;
+    }
+    .privacy-bar {
+        font-size: 0.65rem;
+    }
+    .node {
+        width: 20px;
+        height: 28px;
+        font-size: 12px;
+    }
+    .node img {
+        width: 18px;
+        height: 18px;
+    }
+    .node.player {
+        width: 32px;
+        height: 32px;
+    }
+    .node.player img {
+        width: 26px;
+        height: 26px;
+    }
+    .node.poison img {
+        width: 16px !important;
+        height: 16px !important;
+    }
+    
+    .node.deadly-poison img {
+        width: 14px !important;
+        height: 14px !important;
+    }
+    .combo-display {
+        font-size: 2rem;
+    }
+    .health-damage, .miss-penalty, .poison-warning {
+        font-size: 1.5rem;
+    }
+    .game-title {
+        font-size: 1.1rem;
+    }
+    .control-btn, .leaderboard-btn {
+        padding: 10px;
+        font-size: 1.5rem;
+        min-width: 44px;
+        width: 44px;
+        height: 44px;
+        justify-content: center;
+        flex: 0 0 auto;
+    }
+    .btn-text {
+        display: none;
+    }
+    .btn-icon {
+        font-size: 1.5rem;
+    }
+    .modal-title {
+        font-size: 1.3rem;
+    }
+    .rule-item {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .rule-title {
+        font-size: 0.85rem;
+    }
+    .rule-desc {
+        font-size: 0.75rem;
+    }
+    .gameover-title {
+        font-size: 1.6rem;
+    }
+    .final-stat {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    .retry-btn, .share-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    .hero-logo {
+        width: 80px;
+        height: 80px;
+    }
+    .logo {
+        font-size: 1.8rem;
+    }
+    .tagline {
+        font-size: 0.8rem;
+    }
+    .cta-button {
+        padding: 12px 28px;
+        font-size: 1rem;
+    }
+    .leaderboard-header {
+        padding: 15px 12px;
+    }
+    .leaderboard-title {
+        font-size: 1.2rem;
+    }
+    .leaderboard-subtitle {
+        font-size: 0.7rem;
+    }
+    .leaderboard-list {
+        padding: 12px;
+    }
+    .leaderboard-item {
+        padding: 8px;
+        gap: 6px;
+    }
+    .leaderboard-rank {
+        font-size: 1rem;
+        min-width: 28px;
+    }
+    .leaderboard-player-name {
+        font-size: 0.75rem;
+    }
+    .leaderboard-score {
+        font-size: 1rem;
+    }
+    .leaderboard-close {
+        width: 35px;
+        height: 35px;
+        font-size: 1.3rem;
+        top: 15px;
+        right: 15px;
+    }
+}
+
+@media (max-width: 375px) {
+    .stats-bar {
+        gap: 5px;
+    }
+    .stat {
+        padding: 6px 4px;
+    }
+    .stat-value {
+        font-size: 1rem;
+    }
+    .game-canvas {
+        height: calc(100vh - 380px);
+        min-height: 320px;
+    }
+    .node {
+        width: 18px;
+        height: 26px;
+        font-size: 11px;
+    }
+    .node img {
+        width: 16px;
+        height: 16px;
+    }
+    .node.player {
+        width: 28px;
+        height: 28px;
+    }
+    .node.player img {
+        width: 24px;
+        height: 24px;
+    }
+    .heart {
+        font-size: 1rem;
+    }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .game-canvas {
+        height: calc(100vh - 200px);
+        min-height: 250px;
+        max-height: 350px;
+    }
+    .stats-bar {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 5px;
+    }
+    .stat {
+        padding: 5px;
+    }
+    .stat-label {
+        font-size: 0.65rem;
+    }
+    .stat-value {
+        font-size: 0.9rem;
+    }
+    .health-container {
+        margin-bottom: 5px;
+    }
+    .heart {
+        font-size: 1rem;
+    }
+    .top-bar {
+        margin-bottom: 5px;
+    }
+}
+
+.leaderboard-tabs {
+    display: flex;
+    gap: 10px;
+    padding: 0 30px 20px;
+    border-bottom: 2px solid rgba(196, 216, 111, 0.3);
+}
+
+.leaderboard-tab {
+    flex: 1;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #a4b848;
+    border-radius: 10px;
+    color: #c4d86f;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.leaderboard-tab:hover {
+    background: rgba(196, 216, 111, 0.1);
+    border-color: #c4d86f;
+    transform: translateY(-2px);
+}
+
+.leaderboard-tab.active {
+    background: linear-gradient(45deg, #a4b848, #c4d86f);
+    color: #000;
+    border-color: #ffab52;
+    box-shadow: 0 0 20px rgba(196, 216, 111, 0.6);
+}
+
+.weekly-reset-timer {
+    text-align: center;
+    padding: 15px 30px;
+    color: #ffab52;
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(255, 171, 82, 0.2);
+    font-weight: 600;
+}
+
+.weekly-crown {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 1.2rem;
+    animation: crownFloat 2s ease-in-out infinite;
+}
+
+@keyframes crownFloat {
+    0%, 100% { transform: translateY(0px) rotate(-5deg); }
+    50% { transform: translateY(-3px) rotate(5deg); }
+}
+
+.leaderboard-item.weekly-top {
+    border-color: #ff6b35;
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
+}
+
+.leaderboard-item.weekly-top:hover {
+    box-shadow: 0 0 30px rgba(255, 107, 53, 0.6);
+}
+
+@media (max-width: 768px) {
+    .leaderboard-tabs {
+        padding: 0 15px 15px;
+    }
+    
+    .leaderboard-tab {
+        padding: 10px 15px;
+        font-size: 0.8rem;
+    }
+    
+    .weekly-reset-timer {
+        padding: 12px 15px;
+        font-size: 0.75rem;
+    }
+}
+
+</style>
+
+</head>
+<body>
+<div class="hero" id="hero">
+    <img src="cn-favicon-05 1-1.webp" alt="Canton Logo" class="hero-logo">
+    <div class="logo">⚔️ CANTON ARMY BATTLE</div>
+    <div class="tagline">COMMUNITY-POWERED MOVEMENT</div>
+    
+    <div class="auth-buttons">
+        <button class="guest-button" onclick="startGameAsGuest()">
+            🎮 PLAY AS GUEST
+        </button>
+        <button class="signin-button" onclick="signInWithX()">
+            <span style="font-size: 1.2rem;">𝕏</span> SIGN IN WITH X
+        </button>
+    </div>
+    <button class="hero-rules-btn" onclick="toggleLeaderboard()">🏆 VIEW LEADERBOARD</button>
+    <button class="hero-rules-btn" onclick="showRules()">
+        📖 READ RULES
+    </button>
+</div>
+
+    <div class="game-container" id="gameContainer">
+        <div class="top-bar">
+            <div class="game-title">⚔️ CANTON ARMY BATTLE</div>
+            <div class="control-buttons">
+                <button class="control-btn" id="pause-btn" onclick="togglePause()" title="Pause">
+                    <span class="btn-icon">⏸️</span>
+                    <span class="btn-text" id="pauseText">PAUSE</span>
+                </button>
+                <button class="control-btn" id="sound-btn" onclick="toggleSound()" title="Sound">
+                    <span class="btn-icon">🔊</span>
+                    <span class="btn-text" id="soundText">SOUND</span>
+                </button>
+                <button class="control-btn" onclick="showRules()" title="Rules">
+                    <span class="btn-icon">📋</span>
+                    <span class="btn-text">RULES</span>
+                </button>
+                <button class="leaderboard-btn" onclick="toggleLeaderboard()" title="Leaderboard">
+                    <span class="btn-icon">🏆</span>
+                    <span class="btn-text">LEADERBOARD</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-label">SCORE</div>
+                <div class="stat-value" id="score">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">COMBO</div>
+                <div class="stat-value combo" id="combo">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">LEVEL</div>
+                <div class="stat-value" id="level">1</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">TIME</div>
+                <div class="stat-value time"><span id="time">30</span>s</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">MISSED</div>
+                <div class="stat-value" id="missed">0</div>
+            </div>
+        </div>
+
+        <div class="health-container">
+            <div class="stat-label" style="text-align: center; margin-bottom: 10px;">HEALTH</div>
+            <div class="health-bar" id="healthBar"></div>
+        </div>
+
+        <div class="game-canvas" id="arena">
+            <div class="privacy-container">
+                <div class="privacy-label">⚔️ PRIVACY SHIELD</div>
+                <div class="privacy-bar-container">
+                    <div class="privacy-bar" id="privacyLevel" style="width: 100%;">
+                        <span id="privacyText">100%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="rulesModal">
+        <div class="modal-content">
+            <div class="modal-title">⚔️ CANTON ARMY BATTLE RULES</div>
+            <div class="rule-item">
+                <div class="rule-title">🎯 OBJECTIVE</div>
+                <div class="rule-desc">Defend your Canton fortress by destroying enemy threats!</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-title">⭐ SUPER NODES</div>
+                <div class="rule-desc">Give 50 points + big privacy boost</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-title">🎯 REGULAR NODES</div>
+                <div class="rule-desc">Give 10 points + small privacy boost</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-title">☠️ MALICIOUS NODES</div>
+                <div class="rule-desc">Drain 10% privacy if clicked - let them expire naturally!</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-title">💀 CRITICAL THREAT</div>
+                <div class="rule-desc">Remove health - avoid clicking!</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-title">❤️ HEALTH SYSTEM</div>
+                <div class="rule-desc">Start with 10 hearts - lose 1 for each missed node</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-title">⚔️ PRIVACY SHIELD</div>
+                <div class="rule-desc">Constantly drains - keep it above 0 or game over!</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-title">🔥 COMBO SYSTEM</div>
+                <div class="rule-desc">Click nodes consecutively to multiply your score</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-title">⚠️ MISS PENALTY</div>
+                <div class="rule-desc">-50 points + -1 health for nodes reaching center</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-title">🎯 PRECISION</div>
+                <div class="rule-desc">Miss-clicks reset your combo to zero</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-title">⏱️ TIME LIMIT</div>
+                <div class="rule-desc">30 seconds + bonuses from leveling up</div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-title">📈 DIFFICULTY</div>
+                <div class="rule-desc">Nodes move 0.1x faster every 1000 points</div>
+            </div>
+            <button class="close-btn" onclick="closeRules()">GOT IT! ⚔️</button>
+        </div>
+    </div>
+
+<div class="modal" id="usernameModal">
+    <div class="modal-content" style="max-width: 500px;">
+        <div class="modal-title">⚔️ WELCOME, WARRIOR!</div>
+        
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img id="xProfilePic" src="" alt="Profile" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #c4d86f; margin-bottom: 15px; display: none;">
+            <div id="xHandleDisplay" style="color: #1DA1F2; font-size: 1.1rem; font-weight: 700; margin-bottom: 5px;"></div>
+            <div style="color: #888; font-size: 0.85rem;">Connected via X</div>
+        </div>
+        
+        <div style="margin-bottom: 30px;">
+            <label style="display: block; color: #c4d86f; font-size: 0.9rem; margin-bottom: 10px; text-align: left;">
+                CHOOSE YOUR WARRIOR NAME
+            </label>
+            <input 
+                type="text" 
+                id="warriorNameInput" 
+                placeholder="Enter display name..." 
+                maxlength="20"
+                style="width: 100%; padding: 15px; background: rgba(0,0,0,0.8); border: 2px solid #a4b848; border-radius: 10px; color: white; font-family: 'Orbitron', monospace; font-size: 1.1rem; text-align: center;"
+            >
+            <div style="text-align: right; color: #888; font-size: 0.75rem; margin-top: 5px;">
+                <span id="nameCharCount">0</span>/20
+            </div>
+        </div>
+        
+        <button class="close-btn" onclick="confirmUsername()" id="startBattleBtn">
+            START BATTLE ⚔️
+        </button>
+    </div>
+</div>
+
+    <div class="gameover-modal" id="gameOver">
+        <div class="gameover-content">
+            <div class="gameover-title">GAME OVER!</div>
+            <div class="final-stats">
+                <div class="final-stat">
+                    <span class="final-stat-label">Final Score:</span>
+                    <span class="final-stat-value" id="finalScore">0</span>
+                </div>
+                <div class="final-stat">
+                    <span class="final-stat-label">Nodes Destroyed:</span>
+                    <span class="final-stat-value" id="finalBeans">0</span>
+                </div>
+                <div class="final-stat">
+                    <span class="final-stat-label">Nodes Missed:</span>
+                    <span class="final-stat-value" id="finalMissed">0</span>
+                </div>
+                <div class="final-stat">
+                    <span class="final-stat-label">Best Combo:</span>
+                    <span class="final-stat-value" id="finalBestCombo">0</span>
+                </div>
+            </div>
+            <div class="gameover-buttons">
+                <button class="retry-btn" onclick="restartGame()">FIGHT AGAIN ⚔️</button>
+                <button class="share-btn" onclick="shareScore()">📤 SHARE ON X</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="leaderboard-overlay" id="leaderboardOverlay"></div>
+<div class="leaderboard-panel" id="leaderboardPanel">
+    <div class="leaderboard-header">
+        <div class="leaderboard-title">🏆 LEADERBOARD</div>
+        <div class="leaderboard-subtitle">TOP CANTON WARRIORS</div>
+        <button class="leaderboard-close" onclick="toggleLeaderboard()">×</button>
+    </div><br>
+    
+    <div class="leaderboard-tabs">
+        <button class="leaderboard-tab active" onclick="switchLeaderboard('alltime')" id="alltimeTab">
+            🏆 ALL-TIME
+        </button>
+        <button class="leaderboard-tab" onclick="switchLeaderboard('weekly')" id="weeklyTab">
+            🔥 WEEKLY
+        </button>
+    </div>
+    
+    <div class="weekly-reset-timer" id="weeklyTimer" style="display: none;">
+        🕐 Resets in: <span id="resetCountdown">-</span>
+    </div>
+    
+    <div class="leaderboard-list" id="leaderboardList">
+        <div class="leaderboard-empty">
+            <div style="font-size: 3rem;">🏆</div>
+            <div style="margin-top: 10px;">No scores yet. Be the first!</div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+function sanitizeInput(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+let currentLeaderboardView = 'alltime';
+
+function getWeekStart() {
+    const now = new Date();
+    const day = now.getDay();
+    const diff = now.getDate() - day + (day === 0 ? -6 : 1);
+    const monday = new Date(now.setDate(diff));
+    monday.setHours(0, 0, 0, 0);
+    return monday.getTime();
+}
+
+let soundEnabled = true;
+
+function playSound(type) {
+    if (!soundEnabled) return;
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        const frequencies = { 'click': 800, 'super': 1200, 'poison': 200, 'death': 150 };
+        oscillator.frequency.value = frequencies[type] || 440;
+        oscillator.type = 'sine';
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.1);
+        setTimeout(() => audioCtx.close(), 200);
+    } catch (e) {}
+}
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+    const btn = document.getElementById('sound-btn');
+    if (soundEnabled) {
+        btn.classList.remove('muted');
+        document.getElementById('soundText').textContent = 'SOUND';
+    } else {
+        btn.classList.add('muted');
+        document.getElementById('soundText').textContent = 'MUTED';
+    }
+}
+
+let gamePaused = false;
+
+function togglePause() {
+    if (!game || !game.gameRunning) return;
+    
+    gamePaused = !gamePaused;
+    const btn = document.getElementById('pause-btn');
+    const pauseText = document.getElementById('pauseText');
+    
+    if (gamePaused) {
+        btn.style.borderColor = '#ffab52';
+        btn.style.color = '#ffab52';
+        pauseText.textContent = 'RESUME';
+        document.querySelector('.btn-icon').textContent = '▶️';
+        showPauseOverlay();
+    } else {
+        btn.style.borderColor = '#c4d86f';
+        btn.style.color = '#c4d86f';
+        pauseText.textContent = 'PAUSE';
+        document.querySelector('#pause-btn .btn-icon').textContent = '⏸️';
+        hidePauseOverlay();
+    }
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'p' || e.key === 'P') {
+        if (game && game.gameRunning) {
+            togglePause();
+        }
+    }
+});
+
+function showPauseOverlay() {
+    const overlay = document.createElement('div');
+    overlay.id = 'pause-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;cursor:pointer;';
+    overlay.innerHTML = `
+        <div style="font-family:Orbitron,monospace;font-size:4rem;font-weight:900;color:#c4d86f;text-shadow:0 0 20px rgba(196,216,111,0.8);">PAUSED</div>
+        <div style="font-size:1.2rem;color:#fff;">Click anywhere to resume</div>
+    `;
+    overlay.onclick = togglePause;
+    document.body.appendChild(overlay);
+}
+
+function hidePauseOverlay() {
+    const overlay = document.getElementById('pause-overlay');
+    if (overlay) overlay.remove();
+}
+
+const GameSecurity = (function () {
+    let _score = 0;
+    let _combo = 0;
+    let _bestCombo = 0;
+    let _level = 1;
+    let _time = 30;
+    let _privacyLevel = 100;
+    let _nodesDestroyed = 0;
+    let _nodesMissed = 0;
+    let _health = 10;
+    let _invalid = false;
+
+    function validate() {
+    if (_score < 0 || _combo < 0 || _bestCombo < 0) return false;
+    if (_health < 0 || _health > 10) return false;
+    if (_privacyLevel < 0 || _privacyLevel > 105) return false;
+    if (_nodesDestroyed < 0 || _nodesMissed < 0) return false;
+    
+    if (_score > 200000) return false;
+    if (_nodesDestroyed > 300) return false;
+    if (_combo > 100) return false;
+    if (_bestCombo > 100) return false;
+    if (_level < 1 || _level > 30) return false;
+    if (_time < -5 || _time > 400) return false;
+    
+    const minScorePerNode = 5;
+    const maxScorePerNode = 50 * 100;
+    if (_nodesDestroyed > 0 && _score < _nodesDestroyed * minScorePerNode) return false;
+    if (_nodesDestroyed > 0 && _score > _nodesDestroyed * maxScorePerNode) return false;
+    
+    return true;
+}
+
+    function safeSet(fn) {
+        if (_invalid) return;
+        fn();
+        if (!validate()) {
+            _invalid = true;
+            window.__CAB_INVALID_RUN__ = true;
+            alert("Suspicious activity detected. This run is invalid.");
+        }
+    }
+
+    return {
+        reset() {
+            _score = 0;
+            _combo = 0;
+            _bestCombo = 0;
+            _level = 1;
+            _time = 30;
+            _privacyLevel = 100;
+            _nodesDestroyed = 0;
+            _nodesMissed = 0;
+            _health = 10;
+            _invalid = false;
+            window.__CAB_INVALID_RUN__ = false;
+        },
+        addScore(points, combo) {
+            safeSet(() => { _score += points * Math.max(1, combo); });
+        },
+        setCombo(v) {
+            safeSet(() => { _combo = Math.max(0, v); if (_combo > _bestCombo) _bestCombo = _combo; });
+        },
+        resetCombo() {
+            safeSet(() => { _combo = 0; });
+        },
+        incCombo(delta) {
+            safeSet(() => { _combo = Math.max(0, _combo + delta); if (_combo > _bestCombo) _bestCombo = _combo; });
+        },
+        setLevel(v) {
+            safeSet(() => { _level = Math.max(1, v); });
+        },
+        addTime(delta) {
+            safeSet(() => { _time += delta; });
+        },
+        decTime() {
+            safeSet(() => { _time--; });
+        },
+        setTime(v) {
+            safeSet(() => { _time = v; });
+        },
+        damage() {
+            safeSet(() => { _health = Math.max(0, _health - 1); });
+        },
+        heal(amount) {
+            safeSet(() => { _health = Math.min(10, _health + amount); });
+        },
+        setPrivacy(v) {
+            safeSet(() => { _privacyLevel = Math.max(0, Math.min(100, v)); });
+        },
+        addPrivacy(delta) {
+            safeSet(() => { _privacyLevel = Math.max(0, Math.min(100, _privacyLevel + delta)); });
+        },
+        decPrivacy(amount) {
+            safeSet(() => { _privacyLevel = Math.max(0, _privacyLevel - amount); });
+        },
+        incDestroyed() {
+            safeSet(() => { _nodesDestroyed++; });
+        },
+        incMissed() {
+            safeSet(() => { _nodesMissed++; });
+        },
+        getState() {
+            return {
+                score: _score,
+                combo: _combo,
+                bestCombo: _bestCombo,
+                level: _level,
+                time: _time,
+                privacyLevel: _privacyLevel,
+                nodesDestroyed: _nodesDestroyed,
+                nodesMissed: _nodesMissed,
+                health: _health
+            };
+        },
+        isInvalid() {
+            return _invalid;
+        }
+    };
+})();
+
+(function () {
+    const isDesktop = window.innerWidth > 1024 && 
+                      !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
+                      !('ontouchstart' in window);
+    
+    if (!isDesktop) {
+        return;
+    }
+    
+    let devtoolsOpen = false;
+    const threshold = 160;
+    
+    const check = () => {
+        const w = window.outerWidth - window.innerWidth;
+        const h = window.outerHeight - window.innerHeight;
+        if ((w > threshold || h > threshold) && !devtoolsOpen) {
+            devtoolsOpen = true;
+            window.__CAB_DEVTOOLS_FLAG__ = true;
+            
+            const warning = document.createElement('div');
+            warning.id = 'devtools-warning';
+            warning.style.cssText = 'position:fixed;top:10px;left:50%;transform:translateX(-50%);background:#ff4444;color:#fff;padding:15px 30px;border-radius:10px;font-weight:900;z-index:9999;font-family:Orbitron,monospace;box-shadow:0 0 20px rgba(255,68,68,0.8);';
+            warning.textContent = '⚠️ DEVTOOLS DETECTED - SCORE WILL NOT BE SAVED';
+            document.body.appendChild(warning);
+        }
+    };
+    window.addEventListener("resize", check);
+    setInterval(check, 1000);
+})();
+
+class BeanBattleRoyale {
+    constructor() {
+        this.arena = document.getElementById('arena');
+        const s = GameSecurity.getState();
+        this.score = s.score;
+        this.combo = s.combo;
+        this.bestCombo = s.bestCombo;
+        this.level = s.level;
+        this.time = s.time;
+        this.privacyLevel = s.privacyLevel;
+        this.nodesDestroyed = s.nodesDestroyed;
+        this.nodesMissed = s.nodesMissed;
+        this.health = s.health;
+        this.gameRunning = true;
+        this.nodes = [];
+        this.isMobile = window.innerWidth <= 768;
+        this.spawnRate = 800;
+        this.maxBeans = this.isMobile ? 8 : 15;
+        this.privacyDecay = 8;
+        this.poisonLifetime = 5000;
+        this.updateArenaDimensions();
+        this.baseBeanSpeed = 1.0;
+        this.nodeSpeed = this.baseBeanSpeed;
+        this.difficultyLevel = 0;
+        this.initGame();
+        this.gameLoop();
+        this.spawnLoop();
+        this.timer();
+        this.setupClickHandler();
+    }
+
+    syncFromSecurity() {
+        const s = GameSecurity.getState();
+        this.score = s.score;
+        this.combo = s.combo;
+        this.bestCombo = s.bestCombo;
+        this.level = s.level;
+        this.time = s.time;
+        this.privacyLevel = s.privacyLevel;
+        this.nodesDestroyed = s.nodesDestroyed;
+        this.nodesMissed = s.nodesMissed;
+        this.health = s.health;
+    }
+
+    updateArenaDimensions() {
+        const arenaRect = this.arena.getBoundingClientRect();
+        this.arenaWidth = arenaRect.width - 60;
+        this.arenaHeight = arenaRect.height - 60;
+        this.centerX = arenaRect.width / 2 - 15;
+        this.centerY = arenaRect.height / 2 - 20;
+    }
+
+    initGame() {
+        this.initHealthBar();
+        this.updateUI();
+        this.spawnPlayerBean();
+    }
+
+    initHealthBar() {
+        const healthHearts = document.getElementById('healthBar');
+        healthHearts.innerHTML = '';
+        for (let i = 0; i < 10; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.id = `heart-${i}`;
+            healthHearts.appendChild(heart);
+        }
+    }
+
+    updateHealthBar() {
+        this.syncFromSecurity();
+        for (let i = 0; i < 10; i++) {
+            const heart = document.getElementById(`heart-${i}`);
+            if (i >= this.health) {
+                heart.style.opacity = '0.3';
+                heart.style.filter = 'grayscale(100%)';
+            } else {
+                heart.style.opacity = '1';
+                heart.style.filter = 'none';
+            }
+        }
+    }
+
+    calculateDifficulty() {
+        this.syncFromSecurity();
+        const newDifficultyLevel = Math.floor(this.score / 1000);
+        if (newDifficultyLevel !== this.difficultyLevel) {
+            this.difficultyLevel = newDifficultyLevel;
+            this.scaleDifficulty();
+        }
+    }
+
+    scaleDifficulty() {
+        this.nodeSpeed = this.baseBeanSpeed + (this.difficultyLevel * 0.1);
+    }
+
+    takeDamage() {
+        GameSecurity.damage();
+        this.syncFromSecurity();
+        this.updateHealthBar();
+        this.showHealthDamage();
+        if (this.health <= 0) {
+            this.endGame("FORTRESS DESTROYED!");
+        }
+    }
+
+    showHealthDamage() {
+        const damage = document.createElement('div');
+        damage.className = 'health-damage';
+        damage.innerHTML = '-1 ❤️';
+        this.arena.appendChild(damage);
+        setTimeout(() => {
+            if (damage.parentNode) damage.remove();
+        }, 1500);
+    }
+
+    setupClickHandler() {
+        this.arena.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('node') && !e.target.classList.contains('player')) {
+                GameSecurity.resetCombo();
+                this.syncFromSecurity();
+                this.updateUI();
+            }
+        });
+    }
+
+    spawnPlayerBean() {
+        const playerBean = document.createElement('div');
+        playerBean.className = 'node player';
+        playerBean.innerHTML = '<img src="cn-favicon-05%201-1.webp" style="width: 40px; height: 40px;">';
+        const arenaRect = this.arena.getBoundingClientRect();
+        const centerX = arenaRect.width / 2 - 15;
+        const centerY = arenaRect.height / 2 - 20;
+        playerBean.style.left = `${centerX}px`;
+        playerBean.style.top = `${centerY}px`;
+        this.arena.appendChild(playerBean);
+    }
+
+    spawnEnemyBean() {
+        if (this.nodes.length >= this.maxBeans || !this.gameRunning) return;
+        const node = document.createElement('div');
+        const rand = Math.random();
+        let nodeType, isSuper = false, isPoison = false;
+        if (rand < 0.15) {
+            nodeType = 'poison';
+            isPoison = true;
+            node.className = 'node poison';
+            node.innerHTML = '<img src="eth.png" style="width: 30px; height: 30px;">';
+        } else if (rand < 0.20) {
+            nodeType = 'deadly-poison';
+            isPoison = true;
+            node.className = 'node deadly-poison';
+            node.innerHTML = '<img src="xrp.png" style="width: 24px; height: 24px; object-fit: contain;">';        } else if (rand < 0.35) {
+            nodeType = 'super';
+            isSuper = true;
+            node.className = 'node super';
+            node.innerHTML = '<img src="cc.png" style="width: 30px; height: 30px;">';
+        } else {
+            nodeType = 'enemy';
+            node.className = 'node enemy';
+            node.innerHTML = '<img src="cc.png" style="width: 30px; height: 30px;">';
+        }
+        const side = Math.floor(Math.random() * 4);
+        let x, y;
+        switch(side) {
+            case 0:
+                x = Math.random() * this.arenaWidth;
+                y = 0;
+                break;
+            case 1:
+                x = this.arenaWidth;
+                y = Math.random() * this.arenaHeight;
+                break;
+            case 2:
+                x = Math.random() * this.arenaWidth;
+                y = this.arenaHeight;
+                break;
+            case 3:
+                x = 0;
+                y = Math.random() * this.arenaHeight;
+                break;
+        }
+        node.style.left = `${x}px`;
+        node.style.top = `${y}px`;
+        const nodeData = {
+            element: node,
+            type: nodeType,
+            spawnTime: Date.now(),
+            poisonExpireTime: isPoison ? Date.now() + this.poisonLifetime : null
+        };
+        node.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.destroyBean(node, nodeType, nodeData);
+        });
+        this.arena.appendChild(node);
+        this.nodes.push(nodeData);
+        this.moveBean(node);
+        if (isPoison) {
+            setTimeout(() => {
+                if (node.parentNode && this.nodes.includes(nodeData)) {
+                    node.classList.add('expiring');
+                }
+            }, this.poisonLifetime - 1000);
+            setTimeout(() => {
+                if (node.parentNode && this.nodes.includes(nodeData)) {
+                    this.removeBeanSafely(nodeData);
+                }
+            }, this.poisonLifetime);
+        }
+    }
+
+    removeBeanSafely(nodeData) {
+        if (nodeData.element.parentNode) {
+            nodeData.element.remove();
+        }
+        this.nodes = this.nodes.filter(b => b !== nodeData);
+    }
+
+    moveBean(nodeElement) {
+    const startX = parseInt(nodeElement.style.left);
+    const startY = parseInt(nodeElement.style.top);
+    const targetX = this.centerX + (Math.random() - 0.5) * 100;
+    const targetY = this.centerY + (Math.random() - 0.5) * 100;
+    const baseDuration = 1800 + Math.random() * 1300;
+    const duration = baseDuration / (this.nodeSpeed * 1.3);
+    let startTime = Date.now();
+    let totalPausedTime = 0;
+    let pauseStartTime = null;
+
+    const animate = () => {
+        if (!this.gameRunning || !nodeElement.parentNode) return;
+
+        if (gamePaused) {
+            if (pauseStartTime === null) {
+                pauseStartTime = Date.now();
+            }
+            requestAnimationFrame(animate);
+            return;
+        }
+
+        if (pauseStartTime !== null) {
+            totalPausedTime += Date.now() - pauseStartTime;
+            pauseStartTime = null;
+        }
+
+        const elapsed = Date.now() - startTime - totalPausedTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const currentX = startX + (targetX - startX) * easeOut;
+        const currentY = startY + (targetY - startY) * easeOut;
+        nodeElement.style.left = `${currentX}px`;
+        nodeElement.style.top = `${currentY}px`;
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            const nodeData = this.nodes.find(b => b.element === nodeElement);
+            if (nodeData && nodeData.type !== 'poison' && nodeData.type !== 'deadly-poison') {
+                this.applyMissPenalty(nodeElement);
+            } else if (nodeData) {
+                this.removeBeanSafely(nodeData);
+            }
+        }
+    };
+    animate();
+}
+
+    applyMissPenalty(nodeElement) {
+        const nodeData = this.nodes.find(b => b.element === nodeElement);
+        if (nodeData) {
+            GameSecurity.incMissed();
+            this.takeDamage();
+            GameSecurity.resetCombo();
+            this.syncFromSecurity();
+            this.removeBeanSafely(nodeData);
+            this.showMissPenalty();
+            this.updateUI();
+        }
+    }
+
+    showMissPenalty() {
+        const penalty = document.createElement('div');
+        penalty.className = 'miss-penalty';
+        penalty.innerHTML = 'MISSED! -1 ❤️';
+        this.arena.appendChild(penalty);
+        setTimeout(() => {
+            if (penalty.parentNode) penalty.remove();
+        }, 1500);
+    }
+
+    destroyBean(nodeElement, nodeType, nodeData) {
+        if (!this.gameRunning || !nodeElement.parentNode) return;
+        this.syncFromSecurity();
+        if (nodeType === 'poison') {
+            playSound('poison');
+            GameSecurity.decPrivacy(10);
+            GameSecurity.resetCombo();
+            this.syncFromSecurity();
+            this.showPoisonWarning();
+            this.removeBeanSafely(nodeData);
+            this.updateUI();
+            return;
+        }
+        if (nodeType === 'deadly-poison') {
+            playSound('poison');
+            this.takeDamage();
+            GameSecurity.resetCombo();
+            this.syncFromSecurity();
+            this.showDeadlyPoisonWarning();
+            this.removeBeanSafely(nodeData);
+            this.updateUI();
+            return;
+        }
+        const points = nodeType === 'super' ? 50 : 10;
+        if (nodeType === 'super') {
+            playSound('super');
+        } else {
+            playSound('click');
+        }
+        GameSecurity.addScore(points, this.combo);
+        GameSecurity.incCombo(nodeType === 'super' ? 3 : 1);
+        GameSecurity.addPrivacy(nodeType === 'super' ? 15 : 8);
+        GameSecurity.incDestroyed();
+        this.syncFromSecurity();
+        this.removeBeanSafely(nodeData);
+        if (this.combo >= 5) {
+            this.showCombo();
+        }
+        this.calculateDifficulty();
+        this.updateUI();
+        this.checkLevelUp();
+    }
+
+    showPoisonWarning() {
+        const warning = document.createElement('div');
+        warning.className = 'poison-warning';
+        warning.innerHTML = 'POISON! -10%';
+        this.arena.appendChild(warning);
+        setTimeout(() => {
+            if (warning.parentNode) warning.remove();
+        }, 1500);
+    }
+
+    showDeadlyPoisonWarning() {
+        const warning = document.createElement('div');
+        warning.className = 'poison-warning';
+        warning.innerHTML = 'CRITICAL THREAT! -1 ❤️';
+        warning.style.color = '#ff0000';
+        this.arena.appendChild(warning);
+        setTimeout(() => {
+            if (warning.parentNode) warning.remove();
+        }, 2000);
+    }
+
+    showCombo() {
+        const comboDisplay = document.createElement('div');
+        comboDisplay.className = 'combo-display';
+        comboDisplay.innerHTML = `COMBO x${this.combo}!`;
+        this.arena.appendChild(comboDisplay);
+        setTimeout(() => {
+            if (comboDisplay.parentNode) comboDisplay.remove();
+        }, 1000);
+    }
+
+    checkLevelUp() {
+        this.syncFromSecurity();
+        const newLevel = Math.floor(this.nodesDestroyed / 10) + 1;
+        if (newLevel > this.level) {
+            GameSecurity.setLevel(newLevel);
+            GameSecurity.addTime(10);
+            this.syncFromSecurity();
+        }
+    }
+
+    updateUI() {
+        this.syncFromSecurity();
+        document.getElementById('score').textContent = this.score;
+        document.getElementById('combo').textContent = this.combo;
+        document.getElementById('level').textContent = this.level;
+        document.getElementById('time').textContent = this.time;
+        document.getElementById('missed').textContent = this.nodesMissed;
+        const privacyLevel = document.getElementById('privacyLevel');
+        privacyLevel.style.width = `${this.privacyLevel}%`;
+        document.getElementById('privacyText').textContent = `${Math.floor(this.privacyLevel)}%`;
+        this.updateHealthBar();
+    }
+
+    gameLoop() {
+        if (!this.gameRunning) return;
+        if (gamePaused) {
+            setTimeout(() => this.gameLoop(), 100);
+            return;
+        }
+        GameSecurity.decPrivacy(this.privacyDecay / 10);
+        this.syncFromSecurity();
+        if (this.privacyLevel <= 0) {
+            this.endGame("PRIVACY CRASH!");
+            return;
+        }
+        this.updateUI();
+        setTimeout(() => this.gameLoop(), 100);
+    }
+
+    spawnLoop() {
+        if (!this.gameRunning) return;
+        if (gamePaused) {
+            setTimeout(() => this.spawnLoop(), this.spawnRate);
+            return;
+        }
+        this.spawnEnemyBean();
+        setTimeout(() => this.spawnLoop(), this.spawnRate);
+    }
+
+    timer() {
+        if (!this.gameRunning) return;
+        if (gamePaused) {
+            setTimeout(() => this.timer(), 1000);
+            return;
+        }
+        GameSecurity.decTime();
+        this.syncFromSecurity();
+        if (this.time <= 0) {
+            this.endGame("TIME'S UP!");
+            return;
+        }
+        setTimeout(() => this.timer(), 1000);
+    }
+
+    endGame(reason = "GAME OVER!") {
+        playSound('death');
+        this.gameRunning = false;
+        this.nodes.forEach(nodeData => {
+            if (nodeData.element && nodeData.element.parentNode) {
+                nodeData.element.style.pointerEvents = 'none';
+                nodeData.element.style.opacity = '0.5';
+            }
+        });
+        this.syncFromSecurity();
+        document.getElementById('gameOver').style.display = 'flex';
+        document.getElementById('finalScore').textContent = this.score;
+        document.getElementById('finalBeans').textContent = this.nodesDestroyed;
+        document.getElementById('finalMissed').textContent = this.nodesMissed;
+        document.getElementById('finalBestCombo').textContent = this.bestCombo;
+        if (!window.__CAB_DEVTOOLS_FLAG__ && !GameSecurity.isInvalid()) {
+            saveScoreToLocal(this.score);
+        }
+    }
+}
+
+function saveScoreToLocal(score) {
+    if (window.CABDEVTOOLSFLAG || GameSecurity.isInvalid() || isGuestMode || isMockAuth) {
+        return;
+    }
+
+    const timestamp = Date.now();
+    const weekStart = getWeekStart();
+
+    const keyAllTime = 'cantonArmyLeaderboard';
+    let leaderboardAll = JSON.parse(localStorage.getItem(keyAllTime) || '[]');
+    
+    const existingIndexAll = leaderboardAll.findIndex(entry => entry.xUserId === currentUser.xUserId);
+    
+    if (existingIndexAll >= 0) {
+        if (score > leaderboardAll[existingIndexAll].score) {
+            leaderboardAll[existingIndexAll].score = score;
+            leaderboardAll[existingIndexAll].displayName = currentUser.displayName;
+            leaderboardAll[existingIndexAll].timestamp = timestamp;
+        }
+    } else {
+        leaderboardAll.push({
+            xUserId: currentUser.xUserId,
+            xHandle: currentUser.xHandle,
+            displayName: currentUser.displayName,
+            profilePic: currentUser.profilePic,
+            score: score,
+            timestamp: timestamp
+        });
+    }
+    
+    leaderboardAll.sort((a, b) => b.score - a.score);
+    leaderboardAll = leaderboardAll.slice(0, 50);
+    localStorage.setItem(keyAllTime, JSON.stringify(leaderboardAll));
+
+    const keyWeekly = 'cantonArmyLeaderboardWeekly';
+    let leaderboardWeekly = JSON.parse(localStorage.getItem(keyWeekly) || '[]');
+    
+    const storedWeekStart = localStorage.getItem('cantonArmyWeekStart');
+    if (!storedWeekStart || parseInt(storedWeekStart) !== weekStart) {
+        leaderboardWeekly = [];
+        localStorage.setItem('cantonArmyWeekStart', weekStart.toString());
+    }
+    
+    const existingIndexWeekly = leaderboardWeekly.findIndex(entry => entry.xUserId === currentUser.xUserId);
+    
+    if (existingIndexWeekly >= 0) {
+        if (score > leaderboardWeekly[existingIndexWeekly].score) {
+            leaderboardWeekly[existingIndexWeekly].score = score;
+            leaderboardWeekly[existingIndexWeekly].displayName = currentUser.displayName;
+            leaderboardWeekly[existingIndexWeekly].timestamp = timestamp;
+        }
+    } else {
+        leaderboardWeekly.push({
+            xUserId: currentUser.xUserId,
+            xHandle: currentUser.xHandle,
+            displayName: currentUser.displayName,
+            profilePic: currentUser.profilePic,
+            score: score,
+            timestamp: timestamp,
+            weekStart: weekStart
+        });
+    }
+    
+    leaderboardWeekly.sort((a, b) => b.score - a.score);
+    leaderboardWeekly = leaderboardWeekly.slice(0, 50);
+    localStorage.setItem(keyWeekly, JSON.stringify(leaderboardWeekly));
+
+    loadLeaderboard();
+}
+
+function loadLeaderboard() {
+    const key = currentLeaderboardView === 'weekly' ? 'cantonArmyLeaderboardWeekly' : 'cantonArmyLeaderboard';
+    const leaderboard = JSON.parse(localStorage.getItem(key) || '[]');
+    const list = document.getElementById('leaderboardList');
+    
+    if (leaderboard.length === 0) {
+        const emptyIcon = currentLeaderboardView === 'weekly' ? '🔥' : '🏆';
+        list.innerHTML = `
+            <div class="leaderboard-empty">
+                <div style="font-size: 3rem;">${emptyIcon}</div>
+                <div style="margin-top: 10px;">No scores yet. Be the first!</div>
+            </div>
+        `;
+        return;
+    }
+    
+    list.innerHTML = '';
+    
+    leaderboard.forEach((entry, index) => {
+        const item = document.createElement('div');
+        item.className = 'leaderboard-item';
+        
+        const isCurrentUser = !isGuestMode && entry.xUserId === currentUser.xUserId;
+        
+        // Add weekly fire effect for top 3
+        if (currentLeaderboardView === 'weekly' && index < 3) {
+            item.classList.add('weekly-top');
+        }
+        
+        if (isCurrentUser) {
+            item.style.borderColor = '#1DA1F2';
+            item.style.background = 'rgba(29, 161, 242, 0.15)';
+        }
+
+        let crownEmoji = '';
+        if (currentLeaderboardView === 'weekly' && index === 0) {
+            crownEmoji = '<span class="weekly-crown">👑</span>';
+        }
+
+        item.innerHTML = `
+    <div class="leaderboard-rank">#${index + 1}</div>
+    <div class="leaderboard-player">
+        <div class="leaderboard-player-name">
+            ${sanitizeInput(entry.displayName)}${crownEmoji}
+            ${isCurrentUser ? ' 👈' : ''}
+        </div>
+        <div style="font-size: 0.75rem; color: #1DA1F2; margin-top: 2px;">
+            ${sanitizeInput(entry.xHandle || '')}
+        </div>
+    </div>
+    <div class="leaderboard-score">${entry.score}</div>
+`;
+        
+        list.appendChild(item);
+    });
+}
+
+function switchLeaderboard(type) {
+    currentLeaderboardView = type;
+    
+    document.getElementById('alltimeTab').classList.toggle('active', type === 'alltime');
+    document.getElementById('weeklyTab').classList.toggle('active', type === 'weekly');
+    
+    const timer = document.getElementById('weeklyTimer');
+    if (type === 'weekly') {
+        timer.style.display = 'block';
+        updateResetCountdown();
+    } else {
+        timer.style.display = 'none';
+    }
+    
+    loadLeaderboard();
+}
+
+function updateResetCountdown() {
+    const now = new Date();
+    const nextMonday = new Date(now);
+    const day = now.getDay();
+    const daysUntilMonday = (day === 0 ? 1 : 8 - day);
+    nextMonday.setDate(now.getDate() + daysUntilMonday);
+    nextMonday.setHours(0, 0, 0, 0);
+    
+    const diff = nextMonday - now;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    const countdown = document.getElementById('resetCountdown');
+    if (countdown) {
+        countdown.textContent = `${days}d ${hours}h ${minutes}m`;
+    }
+}
+
+setInterval(() => {
+    if (currentLeaderboardView === 'weekly') {
+        updateResetCountdown();
+    }
+}, 60000);
+
+function toggleLeaderboard() {
+    const panel = document.getElementById('leaderboardPanel');
+    const overlay = document.getElementById('leaderboardOverlay');
+    
+    if (!panel || !overlay) {
+        console.error('Leaderboard elements not found');
+        return;
+    }
+    
+    panel.classList.toggle('active');
+    overlay.classList.toggle('active');
+    
+    if (panel.classList.contains('active')) {
+        loadLeaderboard();
+    }
+}
+
+let game = null;
+
+function startGame() {
+    playSound('super');
+    document.getElementById('hero').style.display = 'none';
+    document.getElementById('gameContainer').classList.add('active');
+    game = new BeanBattleRoyale();
+}
+
+function restartGame() {
+    document.getElementById('gameOver').style.display = 'none';
+    
+    const arena = document.getElementById('arena');
+    arena.innerHTML = '';
+    arena.innerHTML = `
+        <div class="privacy-container">
+            <div class="privacy-label">⚔️ PRIVACY SHIELD</div>
+            <div class="privacy-bar-container">
+                <div class="privacy-bar" id="privacyLevel" style="width: 100%;">
+                    <span id="privacyText">100%</span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    window.__CAB_DEVTOOLS_FLAG__ = false;
+    GameSecurity.reset();
+    
+    game = new BeanBattleRoyale();
+}
+
+function showRules() {
+    document.getElementById('rulesModal').classList.add('active');
+}
+
+function closeRules() {
+    document.getElementById('rulesModal').classList.remove('active');
+}
+
+function shareScore() {
+    const score = document.getElementById('finalScore').textContent;
+    const gameUrl = window.location.href;
+    const tweetText = `I just scored ${score} points in Canton Army Battle! 💣⚔️\n\nThese nodes came for my fortress and got REKT.\nThink you can survive longer?\nPlay here: ${gameUrl}\n\n#CantonArmy #CantonNetwork`;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+    window.open(twitterUrl, '_blank');
+}
+
+let isGuestMode = false;
+let isMockAuth = false;
+let currentUser = {
+    xHandle: null,
+    xUserId: null,
+    displayName: null,
+    profilePic: null
+};
+
+let auth0Client = null;
+
+async function initAuth0() {
+    try {
+        auth0Client = await auth0.createAuth0Client({
+            domain: 'cantonarmy.us.auth0.com',
+            clientId: '8P3i4eBffFkJjouj2jV1l6qfsxYwlsOP',
+            authorizationParams: {
+                redirect_uri: 'https://www.cantonarmy.com/cantonbattle/',
+                connection: 'twitter'
+            }
+        });
+        
+        const query = window.location.search;
+        if (query.includes('code=') && query.includes('state=')) {
+            await handleAuthCallback();
+        }
+    } catch (error) {
+        console.error('Auth0 initialization error:', error);
+        alert('⚠️ Authentication setup failed. Please try again.');
+    }
+}
+
+initAuth0();
+
+function startGameAsGuest() {
+    isGuestMode = true;
+    currentUser = {
+        xHandle: null,
+        xUserId: null,
+        displayName: 'Guest',
+        profilePic: null
+    };
+    
+    playSound('super');
+    document.getElementById('hero').style.display = 'none';
+    document.getElementById('gameContainer').classList.add('active');
+    game = new BeanBattleRoyale();
+}
+
+async function signInWithX() {
+    if (!auth0Client) {
+        alert('⚠️ Authentication is loading... Please wait a moment and try again.');
+        return;
+    }
+    
+    try {
+        console.log('Starting X authentication...');
+        console.log('Auth0 client ready:', !!auth0Client);
+        
+        const heroSection = document.getElementById('hero');
+        const originalContent = heroSection.innerHTML;
+        heroSection.innerHTML = `
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 40px;">
+                <div style="font-size: 4rem; animation: pulse 2s ease-in-out infinite;">⚔️</div>
+                <div style="font-size: 1.5rem; color: #c4d86f; font-weight: 700;">Connecting to X...</div>
+                <div style="font-size: 1rem; color: #888;">A popup will open for authentication</div>
+            </div>
+        `;
+        
+        await auth0Client.loginWithPopup({
+            authorizationParams: {
+                connection: 'twitter',
+                prompt: 'login'
+            }
+        });
+        
+        const user = await auth0Client.getUser();
+        
+        if (user) {
+            const xUserData = {
+                xUserId: user.sub,
+                xHandle: '@' + (user.nickname || user.name || 'user'),
+                profilePic: user.picture || 'cn-favicon-05 1-1.webp',
+                name: user.name || user.nickname || 'Canton Warrior'
+            };
+            
+            console.log('User authenticated:', xUserData);
+            showUsernameModal(xUserData);
+        } else {
+            console.error('No user returned from Auth0');
+            heroSection.innerHTML = originalContent;
+            alert('⚠️ Authentication failed. No user data received.');
+        }
+        
+    } catch (error) {
+        console.error('Auth error details:', {
+            error: error,
+            message: error.message,
+            stack: error.stack,
+            errorType: error.error,
+            errorDescription: error.error_description
+        });
+        
+        location.reload();
+        
+        if (error.error === 'access_denied' || error.message?.includes('cancelled')) {
+            alert('❌ You cancelled the login. Click "Sign in with X" to try again.');
+        } else {
+            alert('⚠️ Error: ' + (error.message || 'Unknown error'));
+        }
+    }
+}
+
+async function handleAuthCallback() {
+    try {
+        await auth0Client.handleRedirectCallback();
+        
+        const user = await auth0Client.getUser();
+        
+        if (user) {
+            const xUserData = {
+                xUserId: user.sub,
+                xHandle: '@' + (user.nickname || user.name),
+                profilePic: user.picture,
+                name: user.name || user.nickname
+            };
+            
+            window.history.replaceState({}, document.title, window.location.pathname);
+            
+            showUsernameModal(xUserData);
+        }
+    } catch (error) {
+        console.error('Callback error:', error);
+        alert('⚠️ Authentication callback failed.');
+    }
+}
+
+function showUsernameModal(xUserData) {
+    isGuestMode = false;
+    
+    currentUser.xHandle = xUserData.xHandle;
+    currentUser.xUserId = xUserData.xUserId;
+    currentUser.profilePic = xUserData.profilePic;
+    
+    const savedUsername = getSavedUsername(xUserData.xUserId);
+    
+    if (savedUsername) {
+        currentUser.displayName = savedUsername;
+        
+        document.getElementById('hero').style.display = 'none';
+        document.getElementById('gameContainer').classList.add('active');
+        playSound('super');
+        game = new BeanBattleRoyale();
+        return;
+    }
+    
+    const profilePic = document.getElementById('xProfilePic');
+    const handleDisplay = document.getElementById('xHandleDisplay');
+    const nameInput = document.getElementById('warriorNameInput');
+    
+    if (xUserData.profilePic) {
+        profilePic.src = xUserData.profilePic;
+        profilePic.style.display = 'block';
+    }
+    
+    handleDisplay.textContent = xUserData.xHandle;
+    
+    nameInput.value = xUserData.name || xUserData.xHandle.replace('@', '');
+    updateCharCount();
+    
+    document.getElementById('usernameModal').classList.add('active');
+    nameInput.focus();
+    
+    nameInput.onkeypress = function(e) {
+        if (e.key === 'Enter') {
+            confirmUsername();
+        }
+    };
+}
+
+function getSavedUsername(xUserId) {
+    const key = 'cantonArmyLeaderboard';
+    const leaderboard = JSON.parse(localStorage.getItem(key) || '[]');
+    
+    const userEntry = leaderboard.find(entry => entry.xUserId === xUserId);
+    
+    return userEntry ? userEntry.displayName : null;
+}
+
+function updateCharCount() {
+    const input = document.getElementById('warriorNameInput');
+    const count = document.getElementById('nameCharCount');
+    count.textContent = input.value.length;
+}
+
+function confirmUsername() {
+    const nameInput = document.getElementById('warriorNameInput');
+    const displayName = nameInput.value.trim();
+    
+    if (!displayName) {
+        alert('⚠️ Please enter a warrior name!');
+        return;
+    }
+    
+    if (displayName.length > 20) {
+        alert('⚠️ Name must be 20 characters or less!');
+        return;
+    }
+    
+    currentUser.displayName = displayName;
+    
+    saveUsernameForUser(currentUser.xUserId, displayName);
+    
+    document.getElementById('usernameModal').classList.remove('active');
+    document.getElementById('hero').style.display = 'none';
+    document.getElementById('gameContainer').classList.add('active');
+    
+    playSound('super');
+    game = new BeanBattleRoyale();
+}
+
+function saveUsernameForUser(xUserId, displayName) {
+    const key = 'cantonArmyLeaderboard';
+    let leaderboard = JSON.parse(localStorage.getItem(key) || '[]');
+    
+    const existingIndex = leaderboard.findIndex(entry => entry.xUserId === xUserId);
+    
+    if (existingIndex >= 0) {
+        leaderboard[existingIndex].displayName = displayName;
+    } else {
+        leaderboard.push({
+            xUserId: xUserId,
+            xHandle: currentUser.xHandle,
+            displayName: displayName,
+            profilePic: currentUser.profilePic,
+            score: 0
+        });
+    }
+    
+    localStorage.setItem(key, JSON.stringify(leaderboard));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    initAuth0();
+
+    loadLeaderboard();
+    
+    const warriorInput = document.getElementById('warriorNameInput');
+    if (warriorInput) {
+        warriorInput.addEventListener('input', updateCharCount);
+    }
+    
+    const overlay = document.getElementById('leaderboardOverlay');
+    if (overlay) {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                toggleLeaderboard();
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>
