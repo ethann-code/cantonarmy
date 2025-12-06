@@ -1661,6 +1661,10 @@ body {
 </div>
 
 <script>
+const SUPABASE_URL = 'https://vwdbrwdafterkwtzzfsc.supabase.co';  
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3ZGJyd2RhZnRlcmt3dHp6ZnNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ5NDMxODAsImV4cCI6MjA4MDUxOTE4MH0.zau9lEtBz1mmKz6Pvn8Fy96PIhmc53qZ8eLiOwVXswI';
+
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 function sanitizeInput(str) {
     if (!str) return '';
@@ -1912,6 +1916,61 @@ const GameSecurity = (function () {
     window.addEventListener("resize", check);
     setInterval(check, 1000);
 })();
+
+let allTimeLeaderboard = [];
+let weeklyLeaderboard = [];
+
+async function fetchLeaderboards() {
+  try {
+    const { data: allTime } = await supabase
+      .from('leaderboard_cache')
+      .select('rank, x_user_id, x_handle, display_name, profile_pic_url, high_score, best_combo')
+      .eq('leaderboard_type', 'all_time')
+      .order('rank', { ascending: true })
+      .limit(10);
+
+    const { data: weekly } = await supabase
+      .from('leaderboard_cache')
+      .select('rank, x_user_id, x_handle, display_name, profile_pic_url, high_score, best_combo')
+      .eq('leaderboard_type', 'weekly')
+      .order('rank', { ascending: true })
+      .limit(10);
+
+    allTimeLeaderboard = allTime || [];
+    weeklyLeaderboard = weekly || [];
+    updateLeaderboardDisplay();
+  } catch (error) {
+    console.error('Leaderboard fetch failed:', error);
+  }
+}
+
+function updateLeaderboardDisplay() {
+  const allTimeContainer = document.getElementById('leaderboard-all-time') || document.querySelector('.leaderboard-all-time');
+  if (allTimeContainer) {
+    allTimeContainer.innerHTML = allTimeLeaderboard.length ? 
+      allTimeLeaderboard.map(row => `
+        <div class="leaderboard-row">
+          <span>${row.rank}</span>
+          <img src="${row.profile_pic_url || '/default-avatar.png'}" alt="${row.display_name}">
+          <span>@${row.x_handle}</span>
+          <span>${row.high_score.toLocaleString()}</span>
+        </div>
+      `).join('') : '<div>No scores yet. Be the first!</div>';
+  }
+
+  const weeklyContainer = document.getElementById('leaderboard-weekly') || document.querySelector('.leaderboard-weekly');
+  if (weeklyContainer) {
+    weeklyContainer.innerHTML = weeklyLeaderboard.length ? 
+      weeklyLeaderboard.map(row => `
+        <div class="leaderboard-row">
+          <span>${row.rank}</span>
+          <img src="${row.profile_pic_url || '/default-avatar.png'}" alt="${row.display_name}">
+          <span>@${row.x_handle}</span>
+          <span>${row.high_score.toLocaleString()}</span>
+        </div>
+      `).join('') : '<div>Weekly reset soon!</div>';
+  }
+}
 
 class BeanBattleRoyale {
     constructor() {
@@ -2363,10 +2422,23 @@ class BeanBattleRoyale {
 }
 
 function saveScoreToLocal(score) {
-    if (window.CABDEVTOOLSFLAG || GameSecurity.isInvalid() || isGuestMode || isMockAuth) {
-        return;
-    }
-
+    saveGameStats({
+  score: this.score,
+  best_combo: this.bestCombo,
+  nodes_destroyed: this.nodesDestroyed,
+  nodes_missed: this.nodesMissed,
+  time_survived: Math.floor(this.time)
+});
+    if (!window.CABDEVTOOLSFLAG && !GameSecurity.isInvalid()) {
+  saveScoreToLocal(this.score)
+  saveGameStats({
+    score: this.score,
+    best_combo: this.bestCombo,
+    nodes_destroyed: this.nodesDestroyed,
+    nodes_missed: this.nodesMissed,
+    time_survived: Math.floor(this.time)
+  });
+}
     const timestamp = Date.now();
     const weekStart = getWeekStart();
 
@@ -2456,7 +2528,6 @@ function loadLeaderboard() {
         
         const isCurrentUser = !isGuestMode && entry.xUserId === currentUser.xUserId;
         
-        // Add weekly fire effect for top 3
         if (currentLeaderboardView === 'weekly' && index < 3) {
             item.classList.add('weekly-top');
         }
@@ -2530,6 +2601,44 @@ setInterval(() => {
         updateResetCountdown();
     }
 }, 60000);
+
+async function saveGameStats(sessionData) {
+  if (!currentUser?.xUserId || isGuestMode) {  
+    console.log('Guest mode - stats not saved');
+    return;
+  }
+
+  try {
+    const updates = {
+      x_user_id: currentUser.xUserId,  
+      high_score: Math.max(currentUser.high_score || 0, sessionData.score),
+      best_combo: Math.max(currentUser.best_combo || 0, sessionData.best_combo),
+      total_games_played: (currentUser.total_games_played || 0) + 1,
+      last_played_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    const { error } = await supabase
+      .from('user_profiles')
+      .upsert(updates, { onConflict: 'x_user_id' });
+
+    if (!error) {
+      console.log('Stats saved to Supabase!');
+      fetchLeaderboards();
+      await supabase.from('game_sessions').insert([{
+        x_user_id: currentUser.xUserId,
+        score: sessionData.score,
+        nodes_destroyed: sessionData.nodes_destroyed || 0,
+        nodes_missed: sessionData.nodes_missed || 0,
+        best_combo: sessionData.best_combo || 0,
+        time_survived: sessionData.time_survived || 30,
+        played_at: new Date().toISOString()
+      }]);
+    }
+  } catch (error) {
+    console.error('Supabase save failed:', error);
+  }
+}
 
 function toggleLeaderboard() {
     const panel = document.getElementById('leaderboardPanel');
