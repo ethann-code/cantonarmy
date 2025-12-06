@@ -1661,10 +1661,10 @@ body {
 </div>
 
 <script>
-const SUPABASE_URL = 'https://vwdbrwdafterkwtzzfsc.supabase.co';  
+const { createClient } = supabase;
+const SUPABASE_URL = 'https://vwdbrwdafterkwtzzfsc.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3ZGJyd2RhZnRlcmt3dHp6ZnNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ5NDMxODAsImV4cCI6MjA4MDUxOTE4MH0.zau9lEtBz1mmKz6Pvn8Fy96PIhmc53qZ8eLiOwVXswI';
-
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 function sanitizeInput(str) {
     if (!str) return '';
