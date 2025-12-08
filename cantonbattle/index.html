@@ -2187,14 +2187,35 @@ const GameSecurity = (function () {
 }
 
     function safeSet(fn) {
-        if (_invalid) return;
-        fn();
-        if (!validate()) {
+    fn();
+
+    if (!validate()) {
+        if (!_invalid) {
             _invalid = true;
             window.__CAB_INVALID_RUN__ = true;
-            alert("Suspicious activity detected. This run is invalid.");
+
+            try {
+                const state = GameSecurity.getState();
+                const uid = (window.currentUser && window.currentUser.xUserId) || null;
+                const displayName = (window.currentUser && window.currentUser.displayName) || null;
+                const xHandle = (window.currentUser && window.currentUser.xHandle) || null;
+
+                if (typeof firebase !== 'undefined' && firebase.database) {
+                    firebase.database().ref('suspiciousScores').push({
+                        userId: uid,
+                        displayName: displayName,
+                        xHandle: xHandle,
+                        score: state.score,
+                        state,
+                        timestamp: firebase.database.ServerValue.TIMESTAMP
+                    });
+                }
+            } catch (e) {
+                console.error('Failed to log suspicious score', e);
+            }
         }
     }
+}
 
     return {
         reset() {
@@ -3298,11 +3319,11 @@ async function getSavedUsername(xUserId) {
         }
         
         console.log('❌ No username in Firebase for:', xUserId);
-        return null;  // ✅ Force username modal!
+        return null;
         
     } catch (error) {
         console.error('Error getting username:', error);
-        return null;  // ✅ Force username modal!
+        return null;
     }
 }
 
@@ -3371,7 +3392,6 @@ async function confirmUsername() {
                 }
             }
         }
-        console.log('✅ Username "' + displayName + '" is available!');
     } catch (error) {
         console.error('Error checking username:', error);
         startBtn.disabled = false;
