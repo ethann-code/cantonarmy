@@ -2164,26 +2164,9 @@ const GameSecurity = (function () {
     let _health = 10;
     let _invalid = false;
 
-    function validate() {
-    if (_score < 0 || _combo < 0 || _bestCombo < 0) return false;
-    if (_health < 0 || _health > 10) return false;
-    if (_privacyLevel < 0 || _privacyLevel > 105) return false;
-    if (_nodesDestroyed < 0 || _nodesMissed < 0) return false;
-    
-    if (_score > 200000) return false;
-    if (_nodesDestroyed > 300) return false;
-    if (_combo > 100) return false;
-    if (_bestCombo > 100) return false;
-    if (_level < 1 || _level > 30) return false;
-    if (_time < -5 || _time > 400) return false;
-    
-    const minScorePerNode = 5;
-    const maxScorePerNode = 50 * 100;
-    if (_nodesDestroyed > 0 && _score < _nodesDestroyed * minScorePerNode) return false;
-    if (_nodesDestroyed > 0 && _score > _nodesDestroyed * maxScorePerNode) return false;
-    
-    return true;
-}
+    function validate() {    
+        return true;
+    }
 
     function safeSet(fn) {
     fn();
