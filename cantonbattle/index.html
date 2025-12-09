@@ -3569,10 +3569,6 @@ async function submitScoreToFirebase(scoreData) {
       return false;
     }
 
-    function validateScoreData(score, nodesDestroyed, duration, combo, bestCombo) {
-    return { valid: true, reason: 'All authenticated scores accepted' };
-    }
-
     const submission = {
       userId: userId,
       username: sanitizeInput(username),
@@ -3585,7 +3581,7 @@ async function submitScoreToFirebase(scoreData) {
       timestamp: Date.now(),
       duration: sessionData.duration,
       sessionId: sessionData.sessionId,
-      flagged: validation.suspicious,
+      flagged: false,
       checkpointCount: sessionData.checkpoints.length
     };
 
