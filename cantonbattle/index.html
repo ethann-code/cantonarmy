@@ -1939,6 +1939,12 @@ body {
     </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-functions-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-check-compat.js"></script>
+
 <script>
 
 class GameSession {
@@ -3489,11 +3495,6 @@ function closePromoAndPlay() {
 
 </script>
 
-<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-functions-compat.js"></script>
-
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyB23Rm_Tw0wpksk3VtuZ7X34CoA0TBKw80",
@@ -3508,17 +3509,12 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
-/*
-try {
-  const appCheck = firebase.appCheck();
-  appCheck.activate(
-    '6LcokSMsAAAAAIH7I8lMJ3xQt_VL_QMlHqC5qE2C',
-    true
-  );
-} catch (error) {
-  console.error('App Check initialization failed:', error);
-}
-*/
+const appCheck = firebase.appCheck();
+appCheck.activate(
+  '6LcokSMsAAAAAIH7I8lMJ3xQt_VL_QMlHqC5qE2C',
+  true
+);
+
 class RateLimiter {
   constructor(maxSubmissions = 20, windowMs = 3600000) {
     this.maxSubmissions = maxSubmissions;
