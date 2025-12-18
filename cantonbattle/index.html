@@ -3479,7 +3479,7 @@ async function handleAuthCallback() {
         if (user) {
             const xUserData = {
                 xUserId: user.sub,
-                xHandle: '@' + (user.nickname || user.name),
+                xHandle: user.nickname || user.name,
                 profilePic: user.picture,
                 name: user.name || user.nickname
             };
@@ -3529,7 +3529,7 @@ async function showUsernameModal(xUserData) {
     profilePic.style.display = 'block';
   }
   
-  handleDisplay.textContent = xUserData.xHandle;
+  handleDisplay.textContent = `@${xUserData.xHandle}`;
   nameInput.value = xUserData.name || xUserData.xHandle.replace('@', '');
   updateCharCount();
   
@@ -4537,7 +4537,7 @@ async function submitScoreToFirebase(scoreData) {
   try {
     const userId = currentUser.xUserId || 'guest_' + Date.now();
     
-    let username = currentUser.xHandle ? `@${currentUser.xHandle}` : currentUser.displayName;
+    let username = currentUser.displayName || currentUser.xHandle || "Guest";
 
     if (!username && currentUser.xUserId) {
       username = await getSavedUsername(currentUser.xUserId);
@@ -4593,7 +4593,9 @@ async function submitScoreToFirebase(scoreData) {
       const eventScoreData = {
         userId: userId,
         username: sanitizeInput(username),
+        displayName: sanitizeInput(currentUser.displayName) || null,
         xHandle: currentUser.xHandle || null,
+        xFullHandle: currentUser.xHandle ? `@${currentUser.xHandle}` : null,
         profilePic: currentUser.profilePic || null,
         score: scoreData.score,
         nodesDestroyed: scoreData.nodesDestroyed,
@@ -4601,7 +4603,7 @@ async function submitScoreToFirebase(scoreData) {
         bestCombo: scoreData.bestCombo,
         eventMode: true,
         timestamp: Date.now()
-      };
+        };
       
       if (existingKey) {
         await database.ref('eventLeaderboard/' + existingKey).set(eventScoreData);
@@ -4636,7 +4638,9 @@ async function submitScoreToFirebase(scoreData) {
     const submission = {
       userId: userId,
       username: sanitizeInput(username),
+      displayName: sanitizeInput(currentUser.displayName) || null,
       xHandle: currentUser.xHandle || null,
+      xFullHandle: currentUser.xHandle ? `@${currentUser.xHandle}` : null,
       profilePic: currentUser.profilePic || null,
       score: scoreData.score,
       nodesDestroyed: scoreData.nodesDestroyed,
