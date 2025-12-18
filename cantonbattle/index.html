@@ -2482,6 +2482,20 @@ const GameSecurity = (function () {
 
 class BeanBattleRoyale {
     constructor() {
+        if (currentUser && currentUser.xUserId) {
+            checkIfBanned(currentUser.xUserId).then(banned => {
+                if (banned) {
+                    this.gameRunning = false;
+                    document.getElementById('gameContainer').classList.remove('active');
+                    document.getElementById('hero').style.display = 'flex';
+                    showBannedModal();
+                    firebase.auth().signOut();
+                    if (auth0Client) {
+                        auth0Client.logout({ returnTo: window.location.origin });
+                    }
+                }
+            });
+        }
         this.arena = document.getElementById('arena');
         const s = GameSecurity.getState();
         this.score = s.score;
@@ -3387,7 +3401,6 @@ async function signInWithX() {
                 audience: 'https://cantonarmy.us.auth0.com/userinfo'
             }
         });
-
                 const auth0Token = await auth0Client.getTokenSilently({
             authorizationParams: {
                 audience: 'https://cantonarmy.us.auth0.com/userinfo'
@@ -3409,7 +3422,12 @@ async function signInWithX() {
 
         const result = await response.json();
         const { firebaseToken, userId, xHandle, picture } = result;
-        
+
+        const isBanned = await checkIfBanned(userId);
+        if (isBanned) {
+            showBannedModal();
+            return; 
+        }   
         
         await firebase.auth().signInWithCustomToken(firebaseToken);
         
@@ -3619,6 +3637,15 @@ async function confirmUsername() {
         showUsernameError('Error checking username. Please try again.');
         return;
     }
+
+    const isBanned = await checkIfBanned(currentUser.xUserId);
+    if (isBanned) {
+        startBtn.disabled = false;
+        startBtn.textContent = 'START BATTLE';
+        document.getElementById('usernameModal').classList.remove('active');
+        showBannedModal();
+        return;
+    }
     
     startBtn.disabled = false;
     startBtn.textContent = 'START BATTLE';
@@ -3733,6 +3760,15 @@ async function startCantonEvent() {
     isEventMode = true;
     
     if (!isGuestMode && currentUser && currentUser.xUserId) {
+        const isBanned = await checkIfBanned(currentUser.xUserId);
+        if (isBanned) {
+            showBannedModal();
+            isEventMode = false;
+            return;
+        }
+    }
+    
+    if (!isGuestMode && currentUser && currentUser.xUserId) {
         const userId = currentUser.xUserId;
         const eventPlaysRef = database.ref(`eventPlays/${userId}`);
         const playsSnapshot = await eventPlaysRef.once('value');
@@ -3841,6 +3877,14 @@ async function verifySecretCode() {
     if (!eventUser || !eventUser.sub) {
       errorDiv.textContent = 'Please sign in with X first';
       errorDiv.style.display = 'block';
+      return;
+    }
+
+    const isBanned = await checkIfBanned(eventUser.sub);
+    if (isBanned) {
+      errorDiv.style.display = 'none';
+      document.getElementById('secretCodeModal').classList.remove('active');
+      showBannedModal();
       return;
     }
 
@@ -3997,6 +4041,13 @@ async function loadEventLeaderboard() {
 const originalSubmitScore = submitScore;
 
 async function submitScore(scoreData) {
+    if (currentUser && currentUser.xUserId) {
+        const isBanned = await checkIfBanned(currentUser.xUserId);
+        if (isBanned) {
+            return;
+        }
+    }
+
     if (isEventMode) {
         try {
             const eventScoreData = {
@@ -4360,6 +4411,69 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
 const app = firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
+async function checkIfBanned(userId) {
+    if (!userId || userId.startsWith('guest')) return false;
+    
+    try {
+        const bannedRef = database.ref(`bannedUsers/${userId}`);
+        const snapshot = await bannedRef.once('value');
+        return snapshot.exists();
+    } catch (error) {
+        console.error('Ban check failed:', error);
+        return false;
+    }
+}
+
+function showBannedModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.innerHTML = `
+        <div class="modal-content" style="border-color: #ff4444; max-width: 500px;">
+            <div class="modal-title" style="color: #ff4444;">🚫 ACCOUNT BANNED</div>
+            <div class="rule-item">
+                <div class="rule-title" style="color: #ff4444;">Access Denied</div>
+                <div class="rule-desc">
+                    Your account has been permanently banned for violating game rules.
+                </div>
+            </div>
+            <button class="close-btn" onclick="window.location.href='/'" 
+                    style="background: #ff4444;">GO TO HOME</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+async function checkAndEnforceBan() {
+    if (!currentUser || !currentUser.xUserId) return false;
+    
+    const isBanned = await checkIfBanned(currentUser.xUserId);
+    
+    if (isBanned) {
+        
+        if (game) game.gameRunning = false;
+        
+        currentUser = { xUserId: null, xHandle: null, displayName: null, profilePic: null };
+        localStorage.clear();
+        sessionStorage.clear();
+        
+        document.getElementById('gameContainer').classList.remove('active');
+        document.getElementById('hero').style.display = 'flex';
+        
+        showBannedModal();
+        
+        try {
+            await firebase.auth().signOut();
+            if (auth0Client) {
+                await auth0Client.logout({ returnTo: window.location.origin });
+            }
+        } catch (e) {}
+        
+        return true;
+    }
+    
+    return false;
+}
+
 const appCheck = firebase.appCheck();
 appCheck.activate(
   '6LcokSMsAAAAAIH7I8lMJ3xQt_VL_QMlHqC5qE2C',
@@ -4432,7 +4546,6 @@ async function submitScoreToFirebase(scoreData) {
     username = username || 'Guest';
     
     if (isEventMode) {
-      // Check event play limit with daily reset
       const eventPlaysRef = database.ref(`eventPlays/${userId}`);
       const playsSnapshot = await eventPlaysRef.once('value');
       const playsData = playsSnapshot.val();
@@ -4440,14 +4553,10 @@ async function submitScoreToFirebase(scoreData) {
       let gamesPlayed = 0;
       const today = new Date().toISOString().split('T')[0];
       
-      // If data exists, check if it's from today
       if (playsData && playsData.date === today) {
         gamesPlayed = playsData.count || 0;
       }
-      // If different day or no data, start fresh at 0
-      
-      console.log('📅 Event games played today:', gamesPlayed, 'Date:', today);
-      
+            
       if (gamesPlayed >= 10) {
         showSubmissionError(`⚔️ Event limit reached! You have played ${gamesPlayed}/10 event games today. Come back tomorrow!`);
         return false;
@@ -4597,6 +4706,13 @@ function validateScoreData(scoreData, sessionData) {
 }
 
 async function submitToAllTime(submission) {
+  if (submission.userId) {
+    const isBanned = await checkIfBanned(submission.userId);
+    if (isBanned) {
+      return;
+    }
+  }
+
   const userScoreRef = database.ref(`leaderboard/alltime/${submission.userId}`);
   const snapshot = await userScoreRef.once('value');
   const existingScore = snapshot.val();
@@ -4607,6 +4723,13 @@ async function submitToAllTime(submission) {
 }
 
 async function submitToWeekly(submission) {
+  if (submission.userId) {
+    const isBanned = await checkIfBanned(submission.userId);
+    if (isBanned) {
+      return;
+    }
+  }
+
   const weekId = getWeekIdentifier();
   const userScoreRef = database.ref(`leaderboard/weekly/${weekId}/${submission.userId}`);
   const snapshot = await userScoreRef.once('value');
@@ -4680,6 +4803,31 @@ function showSubmissionSuccess(message) {
   }, 4000);
 }
 
+(async function() {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    if (currentUser && currentUser.xUserId) {
+        const isBanned = await checkIfBanned(currentUser.xUserId);
+        
+        if (isBanned) {
+            
+            if (game) game.gameRunning = false;
+            
+            currentUser = { xUserId: null, xHandle: null, displayName: null, profilePic: null };
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            await firebase.auth().signOut();
+            if (auth0Client) {
+                await auth0Client.logout({ returnTo: window.location.origin });
+            }
+            
+            document.getElementById('gameContainer').classList.remove('active');
+            document.getElementById('hero').style.display = 'flex';
+            showBannedModal();
+        }
+    }
+})();
 
 </script>
 
