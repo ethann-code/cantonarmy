@@ -2078,7 +2078,6 @@ body {
     </div>
 </div>
 
-<!-- Secret Code Modal -->
 <div class="modal" id="secretCodeModal">
     <div class="modal-content" style="max-width: 500px;">
         <div class="modal-title">🔐 ENTER SECRET CODE</div>
@@ -3895,6 +3894,15 @@ async function verifySecretCode() {
       errorDiv.style.display = 'block';
       return;
     }
+
+    const userId = eventUser.sub;
+    const today = new Date().toISOString().split('T')[0];
+    const eventPlaysRef = database.ref(`eventPlays/${userId}`);
+    
+    await eventPlaysRef.set({
+      date: today,
+      count: playLimit.playsToday + 1
+    });
 
     errorDiv.style.display = 'none';
     document.getElementById('secretCodeModal').classList.remove('active');
