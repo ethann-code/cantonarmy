@@ -1820,6 +1820,27 @@ body {
   }
 }
 
+@media (max-height: 700px) {
+    .top-bar { margin-bottom: 5px !important; }
+    .stats-bar { 
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4px !important; 
+        margin-bottom: 5px !important;
+    }
+    .stat { 
+        padding: 6px 4px !important; 
+    }
+    .stat-label { font-size: 0.5rem !important; }
+    .stat-value { font-size: 1rem !important; }
+    .health-container { margin-bottom: 5px !important; }
+    .heart { font-size: 1.1rem !important; }
+    
+    .game-canvas { 
+        height: calc(100vh - 180px) !important; 
+        min-height: 400px !important;
+    }
+}
+
 </style>
 
 </head>
@@ -1849,9 +1870,6 @@ body {
     <div class="auth-buttons">
         <button class="guest-button" onclick="startGameAsGuest()">
             🎮 PLAY AS GUEST
-        </button>
-        <button class="event-button" id="cantonEventButton" onclick="startCantonEvent()">
-            CANTON NETWORK EVENT
         </button>
         <button class="signin-button" onclick="signInWithX()">
             <span style="font-size: 1.2rem;">𝕏</span> SIGN IN WITH X
@@ -2078,51 +2096,8 @@ body {
     </div>
 </div>
 
-<div class="modal" id="secretCodeModal">
-    <div class="modal-content" style="max-width: 500px;">
-        <div class="modal-title">🔐 ENTER SECRET CODE</div>
-        <div style="text-align: center; margin-bottom: 30px;">
-            <img id="eventProfilePic" src="" alt="Profile" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #FFD700; margin-bottom: 15px; display: none;">
-            <div id="eventHandleDisplay" style="color: #1DA1F2; font-size: 1.1rem; font-weight: 700; margin-bottom: 5px;"></div>
-            <div style="color: #888; font-size: 0.85rem;">Connected via X</div>
-        </div>
-        
-        <div style="margin-bottom: 30px;">
-            <label style="display: block; color: #FFD700; font-size: 0.9rem; margin-bottom: 10px; text-align: left;">
-                ENTER EVENT CODE
-            </label>
-            <input 
-                type="text" 
-                id="secretCodeInput" 
-                placeholder="Enter secret code..." 
-                maxlength="30"
-                style="width: 100%; padding: 15px; background: rgba(0,0,0,0.8); border: 2px solid #FFD700; border-radius: 10px; color: white; font-family: Orbitron, monospace; font-size: 1.1rem; text-align: center;">
-            <div id="codeError" style="color: #ff4444; font-size: 0.85rem; margin-top: 10px; display: none;"></div>
-        </div>
-        
-        <button class="close-btn" onclick="verifySecretCode()" id="verifyCodeBtn" style="background: linear-gradient(45deg, #FFD700, #FFAB52);">
-            VERIFY CODE ⚔️
-        </button>
-    </div>
-</div>
-
-<div class="leaderboard-overlay" id="eventLeaderboardOverlay"></div>
-<div class="leaderboard-panel" id="eventLeaderboardPanel">
-    <div class="leaderboard-header">
-        <div class="leaderboard-title" style="color: #FFD700;">🏆 CANTON EVENT LEADERBOARD</div>
-        <div class="leaderboard-subtitle">EXCLUSIVE EVENT WARRIORS</div>
-        <button class="leaderboard-close" onclick="toggleEventLeaderboard()">×</button>
-    </div>
-    
-    <div class="leaderboard-list" id="eventLeaderboardList">
-        <div class="leaderboard-empty">
-            <div style="font-size: 3rem;">🏆</div>
-            <div style="margin-top: 10px;">No event scores yet. Be the first!</div>
-        </div>
-    </div>
-</div>
-
 <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-functions-compat.js"></script>
@@ -2130,8 +2105,6 @@ body {
 <script src="https://unpkg.com/@console-wallet/dapp-sdk@latest/dist/esm/index.js" type="module"></script>
 
 <script>
-
-const SECRETCODE = 'armyxcanton';
 
 class GameSession {
   constructor() {
@@ -2148,6 +2121,11 @@ class GameSession {
   }
 
   async startSession(userId) {
+    if (userId.startsWith('guest_')) {
+    this.sessionId = 'guest_' + Date.now();
+    this.startTime = Date.now();
+    return true;
+  }
     this.sessionId = this.generateSessionId();
     this.startTime = Date.now();
     this.checkpoints = [];
@@ -2233,15 +2211,6 @@ let leaderboardOffset = 0;
 let allLeaderboardData = [];
 const LOAD_MORE_BATCH = 50;
 
-function getWeekStart() {
-    const now = new Date();
-    const day = now.getDay();
-    const diff = now.getDate() - day + (day === 0 ? -6 : 1);
-    const monday = new Date(now.setDate(diff));
-    monday.setHours(0, 0, 0, 0);
-    return monday.getTime();
-}
-
 let soundEnabled = true;
 
 function playSound(type) {
@@ -2310,13 +2279,26 @@ document.addEventListener('keydown', (e) => {
 function showPauseOverlay() {
     const overlay = document.createElement('div');
     overlay.id = 'pause-overlay';
-    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;cursor:pointer;';
+    overlay.style.cssText = `
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.8);
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+        cursor: pointer;
+    `;
     overlay.innerHTML = `
         <div style="font-family:Orbitron,monospace;font-size:4rem;font-weight:900;color:#c4d86f;text-shadow:0 0 20px rgba(196,216,111,0.8);">PAUSED</div>
-        <div style="font-size:1.2rem;color:#fff;">Click anywhere to resume</div>
+        <div style="font-size:1.2rem;color:#fff;">Click here to resume</div>
     `;
     overlay.onclick = togglePause;
-    document.body.appendChild(overlay);
+    
+    const arena = document.getElementById('arena');
+    arena.appendChild(overlay);
 }
 
 function hidePauseOverlay() {
@@ -2496,6 +2478,8 @@ class BeanBattleRoyale {
             });
         }
         this.arena = document.getElementById('arena');
+        this.arena.style.willChange = 'transform';
+        this.arena.style.transform = 'translateZ(0)';
         const s = GameSecurity.getState();
         this.score = s.score;
         this.combo = s.combo;
@@ -3006,6 +2990,18 @@ this.checkLevelUp();
     }
 
   async endGame(reason = 'GAME OVER!') {
+    if (analytics && !isGuestMode) {
+    analytics.logEvent('game_end', {
+      score: this.score,
+      nodes_destroyed: this.nodesDestroyed,
+      nodes_missed: this.nodesMissed,
+      best_combo: this.bestCombo,
+      duration_sec: Math.round((Date.now() - currentSession?.startTime || 0) / 1000),
+      reason: reason,
+      user_id: currentUser?.xUserId
+    });
+  }
+  
   playSound('death');
   this.gameRunning = false;
   
@@ -3218,9 +3214,10 @@ function switchLeaderboard(type) {
 
 function updateResetCountdown() {
     const now = new Date();
-    const nextMonday = new Date(now);
     const day = now.getDay();
-    const daysUntilMonday = (day === 0 ? 1 : 8 - day);
+    
+    const nextMonday = new Date(now);
+    const daysUntilMonday = (day === 0 ? 1 : (day === 1 ? 7 : 8 - day));
     nextMonday.setDate(now.getDate() + daysUntilMonday);
     nextMonday.setHours(0, 0, 0, 0);
     
@@ -3242,17 +3239,13 @@ setInterval(() => {
 }, 60000);
 
 function toggleLeaderboard() {
-    if (isEventMode) {
-        toggleEventLeaderboard();
-    } else {
         const overlay = document.getElementById('leaderboardOverlay');
         const panel = document.getElementById('leaderboardPanel');
         overlay.classList.toggle('active');
         panel.classList.toggle('active');
         
-        if (panel.classList.contains('active')) {
-            loadLeaderboard();
-        }
+    if (panel.classList.contains('active')) {
+        loadLeaderboard();
     }
 }
 
@@ -3276,25 +3269,6 @@ async function startGame() {
 }
 
 async function restartGame() {
-    if (isEventMode && !isGuestMode && currentUser && currentUser.xUserId) {
-        const userId = currentUser.xUserId;
-        const eventPlaysRef = database.ref(`eventPlays/${userId}`);
-        const playsSnapshot = await eventPlaysRef.once('value');
-        const playsData = playsSnapshot.val();
-        
-        const today = new Date().toISOString().split('T')[0];
-        let gamesPlayed = 0;
-        
-        if (playsData && playsData.date === today) {
-            gamesPlayed = playsData.count || 0;
-        }
-        
-        if (gamesPlayed >= 10) {
-            alert('⚔️ Event Limit Reached!\n\nYou have played 10/10 event games today.\nCome back tomorrow to play more!');
-            return;
-        }
-    }
-
     document.getElementById('gameOver').style.display = 'none';
     const arena = document.getElementById('arena');
     arena.innerHTML = '';
@@ -3309,6 +3283,25 @@ async function restartGame() {
         </div>`;
     
     const userId = currentUser.xUserId || 'guest_' + Date.now();
+
+    if (!isGuestMode && currentUser && currentUser.xUserId) {
+        const rateCheck = await rateLimiter.checkRateLimit(currentUser.xUserId);
+        if (!rateCheck.allowed) {
+            alert(`⏰ Hourly Play Limit!\n\nYou've played 20 games this hour.\nCome back in ${rateCheck.resetIn} minutes!`);
+            document.getElementById('gameOver').style.display = 'flex';
+            return;
+        }
+    }
+
+    if (analytics) {
+      analytics.logEvent('game_start', {
+        user_id: currentUser.xUserId,
+        is_guest: false,
+        event: 'restart_game',
+        remaining_games: rateCheck.remaining
+      });
+    }
+
     currentSession = new GameSession();
     lastCheckpointTime = 0;
     
@@ -3645,6 +3638,24 @@ async function confirmUsername() {
         showBannedModal();
         return;
     }
+
+    if (analytics) {
+    analytics.logEvent('game_start', {
+      user_id: currentUser.xUserId,
+      is_guest: isGuestMode,
+      event: 'username_confirm'
+    });
+  }
+
+    if (!isGuestMode && currentUser && currentUser.xUserId) {
+        const rateCheck = await rateLimiter.checkRateLimit(currentUser.xUserId);
+        if (!rateCheck.allowed) {
+            startBtn.disabled = false;
+            startBtn.textContent = 'START BATTLE';
+            showUsernameError(`⏰ You've played 20 games this hour. Try again in ${rateCheck.resetIn} minutes!`);
+            return;
+        }
+    }
     
     startBtn.disabled = false;
     startBtn.textContent = 'START BATTLE';
@@ -3751,213 +3762,9 @@ function closePromoAndPlay() {
     closePromo();
 }
 
-let isEventMode = false;
-let eventUser = null;
-const SECRET_CODE = "armyxcanton";
-
-async function startCantonEvent() {
-    isEventMode = true;
-    
-    if (!isGuestMode && currentUser && currentUser.xUserId) {
-        const isBanned = await checkIfBanned(currentUser.xUserId);
-        if (isBanned) {
-            showBannedModal();
-            isEventMode = false;
-            return;
-        }
-    }
-    
-    if (!isGuestMode && currentUser && currentUser.xUserId) {
-        const userId = currentUser.xUserId;
-        const eventPlaysRef = database.ref(`eventPlays/${userId}`);
-        const playsSnapshot = await eventPlaysRef.once('value');
-        const playsData = playsSnapshot.val();
-        
-        const today = new Date().toISOString().split('T')[0];
-        let gamesPlayed = 0;
-        
-        if (playsData && playsData.date === today) {
-            gamesPlayed = playsData.count || 0;
-        }
-        
-        if (gamesPlayed >= 10) {
-            alert('⚔️ Event Limit Reached!\n\nYou have already played 10/10 event games today.\nCome back tomorrow to play more!');
-            isEventMode = false;
-            return;
-        }
-    }
-    
-    if (auth0Client) {
-        try {
-            const isAuthenticated = await auth0Client.isAuthenticated();
-            if (isAuthenticated) {
-                const user = await auth0Client.getUser();
-                eventUser = user;
-                showSecretCodeModal(user);
-                return;
-            }
-        } catch (e) {
-            console.log("Not authenticated yet");
-        }
-    }
-    
-    signInWithX(true);
-}
-
-async function checkEventPlayLimit(userId) {
-  try {
-    const eventPlaysRef = database.ref(`eventPlays/${userId}`);
-    const playsSnapshot = await eventPlaysRef.once('value');
-    const playsData = playsSnapshot.val();
-    
-    const today = new Date().toISOString().split('T')[0];
-    let plays = 0;
-    
-    if (playsData && playsData.date === today) {
-      plays = playsData.count || 0;
-    }
-    
-    return {
-      canPlay: plays < 10,
-      playsToday: plays,
-      remaining: Math.max(0, 10 - plays)
-    };
-  } catch (error) {
-    console.error('Error checking play limit:', error);
-    return { canPlay: true, playsToday: 0, remaining: 10 };
-  }
-}
-
-async function incrementEventPlay(userId) {
-  try {
-    const today = new Date().toISOString().split('T')[0];
-    const playRef = database.ref(`eventPlays/${userId}/${today}`);
-    const snapshot = await playRef.once('value');
-    const plays = snapshot.val() || 0;
-    await playRef.set(plays + 1);
-  } catch (error) {
-    console.error('Error incrementing play count:', error);
-  }
-}
-
-function showSecretCodeModal(user) {
-    const modal = document.getElementById('secretCodeModal');
-    const profilePic = document.getElementById('eventProfilePic');
-    const handleDisplay = document.getElementById('eventHandleDisplay');
-    const codeInput = document.getElementById('secretCodeInput');
-    const errorDiv = document.getElementById('codeError');
-    
-    if (user.picture) {
-        profilePic.src = user.picture;
-        profilePic.style.display = 'block';
-    }
-    
-    handleDisplay.textContent = `@${user.nickname || user.name || 'Player'}`;
-    
-    codeInput.value = '';
-    errorDiv.style.display = 'none';
-    
-    modal.classList.add('active');
-    codeInput.focus();
-    
-    codeInput.onkeypress = (e) => {
-        if (e.key === 'Enter') {
-            verifySecretCode();
-        }
-    };
-}
-
-async function verifySecretCode() {
-  const codeInput = document.getElementById('secretCodeInput');
-  const errorDiv = document.getElementById('codeError');
-  const enteredCode = codeInput.value.trim().toLowerCase();
-
-  if (enteredCode === SECRETCODE) {
-    if (!eventUser || !eventUser.sub) {
-      errorDiv.textContent = 'Please sign in with X first';
-      errorDiv.style.display = 'block';
-      return;
-    }
-
-    const isBanned = await checkIfBanned(eventUser.sub);
-    if (isBanned) {
-      errorDiv.style.display = 'none';
-      document.getElementById('secretCodeModal').classList.remove('active');
-      showBannedModal();
-      return;
-    }
-
-    const playLimit = await checkEventPlayLimit(eventUser.sub);
-    
-    if (!playLimit.canPlay) {
-      errorDiv.textContent = `Daily limit reached! You've played ${playLimit.playsToday}/10 times today. Come back tomorrow!`;
-      errorDiv.style.display = 'block';
-      return;
-    }
-
-    const userId = eventUser.sub;
-    const today = new Date().toISOString().split('T')[0];
-    const eventPlaysRef = database.ref(`eventPlays/${userId}`);
-    
-    await eventPlaysRef.set({
-      date: today,
-      count: playLimit.playsToday + 1
-    });
-
-    errorDiv.style.display = 'none';
-    document.getElementById('secretCodeModal').classList.remove('active');
-
-    const xUserData = {
-      xHandle: eventUser.nickname || eventUser.name || 'Player',
-      xUserId: eventUser.sub,
-      profilePic: eventUser.picture,
-      name: eventUser.name
-    };
-
-    showPlayLimitNotification(playLimit.remaining);
-    
-    showUsernameModal(xUserData);
-  } else {
-    errorDiv.textContent = 'Incorrect code. Please try again.';
-    errorDiv.style.display = 'block';
-    codeInput.value = '';
-    codeInput.focus();
-    codeInput.style.animation = 'shake 0.5s';
-    setTimeout(() => { codeInput.style.animation = ''; }, 500);
-  }
-}
-
-function showPlayLimitNotification(remaining) {
-  const notification = document.createElement('div');
-  notification.style.cssText = `
-    position: fixed;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(45deg, #FFD700, #FFAB52);
-    color: #000;
-    padding: 12px 25px;
-    border-radius: 10px;
-    font-weight: 700;
-    z-index: 10000;
-    font-family: 'Orbitron', monospace;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-  `;
-  notification.textContent = `⚔️ ${remaining} plays remaining today!`;
-  document.body.appendChild(notification);
-  
-  setTimeout(() => {
-    if (notification.parentNode) notification.remove();
-  }, 4000);
-}
-
 const originalSignInWithX = signInWithX || function() {};
 
-async function signInWithX(forEvent = false) {
-    if (forEvent) {
-        isEventMode = true;
-    }
-    
+async function signInWithX() {
     try {
         await auth0Client.loginWithPopup({
             authorizationParams: {
@@ -3975,74 +3782,10 @@ async function signInWithX(forEvent = false) {
             displayName: user.name
         };
         
-        if (isEventMode) {
-            eventUser = user;
-            showSecretCodeModal(user);
-        } else {
-            showUsernameModal(xUserData);
-        }
+        showUsernameModal(xUserData);
     } catch (error) {
         console.error('Authentication failed:', error);
         alert('Failed to connect with X. Please try again.');
-        isEventMode = false;
-    }
-}
-
-function toggleEventLeaderboard() {
-    const overlay = document.getElementById('eventLeaderboardOverlay');
-    const panel = document.getElementById('eventLeaderboardPanel');
-    
-    overlay.classList.toggle('active');
-    panel.classList.toggle('active');
-    
-    if (panel.classList.contains('active')) {
-        loadEventLeaderboard();
-    }
-}
-
-async function loadEventLeaderboard() {
-    const list = document.getElementById('eventLeaderboardList');
-    list.innerHTML = '<div style="text-align: center; padding: 20px; color: #888;">Loading...</div>';
-    
-    try {
-        const snapshot = await database.ref('eventLeaderboard')
-            .orderByChild('score')
-            .limitToLast(100)
-            .once('value');
-        
-        const scores = [];
-        snapshot.forEach((child) => {
-            scores.push({
-                id: child.key,
-                ...child.val()
-            });
-        });
-        
-        scores.sort((a, b) => b.score - a.score);
-        
-        if (scores.length === 0) {
-            list.innerHTML = `
-                <div class="leaderboard-empty">
-                    <div style="font-size: 3rem;">🏆</div>
-                    <div style="margin-top: 10px;">No event scores yet. Be the first!</div>
-                </div>
-            `;
-            return;
-        }
-        
-        list.innerHTML = scores.map((entry, index) => `
-            <div class="leaderboard-item ${index < 3 ? 'weekly-top' : ''}">
-                <div class="leaderboard-rank">#${index + 1}</div>
-                <div class="leaderboard-player">
-                    <div class="leaderboard-player-name">${sanitizeInput(entry.username || 'Anonymous')}</div>
-                </div>
-                <div class="leaderboard-score">${entry.score.toLocaleString()}</div>
-            </div>
-        `).join('');
-        
-    } catch (error) {
-        console.error('Failed to load event leaderboard:', error);
-        list.innerHTML = '<div style="text-align: center; padding: 20px; color: #ff4444;">Failed to load leaderboard</div>';
     }
 }
 
@@ -4055,29 +3798,6 @@ async function submitScore(scoreData) {
             return;
         }
     }
-
-    if (isEventMode) {
-        try {
-            const eventScoreData = {
-                ...scoreData,
-                eventMode: true,
-                timestamp: Date.now()
-            };
-            
-            await database.ref('eventLeaderboard').push(eventScoreData);
-            
-            setTimeout(() => {
-                toggleEventLeaderboard();
-            }, 1000);
-            
-        } catch (error) {
-            console.error('Failed to submit event score:', error);
-        }
-    } else {
-        if (originalSubmitScore) {
-            await originalSubmitScore(scoreData);
-        }
-    }
 }
 
 const originalGameOver = gameOver || function() {};
@@ -4085,19 +3805,6 @@ const originalGameOver = gameOver || function() {};
 function gameOver() {
     if (typeof originalGameOver === 'function') {
         originalGameOver();
-    }
-    
-    if (isEventMode) {
-        const gameOverButtons = document.querySelector('.gameover-buttons');
-        if (gameOverButtons && !document.getElementById('eventLeaderboardBtn')) {
-            const eventLbBtn = document.createElement('button');
-            eventLbBtn.id = 'eventLeaderboardBtn';
-            eventLbBtn.className = 'share-btn';
-            eventLbBtn.textContent = '🏆 EVENT LEADERBOARD';
-            eventLbBtn.onclick = toggleEventLeaderboard;
-            eventLbBtn.style.background = 'linear-gradient(45deg, #FFD700, #FFAB52)';
-            gameOverButtons.appendChild(eventLbBtn);
-        }
     }
 }
 
@@ -4409,7 +4116,8 @@ const firebaseConfig = {
   projectId: "canton-army-battle",
   storageBucket: "canton-army-battle.firebasestorage.app",
   messagingSenderId: "779055333066",
-  appId: "1:779055333066:web:bef52a082fd4e387fbfe33"
+  appId: "1:779055333066:web:bef52a082fd4e387fbfe33",
+  measurementId: "G-G7R94HGWHL"
 };
 
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
@@ -4418,6 +4126,20 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
 
 const app = firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
+
+let analytics = null;
+try {
+  if (firebase.analytics && firebaseConfig.measurementId) {
+    analytics = firebase.analytics(app);
+    
+    analytics.logEvent('app_open');
+    analytics.logEvent('screen_view', { screen_name: 'game_landing' });
+  } else {
+    console.warn('Analytics not available (missing measurementId?)');
+  }
+} catch (error) {
+  console.warn('Analytics init failed:', error);
+}
 
 async function checkIfBanned(userId) {
     if (!userId || userId.startsWith('guest')) return false;
@@ -4542,6 +4264,9 @@ class RateLimiter {
 const rateLimiter = new RateLimiter(20, 3600000);
 
 async function submitScoreToFirebase(scoreData) {
+    if (!currentUser?.xUserId || currentUser.xUserId.startsWith('guest_')) {
+    return false;
+    }
   try {
     const userId = currentUser.xUserId || 'guest_' + Date.now();
     
@@ -4553,82 +4278,6 @@ async function submitScoreToFirebase(scoreData) {
 
     username = username || 'Guest';
     
-    if (isEventMode) {
-      const eventPlaysRef = database.ref(`eventPlays/${userId}`);
-      const playsSnapshot = await eventPlaysRef.once('value');
-      const playsData = playsSnapshot.val();
-      
-      let gamesPlayed = 0;
-      const today = new Date().toISOString().split('T')[0];
-      
-      if (playsData && playsData.date === today) {
-        gamesPlayed = playsData.count || 0;
-      }
-            
-      if (gamesPlayed >= 10) {
-        showSubmissionError(`⚔️ Event limit reached! You have played ${gamesPlayed}/10 event games today. Come back tomorrow!`);
-        return false;
-      }
-      
-      const existingScoreSnapshot = await database.ref('eventLeaderboard')
-        .orderByChild('userId')
-        .equalTo(userId)
-        .once('value');
-      
-      let shouldSubmit = true;
-      let existingKey = null;
-      
-      existingScoreSnapshot.forEach((child) => {
-        const existingScore = child.val().score;
-        if (scoreData.score <= existingScore) {
-          shouldSubmit = false;
-        } else {
-          existingKey = child.key;
-        }
-      });
-      
-      if (!shouldSubmit) {
-        showSubmissionSuccess('Score recorded! (Not your best)');
-        
-        await eventPlaysRef.set({
-          count: gamesPlayed + 1,
-          date: today
-        });
-        
-        return true;
-      }
-      
-      const eventScoreData = {
-        userId: userId,
-        username: sanitizeInput(username),
-        displayName: sanitizeInput(currentUser.displayName) || null,
-        xHandle: currentUser.xHandle || null,
-        xFullHandle: currentUser.xHandle ? `@${currentUser.xHandle}` : null,
-        profilePic: currentUser.profilePic || null,
-        score: scoreData.score,
-        nodesDestroyed: scoreData.nodesDestroyed,
-        nodesMissed: scoreData.nodesMissed,
-        bestCombo: scoreData.bestCombo,
-        eventMode: true,
-        timestamp: Date.now()
-        };
-      
-      if (existingKey) {
-        await database.ref('eventLeaderboard/' + existingKey).set(eventScoreData);
-        showSubmissionSuccess('NEW HIGH SCORE! 🔥');
-      } else {
-        await database.ref('eventLeaderboard').push(eventScoreData);
-        showSubmissionSuccess('Event score saved!');
-      }
-      
-        await eventPlaysRef.set({
-        count: gamesPlayed + 1,
-        date: today
-      });
-      
-      return true;
-    }
-    
     if (!currentSession.isValidSession()) {
       console.error('❌ Invalid game session');
       showSubmissionError('Invalid game session. Score not saved.');
@@ -4636,6 +4285,17 @@ async function submitScoreToFirebase(scoreData) {
     }
 
     const sessionData = currentSession.getSessionData();
+
+    const validation = validateScoreData(scoreData, sessionData);
+  if (!validation.valid) {
+    showSubmissionError(`Invalid score detected: ${validation.reason}`);
+    return false;
+  }
+  
+  if (validation.suspicious) {
+    submission.flagged = true;
+    submission.suspiciousFlags = validation.flags;
+  }
 
     const rateCheck = await rateLimiter.checkRateLimit(userId);
     if (!rateCheck.allowed) {
@@ -4665,6 +4325,15 @@ async function submitScoreToFirebase(scoreData) {
       submitToAllTime(submission),
       submitToWeekly(submission)
     ]);
+
+    if (analytics) {
+    analytics.logEvent('score_submitted', {
+      score: scoreData.score,
+      checkpoints: sessionData.checkpoints.length,
+      was_flagged: submission.flagged || false,
+      user_id: currentUser?.xUserId || 'guest'
+    });
+  }
 
     showSubmissionSuccess(`Score saved! ${rateCheck.remaining} submissions remaining this hour.`);
     return true;
@@ -4750,7 +4419,7 @@ async function submitToWeekly(submission) {
   if (!existingScore || submission.score > existingScore.score) {
     await userScoreRef.set({
       ...submission,
-      weekStart: getWeekStart()
+      weekId: getWeekIdentifier()
     });
   }
 }
