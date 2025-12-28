@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="logo.ico" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Canton Army - Community Hub</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
@@ -808,6 +808,41 @@
 
     .nav-links a {
         font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body { 
+        font-size: 14px !important; 
+        line-height: 1.3 !important;
+        padding: 10px !important;
+    }
+    
+    h1, h2, h3 { 
+        font-size: 1.6rem !important; 
+        line-height: 1.2 !important;
+    }
+    
+    .support-container {
+        max-width: 100% !important;
+        padding: 15px !important;
+        text-align: center !important;
+    }
+    
+    .support-title {
+        font-size: 1.6rem !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .support-text {
+        font-size: 0.85rem !important;
+        margin-bottom: 15px !important;
+    }
+    
+    button {
+        font-size: 1rem !important;
+        padding: 12px 20px !important;
+        min-height: 48px !important;
     }
 }
     </style>
