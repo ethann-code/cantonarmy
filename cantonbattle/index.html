@@ -2636,21 +2636,23 @@ class BeanBattleRoyale {
 }
 
     spawnPlayerBean() {
-    const playerBean = document.createElement('div');
-    playerBean.className = 'node player';
-    playerBean.innerHTML = '<img src="cn-favicon-05%201-1.webp" style="width: 40px; height: 40px;">';
-    const arenaRect = this.arena.getBoundingClientRect();
-    const centerX = arenaRect.width / 2 - 15;
-    const centerY = arenaRect.height / 2 - 20;
-    playerBean.style.left = `${centerX}px`;
-    playerBean.style.top = `${centerY}px`;
+        const playerBean = document.createElement('div');
+        playerBean.className = 'node player';
+        playerBean.innerHTML = '<img src="cn-favicon-05%201-1.webp" style="width: 40px; height: 40px;">';
     
-    playerBean.style.padding = '15px';
-    playerBean.style.margin = '-15px';
+        const playerSize = this.isMobile ? 36 : 50;
     
-    this.arena.appendChild(playerBean);
-}
-
+        const arenaWidth = this.arena.clientWidth;
+        const arenaHeight = this.arena.clientHeight;
+    
+        const centerX = (arenaWidth - playerSize) / 2;
+        const centerY = (arenaHeight - playerSize) / 2;
+    
+        playerBean.style.left = `${centerX}px`;
+        playerBean.style.top = `${centerY}px`;
+        
+        this.arena.appendChild(playerBean);
+    }
 
 spawnEnemyBean() {
     if (this.nodes.length >= this.maxBeans || !this.gameRunning) return;
