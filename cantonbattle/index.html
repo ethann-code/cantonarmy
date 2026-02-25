@@ -3282,13 +3282,11 @@ async function startGame() {
 async function restartGame() {
     document.getElementById('gameOver').style.display = 'none';
 
-    // Stop old game
     if (game) {
         game.gameRunning = false;
         game = null;
     }
 
-    // Reset pause state
     gamePaused = false;
     const pauseBtn = document.getElementById('pause-btn');
     pauseBtn.style.borderColor = '#c4d86f';
@@ -3306,7 +3304,7 @@ async function restartGame() {
     let rateCheck = null;
 
     if (!isGuestMode && currentUser && currentUser.xUserId) {
-        const rateCheck = await rateLimiter.checkRateLimit(currentUser.xUserId);
+        rateCheck = await rateLimiter.checkRateLimit(currentUser.xUserId);
         if (!rateCheck.allowed) {
             alert(`⏰ Hourly Play Limit!\n\nYou've played 20 games this hour.\nCome back in ${rateCheck.resetIn} minutes!`);
             document.getElementById('gameOver').style.display = 'flex';
@@ -3315,17 +3313,16 @@ async function restartGame() {
     }
 
     if (analytics) {
-      analytics.logEvent('game_start', {
-        user_id: currentUser.xUserId,
-        is_guest: false,
-        event: 'restart_game',
-        remaining_games: rateCheck?.remaining
-      });
+        analytics.logEvent('game_start', {
+            user_id: currentUser.xUserId,
+            is_guest: false,
+            event: 'restart_game',
+            remaining_games: rateCheck?.remaining
+        });
     }
 
     currentSession = new GameSession();
     lastCheckpointTime = 0;
-
     try {
         await currentSession.startSession(userId);
     } catch (error) {
@@ -3335,12 +3332,10 @@ async function restartGame() {
     window.CAB_DEVTOOLS_FLAG = false;
     GameSecurity.reset();
 
-    // Small delay so old game's queued timeouts fully drain before new game starts
     setTimeout(() => {
         game = new BeanBattleRoyale();
     }, 150);
 }
-
 
 function showRules() {
     document.getElementById('rulesModal').classList.add('active');
@@ -4401,7 +4396,7 @@ function validateScoreData(scoreData, sessionData) {
     suspicious.push('perfect_round_number');
   }
 
-  if (duration < 20 || duration > 600) {
+  if (duration < 3 || duration > 600) {
     return { valid: false, reason: 'invalid_duration', suspicious: true };
   }
 
