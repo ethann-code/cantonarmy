@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="Content-Security-Policy" content="
+  upgrade-insecure-requests;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval'
+    https://www.gstatic.com
+    https://www.google.com
+    https://apis.google.com
+    https://cdn.auth0.com
+    https://unpkg.com
+    https://www.gstatic.com/firebasejs/
+    https://www.googletagmanager.com;
+  worker-src 'self' blob: https://www.google.com
+">
     <title>⚔️ CANTON ARMY BATTLE</title>
     <link rel="icon" href="logo.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1851,10 +1862,7 @@ body {
     <div class="logo">⚔️ CANTON ARMY BATTLE</div>
     <div class="tagline">COMMUNITY-POWERED MOVEMENT</div>
 
-    <button class="wallet-connect-btn" id="consoleWalletBtn" onclick="handleConsoleWallet()">
-    <img src="console.png" alt="Console Wallet" style="width: 20px; height: 20px; object-fit: contain; border-radius: 6px;">
-    <span id="walletBtnText">Connect Console Wallet</span>
-    </button>
+    <!--wallet-->
 
     <div class="wallet-dropdown" id="walletDropdown">
         <div class="wallet-dropdown-item" onclick="disconnectWallet()">
@@ -2636,20 +2644,23 @@ class BeanBattleRoyale {
 }
 
     spawnPlayerBean() {
-    const playerBean = document.createElement('div');
-    playerBean.className = 'node player';
-    playerBean.innerHTML = '<img src="cn-favicon-05%201-1.webp" style="width: 40px; height: 40px;">';
-    const arenaRect = this.arena.getBoundingClientRect();
-    const centerX = arenaRect.width / 2 - 15;
-    const centerY = arenaRect.height / 2 - 20;
-    playerBean.style.left = `${centerX}px`;
-    playerBean.style.top = `${centerY}px`;
+        const playerBean = document.createElement('div');
+        playerBean.className = 'node player';
+        playerBean.innerHTML = '<img src="cn-favicon-05%201-1.webp" style="width: 40px; height: 40px;">';
     
-    playerBean.style.padding = '15px';
-    playerBean.style.margin = '-15px';
+        const playerSize = this.isMobile ? 36 : 50;
     
-    this.arena.appendChild(playerBean);
-}
+        const arenaWidth = this.arena.clientWidth;
+        const arenaHeight = this.arena.clientHeight;
+    
+        const centerX = (arenaWidth - playerSize) / 2;
+        const centerY = (arenaHeight - playerSize) / 2;
+    
+        playerBean.style.left = `${centerX}px`;
+        playerBean.style.top = `${centerY}px`;
+        
+        this.arena.appendChild(playerBean);
+    }
 
 
 spawnEnemyBean() {
@@ -3270,19 +3281,29 @@ async function startGame() {
 
 async function restartGame() {
     document.getElementById('gameOver').style.display = 'none';
+
+    // Stop old game
+    if (game) {
+        game.gameRunning = false;
+        game = null;
+    }
+
+    // Reset pause state
+    gamePaused = false;
+    const pauseBtn = document.getElementById('pause-btn');
+    pauseBtn.style.borderColor = '#c4d86f';
+    pauseBtn.style.color = '#c4d86f';
+    document.getElementById('pauseText').textContent = 'PAUSE';
+
     const arena = document.getElementById('arena');
-    arena.innerHTML = '';
-    arena.innerHTML = 
-        `<div class="privacy-container">
-            <div class="privacy-label">⚔️ PRIVACY SHIELD</div>
-            <div class="privacy-bar-container">
-                <div class="privacy-bar" id="privacyLevel" style="width: 100%;">
-                    <span id="privacyText">100%</span>
-                </div>
-            </div>
-        </div>`;
-    
+    arena.querySelectorAll('.node, .combo-display, .health-damage, .miss-penalty, .poison-warning, #pause-overlay')
+         .forEach(el => el.remove());
+    document.getElementById('privacyLevel').style.width = '100%';
+    document.getElementById('privacyText').textContent = '100%';
+
     const userId = currentUser.xUserId || 'guest_' + Date.now();
+
+    let rateCheck = null;
 
     if (!isGuestMode && currentUser && currentUser.xUserId) {
         const rateCheck = await rateLimiter.checkRateLimit(currentUser.xUserId);
@@ -3298,23 +3319,28 @@ async function restartGame() {
         user_id: currentUser.xUserId,
         is_guest: false,
         event: 'restart_game',
-        remaining_games: rateCheck.remaining
+        remaining_games: rateCheck?.remaining
       });
     }
 
     currentSession = new GameSession();
     lastCheckpointTime = 0;
-    
+
     try {
         await currentSession.startSession(userId);
     } catch (error) {
         console.warn('Session tracking unavailable:', error);
     }
-    
+
     window.CAB_DEVTOOLS_FLAG = false;
     GameSecurity.reset();
-    game = new BeanBattleRoyale();
+
+    // Small delay so old game's queued timeouts fully drain before new game starts
+    setTimeout(() => {
+        game = new BeanBattleRoyale();
+    }, 150);
 }
+
 
 function showRules() {
     document.getElementById('rulesModal').classList.add('active');
