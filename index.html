@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="logo.ico" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canton Army - Community Hub</title>
+    <meta name="description" content="Canton Army is an independent fan community supporting Canton Network — the privacy-first institutional blockchain. Join us to learn, share, and grow the Canton ecosystem.">
+    <meta name="keywords" content="Canton Network, Canton Army, CC token, privacy blockchain, institutional blockchain, DeFi, community">
+    <meta name="author" content="Canton Army Community">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cantonarmy.com/">
+    <meta property="og:title" content="Canton Army — Community Hub">
+    <meta property="og:description" content="An independent fan community supporting Canton Network. Building awareness, sharing knowledge, and growing the movement for privacy-first institutional blockchain.">
+    <meta property="og:image" content="https://cantonarmy.com/cn-favicon-05%201-1.webp">
+    <meta property="og:image:alt" content="Canton Army Logo">
+    <meta property="og:site_name" content="Canton Army">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@CantonArmy">
+    <meta name="twitter:creator" content="@CantonArmy">
+    <meta name="twitter:title" content="Canton Army — Community Hub">
+    <meta name="twitter:description" content="An independent fan community supporting Canton Network. Building awareness, sharing knowledge, and growing the Canton ecosystem.">
+    <meta name="twitter:image" content="https://cantonarmy.com/cn-favicon-05%201-1.webp">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
         
@@ -805,6 +825,7 @@
     .nav-links.active li:nth-child(4) { transition-delay: 0.4s; }
     .nav-links.active li:nth-child(5) { transition-delay: 0.5s; }
     .nav-links.active li:nth-child(6) { transition-delay: 0.6s; }
+    .nav-links.active li:nth-child(7) { transition-delay: 0.7s; }
 
     .nav-links a {
         font-size: 1.3rem;
@@ -845,6 +866,288 @@
         min-height: 48px !important;
     }
 }
+
+        .services-section {
+            padding: 8rem 5%;
+            background: var(--dark-bg);
+            position: relative;
+        }
+
+        .services-intro {
+            max-width: 800px;
+            margin: 0 auto 5rem;
+            text-align: center;
+        }
+
+        .services-intro p {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: var(--secondary-dark);
+            border: 1px solid rgba(212, 225, 87, 0.2);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.35s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-green), var(--primary-yellow));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            border-color: var(--primary-yellow);
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(212, 225, 87, 0.25);
+        }
+
+        .service-icon {
+            font-size: 2.4rem;
+            margin-bottom: 1.2rem;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-yellow);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .service-card .service-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-bullets {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+        }
+
+        .service-bullets li {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            padding: 0.45rem 0;
+            border-bottom: 1px solid rgba(212, 225, 87, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            line-height: 1.5;
+        }
+
+        .service-bullets li:last-child {
+            border-bottom: none;
+        }
+
+        .service-bullets li::before {
+            content: '▸';
+            color: var(--primary-yellow);
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .service-tag {
+            display: inline-block;
+            margin-top: 1.8rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary-green);
+            border: 1px solid var(--primary-green);
+            border-radius: 50px;
+            padding: 0.3rem 0.9rem;
+        }
+
+        @media (max-width: 1100px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── CONTACT / CALENDLY SECTION ───────────────────── */
+        .contact-section {
+            padding: 8rem 5%;
+            background: linear-gradient(135deg, #0F1410 0%, var(--dark-bg) 50%, #0F1410 100%);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(110, 161, 113, 0.12) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .contact-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-subtitle {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .contact-desc {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto 4rem;
+            line-height: 1.8;
+        }
+
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .contact-card {
+            background: var(--secondary-dark);
+            border: 1px solid rgba(212, 225, 87, 0.2);
+            border-radius: 14px;
+            padding: 2rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            border-color: var(--primary-yellow);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 36px rgba(212, 225, 87, 0.2);
+        }
+
+        .contact-card-icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary-yellow);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .calendly-wrapper {
+            background: var(--secondary-dark);
+            border: 2px solid rgba(212, 225, 87, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(212, 225, 87, 0.12);
+            position: relative;
+        }
+
+        .calendly-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-green), var(--primary-yellow), var(--primary-green));
+            background-size: 200% 100%;
+            animation: shimmer-bar 3s linear infinite;
+            z-index: 3;
+        }
+
+        @keyframes shimmer-bar {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .calendly-inline-widget {
+            min-width: 320px;
+            height: 700px;
+        }
+
+        .calendly-fallback {
+            display: none;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .contact-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .contact-cards {
+                grid-template-columns: 1fr;
+            }
+            .calendly-inline-widget {
+                height: 900px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -859,9 +1162,10 @@
     <ul class="nav-links" id="navMenu">
         <li><a href="#about" onclick="toggleMenu()">ABOUT</a></li>
         <li><a href="#mission" onclick="toggleMenu()">MISSION</a></li>
-        <li><a href="#donate" onclick="toggleMenu()">DONATE TO ARMY</a></li>
         <li><a href="#features" onclick="toggleMenu()">FEATURES</a></li>
         <li><a href="#battle" onclick="toggleMenu()">BATTLE GAME</a></li>
+        <li><a href="#services" onclick="toggleMenu()">SERVICES</a></li>
+        <li><a href="#contact" onclick="toggleMenu()">CONTACT US</a></li>
         <li><a href="#community" onclick="toggleMenu()">COMMUNITY</a></li>
     </ul>
 </nav>
@@ -924,35 +1228,6 @@
         </div>
     </section>
 
-    <!-- Donation Section -->
-<section class="content-section section-dark" id="donate" style="padding: 6rem 5%;">
-    <div class="content-wrapper">
-        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
-            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 3.5rem; font-weight: 900; color: var(--primary-yellow); margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 5px;">SUPPORT THE<br>MOVEMENT</h2>
-            
-            <p style="font-size: 1.3rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 3rem;">
-                Canton Army is powered by community contributions. All donations go directly toward building our ecosystem, creating content, hosting events, giveaways, and giving back to the Canton community. Every contribution helps us grow stronger together!
-            </p>
-
-            <div style="background: rgba(212, 225, 87, 0.05); padding: 2.5rem; border-radius: 20px; border: 2px solid var(--primary-yellow); box-shadow: 0 0 30px rgba(212, 225, 87, 0.3);">
-                <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--primary-yellow); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">Canton Wallet Address</h3>
-                
-                <div style="background: var(--secondary-dark); padding: 1.5rem; border-radius: 12px; font-family: 'Courier New', monospace; font-size: 0.95rem; word-break: break-all; color: var(--primary-yellow); border: 1px solid var(--primary-yellow); margin-bottom: 1.5rem; line-height: 1.6;">
-                    consolewallet-cantonarmy::1220f154b6078ac0969f9d7bfa696fc4b42b8e1c9723c77b9381d855f47483044159
-                </div>
-
-                <button onclick="copyDonationAddress()" style="padding: 1rem 2.5rem; background: linear-gradient(45deg, var(--primary-green), var(--primary-yellow)); color: var(--dark-bg); border: none; border-radius: 50px; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; box-shadow: 0 0 20px rgba(212, 225, 87, 0.5);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 5px 30px rgba(212, 225, 87, 0.7)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 0 20px rgba(212, 225, 87, 0.5)'">
-                    📋 COPY ADDRESS
-                </button>
-
-                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 2rem; font-style: italic;">
-                    💚 Thank you for supporting Canton Army and helping us build the future of the Canton Network community!
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
     <!-- Features Section -->
     <section class="content-section section-dark" id="features">
         <div class="content-wrapper">
@@ -1007,10 +1282,10 @@
                     <p>Think you have what it takes to be a true Canton Army soldier? Jump into our exclusive Canton Battle game and prove your reflexes, strategy, and endurance!</p>
                     <p>Defend the base, destroy enemy targets, avoid poison traps, and climb the leaderboard. Only the strongest survive!</p>
                     <ul class="degen-list" style="list-style: none; margin-top: 2rem;">
-                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">⚡ Fast-paced action gameplay</li>
-                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">🎯 Multiple target types and challenges</li>
-                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">🏆 Combo system for high scores</li>
-                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">💪 Progressive difficulty levels</li>
+                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">Fast-paced action gameplay</li>
+                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">Multiple target types and challenges</li>
+                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">Combo system for high scores</li>
+                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">Progressive difficulty levels</li>
                     </ul>
                     <button class="cta-button" style="margin-top: 2rem; padding: 1.2rem 3rem; font-size: 1.1rem;" onclick="window.location.href='cantonbattle/'">PLAY NOW</button>
                 </div>
@@ -1031,6 +1306,168 @@
         </div>
     </section>
 
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <h2 class="section-title" style="text-align:center; margin-bottom: 1.5rem;">OUR<br>SERVICES</h2>
+            <div class="services-intro">
+                <p>Canton Army is a community-driven growth platform focused entirely on the Canton ecosystem.</p>
+                <p>We help projects increase visibility, activate users, and build long-term presence within Canton.</p>
+            </div>
+
+            <div class="services-grid">
+
+                <!-- X Promotion -->
+                <div class="service-card">
+                    <span class="service-icon" style="color: #D4E157;">𝕏</span>
+                    <h3>X Promotion</h3>
+                    <ul class="service-bullets">
+                        <li>X posts</li>
+                        <li>Quote reposts</li>
+                        <li>Strategic commenting support</li>
+                        <li>Single-post campaigns</li>
+                        <li>Monthly content packages</li>
+                        <li>Long-term visibility partnerships</li>
+                        <li>Featured / pinned spotlight placements</li>
+                    </ul>
+                    <span class="service-tag">Flexible to your goals</span>
+                </div>
+
+                <!-- Telegram Alpha -->
+                <div class="service-card">
+                    <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 16-7z"/></svg></span>
+                    <h3>Telegram Alpha Group Access</h3>
+                    <p class="service-desc">Direct exposure to our curated Canton-native Telegram Alpha community.</p>
+                    <ul class="service-bullets">
+                        <li>Alpha announcements</li>
+                        <li>Early access distribution</li>
+                        <li>Beta code drops</li>
+                        <li>Exclusive updates</li>
+                        <li>Targeted campaign visibility</li>
+                    </ul>
+                    <span class="service-tag">High-intent Canton members</span>
+                </div>
+
+                <!-- Battle Campaigns -->
+                <div class="service-card">
+                    <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m-2-2v4"/><circle cx="16" cy="11" r="1" fill="#D4E157"/><circle cx="18" cy="13" r="1" fill="#D4E157"/></svg></span>
+                    <h3>Canton Army Battle Campaigns</h3>
+                    <p class="service-desc">Leverage our native game infrastructure for high-engagement campaigns.</p>
+                    <ul class="service-bullets">
+                        <li>Custom game branding for your project</li>
+                        <li>Integrated wallet support</li>
+                        <li>Special in-game events</li>
+                        <li>Campaign-based competitions</li>
+                        <li>Reward integration</li>
+                        <li>Gamified user activation</li>
+                    </ul>
+                    <span class="service-tag">Beyond traditional promos</span>
+                </div>
+
+                <!-- Community Management -->
+                <div class="service-card">
+                    <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+                    <h3>Community Management</h3>
+                    <p class="service-desc">Full-service Telegram operations with experienced moderators and 1 dedicated Community Manager.</p>
+                    <ul class="service-bullets">
+                        <li>Telegram setup &amp; structuring</li>
+                        <li>1 Dedicated Community Manager</li>
+                        <li>24/7 moderation coverage</li>
+                        <li>Bot setup &amp; automation</li>
+                        <li>Security configuration</li>
+                        <li>Announcement management</li>
+                        <li>Event coordination</li>
+                        <li>Ongoing engagement</li>
+                        <li>Dedicated support</li>
+                    </ul>
+                    <span class="service-tag">Round-the-clock ops</span>
+                </div>
+
+                <!-- X Spaces -->
+                <div class="service-card">
+                    <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></span>
+                    <h3>X Spaces &amp; Livestreams</h3>
+                    <ul class="service-bullets">
+                        <li>Fully hosted X Spaces</li>
+                        <li>Livestream sessions</li>
+                        <li>Two speakers per session</li>
+                        <li>Structured discussion format</li>
+                        <li>Promotion across Canton Army channels</li>
+                    </ul>
+                    <span class="service-tag">Deep dives &amp; updates</span>
+                </div>
+
+                <!-- Ecosystem Introductions -->
+                <div class="service-card">
+                    <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.77.77L12 21l7.65-7.65.77-.77a5.4 5.4 0 0 0 0-7.65z"/></svg></span>
+                    <h3>Ecosystem Introductions</h3>
+                    <ul class="service-bullets">
+                        <li>Strategic introductions</li>
+                        <li>Co-marketing coordination</li>
+                        <li>Cross-community collaborations</li>
+                        <li>Multi-project Spaces</li>
+                    </ul>
+                    <span class="service-tag">Deeper Canton integration</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Contact / Calendly Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-inner">
+            <div class="contact-subtitle">Work With Us</div>
+            <h2 class="section-title" style="margin-bottom: 1.5rem;">CONTACT<br><span style="background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--primary-green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">US</span></h2>
+            <p class="contact-desc">
+                Ready to grow your project inside the Canton ecosystem? Book a strategy call directly — no middlemen, no forms, no waiting.
+            </p>
+
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <span class="contact-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                    <h4>Fast Onboarding</h4>
+                    <p>Get started within 24 hours of your call. We move at Canton speed.</p>
+                </div>
+                <div class="contact-card">
+                    <span class="contact-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+                    <h4>Tailored Strategy</h4>
+                    <p>Every campaign is built around your project's goals, timeline, and audience.</p>
+                </div>
+                <div class="contact-card">
+                    <span class="contact-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                    <h4>Canton-Native Only</h4>
+                    <p>We work exclusively within the Canton ecosystem — full focus, zero dilution.</p>
+                </div>
+            </div>
+
+            <div class="calendly-wrapper">
+                <div
+                    class="calendly-inline-widget"
+                    data-url="https://calendly.com/cantonarmy/30min?hide_landing_page_details=1&hide_gdpr_banner=1&background_color=1a1a1a&text_color=ffffff&primary_color=d4e157"
+                    style="min-width:320px; height:700px;">
+                </div>
+                <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+                <noscript>
+                    <div class="calendly-fallback">
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">JavaScript is required to load the booking calendar.</p>
+                        <a href="https://calendly.com/cantonarmy/30min" target="_blank" class="cta-button" style="text-decoration:none; display:inline-block;">
+                            OPEN BOOKING PAGE ↗
+                        </a>
+                    </div>
+                </noscript>
+            </div>
+
+            <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-secondary);">
+                Can't see the calendar? 
+                <a href="https://calendly.com/cantonarmy/30min" target="_blank" style="color: var(--primary-yellow); text-decoration: none; font-weight: 700;">Open booking page directly ↗</a>
+            </p>
+        </div>
+    </section>
+
     <!-- Community Section -->
 
     <section class="community-section" id="community">
@@ -1040,14 +1477,12 @@
             Connect with fellow Canton supporters worldwide. Share insights, learn together, and help build the future of institutional blockchain.
         </p>
         
-        <!-- Army Community Link (centred)-->
         <div class="community-buttons" style="justify-content: center; margin-bottom: 2.5rem;">
             <a href="https://x.com/CantonArmy" target="_blank" class="social-button">TWITTER (Canton Army)</a>
             <a href="https://t.me/CantonArmyAnnouncements" target="_blank" class="social-button">TELEGRAM ANNOUNCEMENTS (Canton Army)</a>
             <a href="https://t.me/CantonArmyAlpha" target="_blank" class="social-button">TELEGRAM CHAT (Canton Army)</a>
         </div>
 
-        <!-- Official Links Section -->
         <div class="official-links-wrapper"
             style="margin: 0 auto; max-width: 700px; background: rgba(212,225,87,0.05); padding:2rem 1rem; border-radius: 16px; border: 1px solid var(--primary-yellow); margin-bottom:2.5rem;">
             <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color:var(--primary-yellow); margin-bottom:1rem; text-transform:uppercase;">Official Links of Canton Network</h3>
@@ -1064,7 +1499,20 @@
 
     <!-- Footer -->
     <footer>
-        <p style="font-size: 1.1rem; margin-bottom: 2rem;">CANTON ARMY © 2025 | COMMUNITY-POWERED INITIATIVE</p>
+        <div style="display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;margin-bottom:2.5rem;">
+            <a href="#about" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">About</a>
+            <a href="#mission" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">Mission</a>
+            <a href="#services" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">Services</a>
+            <a href="#battle" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">Battle Game</a>
+            <a href="#contact" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">Contact</a>
+            <a href="#community" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">Community</a>
+        </div>
+        <div style="display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:2.5rem;">
+            <a href="https://x.com/CantonArmy" target="_blank" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:1px solid rgba(212,225,87,0.3);padding:0.4rem 1rem;border-radius:50px;transition:all 0.3s ease;" onmouseover="this.style.borderColor='#D4E157';this.style.color='#D4E157'" onmouseout="this.style.borderColor='rgba(212,225,87,0.3)';this.style.color='#B0B0B0'">X / Twitter</a>
+            <a href="https://t.me/CantonArmyAnnouncements" target="_blank" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:1px solid rgba(212,225,87,0.3);padding:0.4rem 1rem;border-radius:50px;transition:all 0.3s ease;" onmouseover="this.style.borderColor='#D4E157';this.style.color='#D4E157'" onmouseout="this.style.borderColor='rgba(212,225,87,0.3)';this.style.color='#B0B0B0'">Telegram</a>
+        </div>
+
+        <p style="font-size: 1.1rem; margin-bottom: 2rem;">CANTON ARMY © <span id="footer-year"></span> | COMMUNITY-POWERED INITIATIVE</p>
         
         <div class="disclaimer">
             <h4>Important Disclaimer</h4>
@@ -1142,7 +1590,6 @@
                 showErrorState();
             }
         }
-
         function formatNumber(num) {
             if (num >= 1000000000) {
                 return (num / 1000000000).toFixed(2) + 'B';
@@ -1150,7 +1597,7 @@
                 return (num / 1000000).toFixed(2) + 'M';
             } else if (num >= 1000) {
                 return (num / 1000).toFixed(2) + 'K';
-                    }
+                }
             return num.toFixed(2);
         }
 
@@ -1182,18 +1629,28 @@ function toggleMenu() {
     hamburger.classList.toggle('active');
 }
 
-// Close menu when clicking outside
-window.onclick = function(event) {
+window.addEventListener('click', function(event) {
     const menu = document.getElementById('navMenu');
     const hamburger = document.querySelector('.hamburger');
-    
-    if (!event.target.matches('.hamburger') && !event.target.matches('.hamburger span') && !event.target.matches('.nav-links') && !event.target.matches('.nav-links *')) {
-        if (menu.classList.contains('active')) {
-            menu.classList.remove('active');
-            hamburger.classList.remove('active');
-        }
+    if (
+        menu.classList.contains('active') &&
+        !hamburger.contains(event.target) &&
+        !menu.contains(event.target)
+    ) {
+        menu.classList.remove('active');
+        hamburger.classList.remove('active');
     }
-}
+});
+document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', function() {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+        });
+    </script>
+    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
     </script>
 </body>
 </html>
