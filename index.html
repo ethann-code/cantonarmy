@@ -1274,6 +1274,153 @@
         font-size: 0.85rem;
     }
 }
+        /* ── Canton News Banner ── */
+        .news-banner {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            background: linear-gradient(90deg,
+                rgba(8,10,8,0.97) 0%,
+                rgba(13,20,14,0.97) 40%,
+                rgba(13,20,14,0.97) 60%,
+                rgba(8,10,8,0.97) 100%);
+            border-bottom: 1px solid rgba(212, 225, 87, 0.35);
+            padding: 0.55rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 24px rgba(212, 225, 87, 0.07);
+            overflow: hidden;
+        }
+
+        .news-banner-inner {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .news-banner-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            color: var(--primary-green);
+            background: rgba(110, 161, 113, 0.08);
+            border: 1px solid rgba(110, 161, 113, 0.35);
+            padding: 0.2rem 0.65rem;
+            border-radius: 2px;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+
+        .news-banner-sep {
+            color: rgba(212, 225, 87, 0.3);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .news-banner-text {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #c0c0c0;
+            letter-spacing: 0.4px;
+        }
+
+        .news-banner-text strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .banner-text-short { display: none; }
+
+        .news-banner-link {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--army-black);
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--primary-yellow) 0%, #c5d44a 100%);
+            padding: 0.32rem 0.9rem;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 0 14px rgba(212, 225, 87, 0.25);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .news-banner-link:hover {
+            box-shadow: 0 0 22px rgba(212, 225, 87, 0.55);
+            transform: translateY(-1px);
+            background: linear-gradient(135deg, #e8f76a 0%, var(--primary-yellow) 100%);
+        }
+
+        .news-banner-link:hover .banner-arrow {
+            transform: translateX(3px);
+        }
+
+        .banner-arrow {
+            display: inline-block;
+            transition: transform 0.25s ease;
+            font-size: 0.8rem;
+        }
+
+        .news-banner-live {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--primary-green);
+            position: absolute;
+            right: 5%;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            animation: livePulse 1.8s ease-in-out infinite;
+            box-shadow: 0 0 8px var(--primary-green);
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--primary-green); }
+            50% { opacity: 0.35; box-shadow: 0 0 3px var(--primary-green); }
+        }
+
+        @media (max-width: 768px) {
+            .news-banner {
+                padding: 0.5rem 3%;
+            }
+            .news-banner-inner {
+                gap: 0.7rem;
+                justify-content: center;
+            }
+            .news-banner-tag { display: none; }
+            .news-banner-sep { display: none; }
+            .news-banner-live { display: none; }
+            .banner-text-full { display: none; }
+            .banner-text-short { display: inline; }
+            .news-banner-text {
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+            .news-banner-link {
+                font-size: 0.58rem;
+                padding: 0.3rem 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1296,6 +1443,26 @@
         <li><a href="#community" onclick="toggleMenu()">COMMUNITY</a></li>
     </ul>
 </nav>
+
+    <!-- Canton News Banner -->
+    <div class="news-banner">
+        <div class="news-banner-inner">
+            <span class="news-banner-tag">◆ INTEL</span>
+            <span class="news-banner-sep">//</span>
+            <span class="news-banner-text">
+                <span class="banner-text-full">Your <strong>best source</strong> for everything Canton Network — news, analysis &amp; ecosystem updates</span>
+                <span class="banner-text-short"><strong>Canton Network</strong> news &amp; updates</span>
+            </span>
+            <span class="news-banner-sep">//</span>
+            <a href="https://cantonnews.org" target="_blank" rel="noopener noreferrer" class="news-banner-link">
+                CANTONNEWS.ORG <span class="banner-arrow">→</span>
+            </a>
+        </div>
+        <div class="news-banner-live">
+            <span class="live-dot"></span>
+            LIVE
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -1729,6 +1896,14 @@
     </footer>
 
     <script>
+        function positionNewsBanner() {
+            const nav = document.querySelector('nav');
+            const banner = document.querySelector('.news-banner');
+            if (nav && banner) banner.style.top = nav.offsetHeight + 'px';
+        }
+        positionNewsBanner();
+        window.addEventListener('resize', positionNewsBanner);
+
         function scrollToSection(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
