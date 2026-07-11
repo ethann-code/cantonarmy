@@ -1445,6 +1445,7 @@
         <li><a href="#mission" onclick="toggleMenu()">MISSION</a></li>
         <li><a href="#features" onclick="toggleMenu()">FEATURES</a></li>
         <li><a href="#battle" onclick="toggleMenu()">BATTLE GAME</a></li>
+        <li><a href="#battlefront" onclick="toggleMenu()">BATTLEFRONT</a></li>
         <li><a href="#why">Why Us</a></li>
         <li><a href="#services" onclick="toggleMenu()">SERVICES</a></li>
         <li><a href="#contact" onclick="toggleMenu()">CONTACT US</a></li>
@@ -1604,6 +1605,28 @@
                     </video>
                 </div>
 
+            </div>
+        </div>
+    </section>
+
+    <!-- Battlefront Section -->
+    <section class="content-section section-light" id="battlefront">
+        <div class="content-wrapper">
+            <h2 class="section-title">CANTON ARMY<br>VS BEARS</h2>
+            <div class="section-content">
+                <div class="content-text">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <img src="battlefront/Canton-Army-vs-Bears-emblem.png" alt="Canton Army vs Bears emblem" style="width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--primary-yellow); box-shadow: 0 0 20px rgba(212, 225, 87, 0.4);">
+                        <span style="font-family: 'Orbitron', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; color: var(--primary-green); text-transform: uppercase; border: 1px solid var(--primary-green); border-radius: 50px; padding: 0.4rem 1rem;">Live 3D Battlefield</span>
+                    </div>
+                    <h3>The Battlefront, Rendered in Real Time</h3>
+                    <p>Watch the Canton Army clash with the bears on a living 3D battlefield driven entirely by the live CC/USD price. Every tick of Canton Coin pushes the front line — green candles rally the troops, red candles summon the bears.</p>
+                    <p>Drop into live chat, fire off reactions, and watch the war shift in real time as the market moves.</p>
+                    <button class="cta-button" style="margin-top: 1rem; padding: 1.2rem 3rem; font-size: 1.1rem;" onclick="window.location.href='battlefront/'">ENTER THE BATTLEFRONT</button>
+                </div>
+                <div class="battlefront-preview" style="width: 100%; max-height: 500px; border-radius: 20px; border: 2px solid var(--primary-yellow); overflow: hidden; box-shadow: 0 20px 60px rgba(212, 225, 87, 0.3); cursor: pointer;" onclick="window.location.href='battlefront/'">
+                    <img src="battlefront/Canton-Army-vs-Bears-keyart.png" alt="Canton Army vs Bears — live CC/USD 3D battlefield" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
             </div>
         </div>
     </section>
@@ -1910,7 +1933,12 @@
             if (nav && banner) banner.style.top = nav.offsetHeight + 'px';
         }
         positionNewsBanner();
+        window.addEventListener('load', positionNewsBanner);
         window.addEventListener('resize', positionNewsBanner);
+        if (window.ResizeObserver) {
+            const navEl = document.querySelector('nav');
+            if (navEl) new ResizeObserver(positionNewsBanner).observe(navEl);
+        }
 
         function scrollToSection(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
