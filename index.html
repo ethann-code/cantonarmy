@@ -33,2040 +33,1400 @@
     <meta name="twitter:description" content="An independent fan community supporting Canton Network. Building awareness, sharing knowledge, and growing the Canton ecosystem.">
     <meta name="twitter:image" content="https://cantonarmy.com/cantonarmy.png">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         :root {
-            --army-green: #4D784E;
-            --tactical-olive: #6EA171;
-            --desert-sand: #E1D798;
-            --canton-yellow: #D4E157;
-            --army-black: #171615;
-            --slate-gray: #424756;
-            --tactical-tan: #8B7B5A;
-            
-            --primary-green: #6EA171;
-            --primary-yellow: #D4E157;
-            --dark-bg: #0A0A0A;
-            --secondary-dark: #1A1A1A;
-            --accent-glow: rgba(212, 225, 87, 0.3);
-            --text-primary: #FFFFFF;
-            --text-secondary: #B0B0B0;
+            --bg: #F3F5EC;
+            --surface: #FFFFFF;
+            --ink: #17211A;
+            --ink-soft: #4A5548;
+            --ink-faint: rgba(23, 33, 26, 0.55);
+            --line: rgba(23, 33, 26, 0.14);
+            --green-deep: #24361F;
+            --green: #4D784E;
+            --green-lite: #6EA171;
+            --yellow: #D4E157;
+            --dark: #141B15;
+            --dark-line: rgba(243, 245, 236, 0.14);
+            --radius-xl: clamp(40px, 5vw, 60px);
         }
-        
+
+        html { scroll-behavior: smooth; background: var(--bg); }
+
         body {
-            font-family: 'Rajdhani', sans-serif;
-            background: var(--dark-bg);
-            color: var(--text-primary);
-            overflow-x: hidden;
+            font-family: 'Kanit', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
             line-height: 1.6;
+            overflow-x: clip;
         }
-        
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(212, 225, 87, 0.2);
-        }
-        
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 900;
-            letter-spacing: 3px;
-            background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--primary-green) 100%);
+
+        main { overflow-x: clip; }
+
+        img, video { max-width: 100%; display: block; }
+        a { color: inherit; }
+
+        .hero-heading {
+            background: linear-gradient(180deg, #24361F 0%, #6EA171 100%);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
         }
-        
-        .logo:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 0 20px var(--accent-glow));
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-yellow);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        .nav-links a:hover {
-            color: var(--primary-yellow);
-        }
-        
-        .cta-button {
-            padding: 0.8rem 2rem;
-            background: var(--primary-yellow);
-            border: none;
-            border-radius: 50px;
-            color: var(--dark-bg);
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(212, 225, 87, 0.4);
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 30px rgba(212, 225, 87, 0.6);
-            background: #DCE775;
-        }
-        
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 5%;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #0F1410 50%, var(--dark-bg) 100%);
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse 4s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.6; }
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 3rem;
-            margin-top: 11rem;
-            animation: fadeInDown 1s ease;
-        }
-        
-        .canton-logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid var(--primary-yellow);
-            box-shadow: 0 0 30px rgba(212, 225, 87, 0.5);
-            animation: logoFloat 3s ease-in-out infinite;
-            transition: all 0.3s ease;
-        }
-        
-        .canton-logo:hover {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 0 50px rgba(212, 225, 87, 0.8);
-        }
-        
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .hero-subtitle {
-            font-size: 1.2rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--primary-yellow);
-            margin-bottom: 1rem;
-            animation: fadeInDown 1s ease 0.2s both;
-        }
-        
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 7rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: 8px;
-            animation: fadeInUp 1s ease 0.4s both;
-            text-transform: uppercase;
-        }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .hero h1 .highlight {
-            background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--primary-green) 100%);
+
+        .dark-heading {
+            background: linear-gradient(180deg, #8FA98F 0%, #EDF3E3 100%);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
-            display: block;
-        }
-        
-        .hero-description {
-            font-size: 1.3rem;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            line-height: 1.8;
-            animation: fadeInUp 1s ease 0.6s both;
-        }
-        
-        .hero-location {
-            position: absolute;
-            bottom: 3rem;
-            right: 5%;
-            font-size: 0.9rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-        }
-        
-        .hero-credits {
-            position: absolute;
-            bottom: 3rem;
-            left: 5%;
-            font-size: 0.9rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-        }
-        
-        .stats-section {
-            padding: 8rem 5%;
-            background: var(--dark-bg);
-            position: relative;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .stat-card {
-            background: var(--secondary-dark);
-            padding: 3rem 2rem;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid rgba(212, 225, 87, 0.2);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 225, 87, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .stat-card:hover::before {
-            left: 100%;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary-yellow);
-            box-shadow: 0 10px 40px rgba(212, 225, 87, 0.3);
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-        
-        .stat-value {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--primary-yellow);
-            letter-spacing: 2px;
-        }
-        
-        .content-section {
-            padding: 8rem 5%;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-        
-        .section-dark {
-            background: var(--dark-bg);
-        }
-        
-        .section-light {
-            background: linear-gradient(135deg, #0F1410 0%, var(--dark-bg) 50%, #0F1410 100%);
-        }
-        
-        .content-wrapper {
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 5rem;
-            font-weight: 900;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            margin-bottom: 3rem;
-            line-height: 1.1;
-        }
-        
-        .section-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            align-items: center;
-        }
-        
-        .content-text h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--primary-yellow);
-        }
-        
-        .content-text p {
-            font-size: 1.2rem;
-            line-height: 1.9;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-        }
-        
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .feature-item {
-            background: var(--secondary-dark);
-            padding: 2rem;
-            border-radius: 10px;
-            border: 1px solid rgba(212, 225, 87, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .feature-item:hover {
-            border-color: var(--primary-yellow);
-            transform: translateX(10px);
-        }
-        
-        .feature-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            color: var(--primary-yellow);
-            font-weight: 900;
-            margin-bottom: 1rem;
-        }
-        
-        .feature-item h4 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .feature-item p {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        .army-hero-img {
-            display: block;
-            max-width: 100%;
-            max-height: 500px;
-            margin: 0 auto;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(212, 225, 87, 0.2);
-            border: 2px solid var(--primary-yellow);
-            background: var(--secondary-dark);
-        }
-        
-        .visual-element {
-            width: 100%;
-            height: 500px;
-            background: var(--secondary-dark);
-            border-radius: 20px;
-            border: 2px solid var(--primary-yellow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(212, 225, 87, 0.3);
-        }
-        
-        .visual-element::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, var(--accent-glow), transparent, var(--accent-glow), transparent);
-            animation: rotate 8s linear infinite;
-        }
-        
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .visual-element::after {
-            content: 'CANTON ARMY';
-            position: absolute;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            letter-spacing: 5px;
-            background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--primary-green) 100%);
-            -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            z-index: 2;
+            color: transparent;
         }
-        
-        .community-section {
-            padding: 8rem 5%;
-            background: var(--dark-bg);
-            text-align: center;
-        }
-        
-        .community-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 3rem;
-            flex-wrap: wrap;
-        }
-        
-        .social-button {
-            padding: 1.2rem 3rem;
-            background: var(--secondary-dark);
-            border: 2px solid var(--primary-yellow);
-            border-radius: 50px;
-            color: var(--text-primary);
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 2px;
+
+        .section-heading {
+            font-weight: 900;
             text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .social-button:hover {
-            background: var(--primary-yellow);
-            color: var(--dark-bg);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(212, 225, 87, 0.5);
-        }
-        
-        footer {
-            padding: 3rem 5%;
-            background: var(--secondary-dark);
-            text-align: center;
-            border-top: 1px solid rgba(212, 225, 87, 0.2);
-        }
-        
-        footer p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-        
-        .disclaimer {
-            background: rgba(212, 225, 87, 0.05);
-            padding: 2rem;
-            border-radius: 10px;
-            border: 1px solid rgba(212, 225, 87, 0.2);
-            margin-top: 2rem;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .disclaimer h4 {
-            color: var(--primary-yellow);
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .disclaimer p {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: var(--text-secondary);
-        }
-        
-        @media (max-width: 1200px) {
-            .hero h1 {
-                font-size: 5rem;
-            }
-            
-            .section-title {
-                font-size: 4rem;
-            }
-            
-            .canton-logo {
-                width: 100px;
-                height: 100px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 3rem;
-                letter-spacing: 4px;
-            }
-            
-            .section-title {
-                font-size: 2.5rem;
-                letter-spacing: 4px;
-            }
-            
-            .section-content {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-            
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero-location,
-            .hero-credits {
-                display: none;
-            }
-            
-            .canton-logo {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .logo-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--primary-yellow);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 15s infinite ease-in-out;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            25% {
-                transform: translateY(-100px) translateX(50px);
-            }
-            50% {
-                transform: translateY(-200px) translateX(-50px);
-            }
-            75% {
-                transform: translateY(-100px) translateX(100px);
-            }
-        }
-
-        .community-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;  /* ensures centering */
-            gap: 1rem;
-        }
-
-        @media (max-width: 700px) {
-            .community-buttons {
-            flex-direction: column;
-            align-items: center;
-            }
-            .social-button {
-            width: 100%;
-            text-align: center;
-            }
-        }
-        nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 5%;
-    background: var(--dark-bg);
-    border-bottom: 2px solid var(--primary-yellow);
-    z-index: 1000;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-}
-
-.logo {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: var(--primary-yellow);
-    letter-spacing: 3px;
-    text-shadow: 0 0 10px rgba(212, 225, 87, 0.5);
-}
-
-.nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-links a {
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.nav-links a:hover {
-    color: var(--primary-yellow);
-}
-
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--primary-yellow);
-    transition: width 0.3s ease;
-}
-
-.nav-links a:hover::after {
-    width: 100%;
-}
-
-.hamburger {
-    display: none;
-    flex-direction: column;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 1001;
-}
-
-.hamburger span {
-    width: 25px;
-    height: 3px;
-    background: var(--primary-yellow);
-    margin: 4px 0;
-    transition: all 0.3s ease;
-    border-radius: 2px;
-}
-
-.hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(8px, 8px);
-}
-
-.hamburger.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(8px, -8px);
-}
-
-/* Mobile Menu */
-@media (max-width: 768px) {
-    .hamburger {
-        display: flex;
-    }
-
-    .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        height: 100vh;
-        width: 70%;
-        max-width: 300px;
-        background: var(--dark-bg);
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 2rem;
-        transition: right 0.4s ease;
-        z-index: 1000;
-        border-left: 2px solid var(--primary-yellow);
-        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.8);
-    }
-
-    .nav-links.active {
-        right: 0;
-    }
-
-    .nav-links li {
-        opacity: 0;
-        transform: translateX(50px);
-        transition: all 0.3s ease;
-    }
-
-    .nav-links.active li {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    .nav-links.active li:nth-child(1) { transition-delay: 0.1s; }
-    .nav-links.active li:nth-child(2) { transition-delay: 0.2s; }
-    .nav-links.active li:nth-child(3) { transition-delay: 0.3s; }
-    .nav-links.active li:nth-child(4) { transition-delay: 0.4s; }
-    .nav-links.active li:nth-child(5) { transition-delay: 0.5s; }
-    .nav-links.active li:nth-child(6) { transition-delay: 0.6s; }
-    .nav-links.active li:nth-child(7) { transition-delay: 0.7s; }
-    .nav-links.active li:nth-child(8) { transition-delay: 0.8s; }
-
-    .nav-links a {
-        font-size: 1.3rem;
-    }
-}
-
-@media (max-width: 480px) {
-    body { 
-        font-size: 14px !important; 
-        line-height: 1.3 !important;
-        padding: 10px !important;
-    }
-    
-    h1, h2, h3 { 
-        font-size: 1.6rem !important; 
-        line-height: 1.2 !important;
-    }
-    
-    .support-container {
-        max-width: 100% !important;
-        padding: 15px !important;
-        text-align: center !important;
-    }
-    
-    .support-title {
-        font-size: 1.6rem !important;
-        margin-bottom: 10px !important;
-    }
-    
-    .support-text {
-        font-size: 0.85rem !important;
-        margin-bottom: 15px !important;
-    }
-    
-    button {
-        font-size: 1rem !important;
-        padding: 12px 20px !important;
-        min-height: 48px !important;
-    }
-}
-
-        .services-section {
-            padding: 8rem 5%;
-            background: var(--dark-bg);
-            position: relative;
-        }
-
-        .services-intro {
-            max-width: 800px;
-            margin: 0 auto 5rem;
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+            font-size: clamp(3rem, 12vw, 160px);
             text-align: center;
         }
 
-        .services-intro p {
-            font-size: 1.2rem;
-            line-height: 1.9;
-            color: var(--text-secondary);
-            margin-bottom: 0.8rem;
+        /* ── FadeIn (scroll-reveal) ─────────────────────── */
+        [data-fade] {
+            opacity: 0;
+            transform: translate(var(--fx, 0px), var(--fy, 30px));
+            transition: opacity 0.7s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+            transition-delay: var(--fd, 0s);
+            will-change: opacity, transform;
+        }
+        [data-fade].in-view {
+            opacity: 1;
+            transform: translate(0, 0);
         }
 
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .service-card {
-            background: var(--secondary-dark);
-            border: 1px solid rgba(212, 225, 87, 0.2);
-            border-radius: 16px;
-            padding: 2.5rem 2rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.35s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-green), var(--primary-yellow));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.35s ease;
-        }
-
-        .service-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .service-card:hover {
-            border-color: var(--primary-yellow);
-            transform: translateY(-8px);
-            box-shadow: 0 16px 48px rgba(212, 225, 87, 0.25);
-        }
-
-        .service-icon {
-            font-size: 2.4rem;
-            margin-bottom: 1.2rem;
-            display: block;
-        }
-
-        .service-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--primary-yellow);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            line-height: 1.4;
-        }
-
-        .service-card .service-desc {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-
-        .service-bullets {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            flex: 1;
-        }
-
-        .service-bullets li {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            padding: 0.45rem 0;
-            border-bottom: 1px solid rgba(212, 225, 87, 0.1);
-            display: flex;
-            align-items: flex-start;
-            gap: 0.6rem;
-            line-height: 1.5;
-        }
-
-        .service-bullets li:last-child {
-            border-bottom: none;
-        }
-
-        .service-bullets li::before {
-            content: '▸';
-            color: var(--primary-yellow);
-            font-size: 0.8rem;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .service-tag {
-            display: inline-block;
-            margin-top: 1.8rem;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--primary-green);
-            border: 1px solid var(--primary-green);
-            border-radius: 50px;
-            padding: 0.3rem 0.9rem;
-        }
-
-        @media (max-width: 1100px) {
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 700px) {
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ── CONTACT / CALENDLY SECTION ───────────────────── */
-        .contact-section {
-            padding: 8rem 5%;
-            background: linear-gradient(135deg, #0F1410 0%, var(--dark-bg) 50%, #0F1410 100%);
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-        }
-
-        .contact-section::before {
-            content: '';
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(110, 161, 113, 0.12) 0%, transparent 70%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-        }
-
-        .contact-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .contact-subtitle {
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--primary-green);
-            margin-bottom: 1rem;
-        }
-
-        .contact-desc {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 650px;
-            margin: 0 auto 4rem;
-            line-height: 1.8;
-        }
-
-        .contact-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 3.5rem;
-        }
-
-        .contact-card {
-            background: var(--secondary-dark);
-            border: 1px solid rgba(212, 225, 87, 0.2);
-            border-radius: 14px;
-            padding: 2rem 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .contact-card:hover {
-            border-color: var(--primary-yellow);
-            transform: translateY(-5px);
-            box-shadow: 0 12px 36px rgba(212, 225, 87, 0.2);
-        }
-
-        .contact-card-icon {
-            font-size: 2rem;
-            display: block;
-            margin-bottom: 1rem;
-        }
-
-        .contact-card h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--primary-yellow);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-card p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .calendly-wrapper {
-            background: var(--secondary-dark);
-            border: 2px solid rgba(212, 225, 87, 0.3);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 0 60px rgba(212, 225, 87, 0.12);
-            position: relative;
-        }
-
-        .calendly-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-green), var(--primary-yellow), var(--primary-green));
-            background-size: 200% 100%;
-            animation: shimmer-bar 3s linear infinite;
-            z-index: 3;
-        }
-
-        @keyframes shimmer-bar {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        .calendly-inline-widget {
-            min-width: 320px;
-            height: 700px;
-        }
-
-        .calendly-fallback {
-            display: none;
-            padding: 3rem;
-            text-align: center;
-        }
-
-        @media (max-width: 900px) {
-            .contact-cards {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .contact-cards {
-                grid-template-columns: 1fr;
-            }
-            .calendly-inline-widget {
-                height: 900px;
-            }
-        }
-
-        /* ── WHY WORK WITH US SECTION ─────────────────────────── */
-.why-section {
-    padding: 8rem 5%;
-    background: linear-gradient(135deg, #0F1410 0%, var(--dark-bg) 50%, #0F1410 100%);
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-}
-
-.why-section::before {
-    content: '';
-    position: absolute;
-    width: 700px;
-    height: 700px;
-    background: radial-gradient(circle, rgba(110, 161, 113, 0.08) 0%, transparent 70%);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-}
-
-.why-inner {
-    max-width: 1000px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
-}
-
-.why-label {
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    color: var(--primary-yellow);
-    margin-bottom: 1.2rem;
-}
-
-.why-desc {
-    font-size: 1.15rem;
-    color: var(--text-secondary);
-    line-height: 1.9;
-    max-width: 750px;
-    margin: 0 auto 4rem;
-}
-
-.why-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-bottom: 3.5rem;
-}
-
-.why-stat {
-    background: var(--secondary-dark);
-    border: 1px solid rgba(212, 225, 87, 0.2);
-    border-radius: 16px;
-    padding: 2.5rem 2rem;
-    transition: all 0.35s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.why-stat::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary-green), var(--primary-yellow));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s ease;
-}
-
-.why-stat:hover::before {
-    transform: scaleX(1);
-}
-
-.why-stat:hover {
-    border-color: var(--primary-yellow);
-    transform: translateY(-6px);
-    box-shadow: 0 16px 48px rgba(212, 225, 87, 0.15);
-}
-
-.why-stat-number {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--primary-yellow), var(--primary-green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.8rem;
-}
-
-.why-stat-label {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
-.why-mission {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    color: var(--primary-yellow);
-    border: 1px solid rgba(212, 225, 87, 0.3);
-    border-radius: 50px;
-    padding: 1.2rem 3rem;
-    display: inline-block;
-    background: rgba(212, 225, 87, 0.05);
-}
-
-@media (max-width: 700px) {
-    .why-stats {
-        grid-template-columns: 1fr;
-    }
-    .why-mission {
-        padding: 1rem 1.5rem;
-        font-size: 0.85rem;
-    }
-}
-        /* ── Canton News Banner ── */
-        .news-banner {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 999;
-            background: linear-gradient(90deg,
-                rgba(8,10,8,0.97) 0%,
-                rgba(13,20,14,0.97) 40%,
-                rgba(13,20,14,0.97) 60%,
-                rgba(8,10,8,0.97) 100%);
-            border-bottom: 1px solid rgba(212, 225, 87, 0.35);
-            padding: 0.55rem 5%;
+        /* ── News strip ─────────────────────────────────── */
+        .news-strip {
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 24px rgba(212, 225, 87, 0.07);
-            overflow: hidden;
+            gap: 0.9rem;
+            padding: 0.5rem 5%;
+            background: var(--surface);
+            border-bottom: 1px solid var(--line);
+            position: relative;
+            z-index: 60;
         }
-
-        .news-banner-inner {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            justify-content: center;
+        .news-text {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--ink-soft);
+            letter-spacing: 0.3px;
         }
-
-        .news-banner-tag {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.58rem;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            color: var(--primary-green);
-            background: rgba(110, 161, 113, 0.08);
-            border: 1px solid rgba(110, 161, 113, 0.35);
-            padding: 0.2rem 0.65rem;
-            border-radius: 2px;
-            white-space: nowrap;
-            text-transform: uppercase;
-        }
-
-        .news-banner-sep {
-            color: rgba(212, 225, 87, 0.3);
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-        }
-
-        .news-banner-text {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #c0c0c0;
-            letter-spacing: 0.4px;
-        }
-
-        .news-banner-text strong {
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-
-        .banner-text-short { display: none; }
-
-        .news-banner-link {
-            font-family: 'Orbitron', sans-serif;
+        .news-text strong { color: var(--ink); font-weight: 600; }
+        .news-text-short { display: none; }
+        .news-link {
             font-size: 0.62rem;
             font-weight: 700;
             letter-spacing: 2px;
-            color: var(--army-black);
-            text-decoration: none;
-            background: linear-gradient(135deg, var(--primary-yellow) 0%, #c5d44a 100%);
-            padding: 0.32rem 0.9rem;
-            border-radius: 2px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            box-shadow: 0 0 14px rgba(212, 225, 87, 0.25);
             text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
+            text-decoration: none;
+            color: var(--ink);
+            background: var(--yellow);
+            border-radius: 999px;
+            padding: 0.28rem 0.9rem;
+            white-space: nowrap;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
-
-        .news-banner-link:hover {
-            box-shadow: 0 0 22px rgba(212, 225, 87, 0.55);
+        .news-link:hover {
             transform: translateY(-1px);
-            background: linear-gradient(135deg, #e8f76a 0%, var(--primary-yellow) 100%);
+            box-shadow: 0 6px 18px rgba(178, 196, 44, 0.5);
         }
-
-        .news-banner-link:hover .banner-arrow {
-            transform: translateX(3px);
-        }
-
-        .banner-arrow {
-            display: inline-block;
-            transition: transform 0.25s ease;
-            font-size: 0.8rem;
-        }
-
-        .news-banner-live {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--primary-green);
-            position: absolute;
-            right: 5%;
-        }
-
-        .live-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--primary-green);
-            border-radius: 50%;
-            animation: livePulse 1.8s ease-in-out infinite;
-            box-shadow: 0 0 8px var(--primary-green);
-        }
-
-        @keyframes livePulse {
-            0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--primary-green); }
-            50% { opacity: 0.35; box-shadow: 0 0 3px var(--primary-green); }
-        }
-
         @media (max-width: 768px) {
-            .news-banner {
-                padding: 0.5rem 3%;
+            .news-strip { gap: 0.6rem; padding: 0.45rem 4%; }
+            .news-text-full { display: none; }
+            .news-text-short { display: inline; }
+            .news-text { font-size: 0.7rem; white-space: nowrap; letter-spacing: 0.2px; }
+            .news-link { font-size: 0.55rem; letter-spacing: 1.4px; padding: 0.24rem 0.7rem; }
+        }
+
+        /* ── Hero ───────────────────────────────────────── */
+        .hero {
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: clip;
+            padding: 0 clamp(1.5rem, 4vw, 2.5rem);
+        }
+        .hero-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.25rem;
+            padding-top: clamp(1.5rem, 3vw, 2rem);
+        }
+        .hero-nav a {
+            font-size: clamp(0.68rem, 1.4vw, 1.15rem);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--ink);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+        .hero-nav a:hover { opacity: 0.55; }
+        @media (max-width: 639px) {
+            .hero-nav {
+                flex-wrap: nowrap;
+                gap: 0.4rem;
             }
-            .news-banner-inner {
-                gap: 0.7rem;
-                justify-content: center;
-            }
-            .news-banner-tag { display: none; }
-            .news-banner-sep { display: none; }
-            .news-banner-live { display: none; }
-            .banner-text-full { display: none; }
-            .banner-text-short { display: inline; }
-            .news-banner-text {
-                font-size: 0.85rem;
+            .hero-nav a {
+                font-size: 0.56rem;
+                letter-spacing: 0.07em;
                 white-space: nowrap;
             }
-            .news-banner-link {
-                font-size: 0.58rem;
-                padding: 0.3rem 0.75rem;
+        }
+
+        .hero-title-wrap { overflow: hidden; }
+        .hero-title {
+            font-size: clamp(3rem, 12.8vw, 15rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            white-space: nowrap;
+            text-align: center;
+            width: 100%;
+            margin-top: clamp(0.5rem, 2vw, 1.5rem);
+        }
+
+        .hero-bottom {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+            position: relative;
+            z-index: 20;
+        }
+        .hero-tagline {
+            font-size: clamp(0.75rem, 1.4vw, 1.4rem);
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            line-height: 1.35;
+            color: var(--ink-soft);
+            max-width: clamp(170px, 24vw, 300px);
+        }
+        .hero-tagline strong { font-weight: 600; color: var(--ink); }
+
+        .magnet-wrap {
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            bottom: clamp(14px, 2vw, 26px);
+            z-index: 10;
+            width: clamp(230px, 32vw, 440px);
+        }
+        .magnet-inner { will-change: transform; }
+        .hero-portrait {
+            width: 100%;
+            background: var(--surface);
+            border: 2px solid var(--ink);
+            border-radius: 28px;
+            box-shadow: 0 18px 50px rgba(36, 54, 31, 0.14);
+        }
+        @media (max-width: 639px) {
+            .magnet-wrap {
+                width: min(62vw, 270px);
+                bottom: auto;
+                top: 50%;
+                translate: 0 -50%;
             }
+            .hero-tagline { max-width: 150px; }
+        }
+
+        /* ── Buttons ────────────────────────────────────── */
+        .btn-primary {
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: #FFFFFF;
+            border-radius: 999px;
+            background: linear-gradient(123deg, #17351F 7%, #4D784E 37%, #6EA171 72%, #A9BC2F 100%);
+            box-shadow: 0 4px 4px rgba(77, 120, 78, 0.25), 4px 4px 12px rgba(23, 53, 31, 0.55) inset;
+            outline: 2px solid rgba(255, 255, 255, 0.85);
+            outline-offset: -3px;
+            padding: clamp(0.75rem, 1.4vw, 1rem) clamp(2rem, 3.5vw, 3rem);
+            font-size: clamp(0.72rem, 1.1vw, 1rem);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            white-space: nowrap;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 26px rgba(77, 120, 78, 0.45), 4px 4px 12px rgba(23, 53, 31, 0.55) inset;
+        }
+
+        .btn-ghost {
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--ink);
+            background: transparent;
+            border: 2px solid var(--ink);
+            border-radius: 999px;
+            padding: 0.75rem 2rem;
+            font-size: clamp(0.72rem, 1vw, 0.95rem);
+            transition: background 0.25s ease, color 0.25s ease;
+            white-space: nowrap;
+        }
+        .btn-ghost:hover { background: rgba(23, 33, 26, 0.08); }
+
+        /* ── Stats strip ────────────────────────────────── */
+        .stats-strip {
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            background: var(--surface);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+        .stat {
+            padding: clamp(1.5rem, 3vw, 2.5rem) 1rem;
+            text-align: center;
+        }
+        .stat + .stat { border-left: 1px solid var(--line); }
+        .stat-label {
+            font-size: clamp(0.6rem, 1vw, 0.8rem);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--ink-faint);
+            margin-bottom: 0.35rem;
+        }
+        .stat-value {
+            font-size: clamp(1.1rem, 2.6vw, 2.2rem);
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            color: var(--green-deep);
+            line-height: 1.1;
+        }
+        @media (max-width: 639px) {
+            .stats-strip { grid-template-columns: 1fr 1fr; }
+            .stat:nth-child(3) { border-left: none; }
+            .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+        }
+
+        /* ── Marquee ────────────────────────────────────── */
+        .marquee-section {
+            padding: clamp(6rem, 10vw, 10rem) 0 2.5rem;
+            overflow: hidden;
+        }
+        .marquee-row {
+            display: flex;
+            gap: 0.75rem;
+            width: max-content;
+            will-change: transform;
+        }
+        .marquee-row + .marquee-row { margin-top: 0.75rem; }
+        .tile {
+            flex: 0 0 auto;
+            width: clamp(230px, 28vw, 420px);
+            height: clamp(150px, 18vw, 270px);
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tile img { width: 100%; height: 100%; object-fit: cover; }
+        .tile-img { background: var(--surface); border: 1px solid var(--line); }
+        .tile-img.contain img { object-fit: contain; padding: 8%; }
+        .tile-text {
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            font-size: clamp(1.3rem, 2.6vw, 2.4rem);
+            line-height: 1.05;
+            text-align: center;
+            padding: 1rem 1.5rem;
+        }
+        .t-dark { background: var(--dark); color: #EDF3E3; }
+        .t-yellow { background: var(--yellow); color: var(--ink); }
+        .t-green { background: var(--green); color: #F3F5EC; }
+        .t-light { background: var(--surface); border: 1px solid var(--line); color: var(--green-deep); }
+
+        /* ── About ──────────────────────────────────────── */
+        .about-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 5rem clamp(1.25rem, 4vw, 2.5rem);
+            text-align: center;
+        }
+        @media (max-width: 639px) {
+            .about-section {
+                min-height: auto;
+                padding: 4.5rem 1.25rem 3rem;
+            }
+        }
+        .about-deco {
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .about-deco img { width: 100%; }
+        .deco-tl { top: 4%; left: clamp(1%, 4vw, 4%); width: clamp(90px, 14vw, 190px); }
+        .deco-tr { top: 4%; right: clamp(1%, 4vw, 4%); width: clamp(90px, 14vw, 190px); }
+        .deco-bl { bottom: 8%; left: clamp(3%, 8vw, 10%); width: clamp(85px, 12vw, 165px); }
+        .deco-br { bottom: 8%; right: clamp(3%, 8vw, 10%); }
+        @media (max-width: 639px) {
+            .deco-tl, .deco-tr { width: 58px; top: 1rem; }
+            .deco-bl, .deco-br { display: none; }
+        }
+        .deco-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 1.25rem;
+            overflow: hidden;
+        }
+        .deco-round { border-radius: 50%; overflow: hidden; box-shadow: 0 12px 34px rgba(36, 54, 31, 0.18); }
+        .cc-coin {
+            width: clamp(90px, 11vw, 150px);
+            height: clamp(90px, 11vw, 150px);
+            border-radius: 50%;
+            background: var(--yellow);
+            border: 2px solid var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: clamp(1.6rem, 3vw, 2.6rem);
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            box-shadow: 0 12px 34px rgba(178, 196, 44, 0.4);
+        }
+        .about-body {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(2.5rem, 5vw, 4rem);
+        }
+        .about-text {
+            font-size: clamp(1rem, 2vw, 1.35rem);
+            font-weight: 500;
+            line-height: 1.7;
+            max-width: 620px;
+        }
+        .about-text .ch { opacity: 0.15; }
+        .about-text .word { display: inline-block; white-space: nowrap; }
+        .about-cta { margin-top: clamp(1.5rem, 4vw, 3rem); }
+
+        /* ── Why section ────────────────────────────────── */
+        .why-section {
+            padding: clamp(5rem, 9vw, 8rem) clamp(1.25rem, 4vw, 2.5rem);
+            text-align: center;
+        }
+        .why-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 1.25rem;
+        }
+        .why-heading {
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            font-size: clamp(2rem, 6vw, 4.5rem);
+        }
+        .why-heading .accent {
+            background: linear-gradient(123deg, #4D784E 0%, #A9BC2F 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+        .why-desc {
+            font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+            font-weight: 300;
+            color: var(--ink-soft);
+            max-width: 720px;
+            margin: 2rem auto 3.5rem;
+            line-height: 1.8;
+        }
+        .why-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 1100px;
+            margin: 0 auto 3.5rem;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .why-stat { padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 2.5vw, 2rem); }
+        .why-stat + .why-stat { border-left: 1px solid var(--line); }
+        .why-stat-number {
+            font-size: clamp(1.8rem, 3.6vw, 3rem);
+            font-weight: 900;
+            color: var(--green-deep);
+            line-height: 1.1;
+            margin-bottom: 0.6rem;
+        }
+        .why-stat-label {
+            font-size: clamp(0.85rem, 1.3vw, 1rem);
+            font-weight: 300;
+            color: var(--ink-soft);
+            line-height: 1.6;
+        }
+        .why-mission {
+            display: inline-block;
+            font-size: clamp(0.75rem, 1.2vw, 0.95rem);
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--green-deep);
+            border: 1px solid rgba(77, 120, 78, 0.4);
+            background: rgba(212, 225, 87, 0.18);
+            border-radius: 999px;
+            padding: 1rem 2.5rem;
+            line-height: 1.6;
+        }
+        @media (max-width: 700px) {
+            .why-stats { grid-template-columns: 1fr; }
+            .why-stat + .why-stat { border-left: none; border-top: 1px solid var(--line); }
+            .why-mission { padding: 0.9rem 1.4rem; }
+        }
+
+        /* ── Services (dark panel) ──────────────────────── */
+        .services-section {
+            background: var(--dark);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            padding: clamp(5rem, 9vw, 8rem) clamp(1.25rem, 4vw, 2.5rem) clamp(8rem, 12vw, 11rem);
+            position: relative;
+        }
+        .services-intro {
+            max-width: 760px;
+            margin: 1.75rem auto 0;
+            text-align: center;
+            font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+            font-weight: 300;
+            color: rgba(243, 245, 236, 0.65);
+            line-height: 1.8;
+        }
+        .services-list {
+            max-width: 1024px;
+            margin: clamp(3.5rem, 7vw, 6rem) auto 0;
+        }
+        .service-item {
+            display: flex;
+            align-items: flex-start;
+            gap: clamp(1.25rem, 4vw, 3.5rem);
+            padding: clamp(1.75rem, 4vw, 3rem) 0;
+            border-bottom: 1px solid var(--dark-line);
+        }
+        .service-item:first-child { border-top: 1px solid var(--dark-line); }
+        .service-num {
+            font-size: clamp(2.6rem, 9vw, 120px);
+            font-weight: 900;
+            line-height: 0.9;
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(212, 225, 87, 0.75);
+            flex: 0 0 auto;
+            min-width: clamp(4.2rem, 12vw, 11rem);
+        }
+        .service-info { padding-top: clamp(0.2rem, 1vw, 0.8rem); }
+        .service-name {
+            font-size: clamp(1rem, 2.2vw, 2rem);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #EDF3E3;
+            line-height: 1.2;
+        }
+        .service-desc {
+            margin-top: 0.6rem;
+            font-size: clamp(0.85rem, 1.5vw, 1.2rem);
+            font-weight: 300;
+            line-height: 1.7;
+            color: rgba(243, 245, 236, 0.6);
+            max-width: 42rem;
+        }
+
+        /* ── Projects (sticky stack) ────────────────────── */
+        .projects-section {
+            background: var(--bg);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            margin-top: calc(-1 * clamp(2.5rem, 5vw, 3.5rem));
+            position: relative;
+            z-index: 10;
+            padding: clamp(5rem, 9vw, 8rem) clamp(1rem, 4vw, 2.5rem) clamp(4rem, 8vw, 7rem);
+        }
+        .projects-intro {
+            max-width: 720px;
+            margin: 1.75rem auto 0;
+            text-align: center;
+            font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+            font-weight: 300;
+            color: var(--ink-soft);
+            line-height: 1.8;
+        }
+        .cards-stack {
+            max-width: 1200px;
+            margin: clamp(3rem, 6vw, 5rem) auto 0;
+        }
+        .card-wrap { height: 88vh; }
+        .project-card {
+            position: sticky;
+            top: 90px;
+            background: var(--surface);
+            border: 2px solid var(--ink);
+            border-radius: clamp(28px, 4vw, 60px);
+            padding: clamp(1rem, 2.5vw, 2rem);
+            will-change: transform;
+            transform-origin: center top;
+            box-shadow: 0 24px 70px rgba(23, 33, 26, 0.12);
+        }
+        .card-head {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.9rem, 2.5vw, 2rem);
+            flex-wrap: wrap;
+            padding: clamp(0.25rem, 1vw, 0.75rem) clamp(0.5rem, 1.5vw, 1.25rem) clamp(1rem, 2vw, 1.5rem);
+        }
+        .card-num {
+            font-size: clamp(2.6rem, 8vw, 110px);
+            font-weight: 900;
+            line-height: 0.9;
+            color: var(--green-deep);
+        }
+        .card-meta { flex: 1 1 auto; min-width: 150px; }
+        .card-cat {
+            font-size: clamp(0.6rem, 1vw, 0.8rem);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--green);
+        }
+        .card-name {
+            font-size: clamp(1.3rem, 3.2vw, 2.6rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            line-height: 1.1;
+        }
+        .card-media {
+            height: clamp(240px, 46vh, 460px);
+            border-radius: clamp(20px, 3vw, 44px);
+            overflow: hidden;
+            background: var(--bg);
+            border: 1px solid var(--line);
+        }
+        .card-media img, .card-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card-media video {
+            object-fit: contain;
+            background: #000;
+        }
+        .news-media {
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.9rem;
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .news-media .nm-title {
+            font-size: clamp(1.6rem, 4.5vw, 3.6rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            line-height: 1;
+            color: #EDF3E3;
+        }
+        .news-media .nm-sub {
+            font-size: clamp(0.8rem, 1.4vw, 1.05rem);
+            font-weight: 300;
+            color: rgba(243, 245, 236, 0.6);
+            max-width: 420px;
+            line-height: 1.6;
+        }
+
+        /* ── Contact ────────────────────────────────────── */
+        .contact-section {
+            padding: clamp(5rem, 9vw, 8rem) clamp(1.25rem, 4vw, 2.5rem);
+            text-align: center;
+        }
+        .contact-desc {
+            max-width: 640px;
+            margin: 1.75rem auto 3.5rem;
+            font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+            font-weight: 300;
+            color: var(--ink-soft);
+            line-height: 1.8;
+        }
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            max-width: 1100px;
+            margin: 0 auto 3rem;
+        }
+        .contact-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 1.5rem;
+            padding: 2rem 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            text-align: left;
+        }
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(77, 120, 78, 0.5);
+            box-shadow: 0 18px 44px rgba(36, 54, 31, 0.12);
+        }
+        .contact-card-icon { margin-bottom: 1rem; }
+        .contact-card h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--green-deep);
+            margin-bottom: 0.4rem;
+        }
+        .contact-card p {
+            font-size: 0.92rem;
+            font-weight: 300;
+            color: var(--ink-soft);
+            line-height: 1.6;
+        }
+        .calendly-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--surface);
+            border: 2px solid var(--ink);
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 24px 70px rgba(23, 33, 26, 0.1);
+        }
+        .calendly-inline-widget { min-width: 320px; height: 700px; }
+        @media (max-width: 900px) {
+            .contact-cards { grid-template-columns: 1fr; }
+            .calendly-inline-widget { height: 900px; }
+        }
+
+        /* ── Community ──────────────────────────────────── */
+        .community-section {
+            padding: clamp(5rem, 9vw, 8rem) clamp(1.25rem, 4vw, 2.5rem);
+            text-align: center;
+        }
+        .community-desc {
+            max-width: 680px;
+            margin: 1.75rem auto 3rem;
+            font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+            font-weight: 300;
+            color: var(--ink-soft);
+            line-height: 1.8;
+        }
+        .community-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        .social-button {
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-size: clamp(0.72rem, 1vw, 0.9rem);
+            color: var(--ink);
+            border: 2px solid var(--ink);
+            border-radius: 999px;
+            padding: 0.85rem 2rem;
+            transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .social-button:hover {
+            background: var(--yellow);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(178, 196, 44, 0.45);
+        }
+        .official-links-wrapper {
+            max-width: 760px;
+            margin: 0 auto;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 1.75rem;
+            padding: 2.25rem 1.5rem;
+        }
+        .official-links-wrapper h3 {
+            font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--green-deep);
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 700px) {
+            .community-buttons { flex-direction: column; align-items: center; }
+            .social-button { width: 100%; max-width: 420px; text-align: center; }
+        }
+
+        /* ── Footer ─────────────────────────────────────── */
+        footer {
+            background: var(--dark);
+            color: rgba(243, 245, 236, 0.65);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            padding: clamp(3.5rem, 7vw, 6rem) 5% 3rem;
+            text-align: center;
+        }
+        .footer-links, .footer-socials {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem 2.25rem;
+            margin-bottom: 2.25rem;
+        }
+        .footer-links a {
+            color: rgba(243, 245, 236, 0.65);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: color 0.25s ease;
+        }
+        .footer-links a:hover { color: var(--yellow); }
+        .footer-socials a {
+            color: rgba(243, 245, 236, 0.75);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: 1px solid var(--dark-line);
+            border-radius: 999px;
+            padding: 0.45rem 1.2rem;
+            transition: border-color 0.25s ease, color 0.25s ease;
+        }
+        .footer-socials a:hover { border-color: var(--yellow); color: var(--yellow); }
+        .footer-brand {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: #EDF3E3;
+            margin-bottom: 2rem;
+        }
+        .disclaimer {
+            background: rgba(243, 245, 236, 0.05);
+            border: 1px solid var(--dark-line);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            max-width: 860px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .disclaimer h4 {
+            color: var(--yellow);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            margin-bottom: 0.9rem;
+        }
+        .disclaimer p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.7;
+            color: rgba(243, 245, 236, 0.6);
+        }
+        .footer-note {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: rgba(243, 245, 236, 0.45);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            [data-fade] { opacity: 1; transform: none; transition: none; }
+            .about-text .ch { opacity: 1; }
+            html { scroll-behavior: auto; }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-    <div class="logo">CANTON ARMY</div>
-    <button class="hamburger" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    <ul class="nav-links" id="navMenu">
-        <li><a href="#about" onclick="toggleMenu()">ABOUT</a></li>
-        <li><a href="#mission" onclick="toggleMenu()">MISSION</a></li>
-        <li><a href="#features" onclick="toggleMenu()">FEATURES</a></li>
-        <li><a href="#battle" onclick="toggleMenu()">BATTLE GAME</a></li>
-        <li><a href="#battlefront" onclick="toggleMenu()">BATTLEFRONT</a></li>
-        <li><a href="#why">Why Us</a></li>
-        <li><a href="#services" onclick="toggleMenu()">SERVICES</a></li>
-        <li><a href="#contact" onclick="toggleMenu()">CONTACT US</a></li>
-        <li><a href="#community" onclick="toggleMenu()">COMMUNITY</a></li>
-    </ul>
-</nav>
+<main>
 
-    <!-- Canton News Banner -->
-    <div class="news-banner">
-        <div class="news-banner-inner">
-            <span class="news-banner-tag">◆ INTEL</span>
-            <span class="news-banner-sep">//</span>
-            <span class="news-banner-text">
-                <span class="banner-text-full">Your <strong>best source</strong> for everything Canton Network — news, analysis &amp; ecosystem updates</span>
-                <span class="banner-text-short"><strong>Canton Network</strong> news &amp; updates</span>
-            </span>
-            <span class="news-banner-sep">//</span>
-            <a href="https://cantonnews.org" target="_blank" rel="noopener noreferrer" class="news-banner-link">
-                CANTONNEWS.ORG <span class="banner-arrow">→</span>
-            </a>
-        </div>
-        <div class="news-banner-live">
-            <span class="live-dot"></span>
-            LIVE
-        </div>
+    <!-- Canton News strip -->
+    <div class="news-strip">
+        <span class="news-text">
+            <span class="news-text-full">Your <strong>best source</strong> for everything Canton Network — news, analysis &amp; ecosystem updates</span>
+            <span class="news-text-short"><strong>Canton Network</strong> news &amp; updates</span>
+        </span>
+        <a href="https://cantonnews.org" target="_blank" rel="noopener noreferrer" class="news-link">Cantonnews.org →</a>
     </div>
 
-    <!-- Hero Section -->
+    <!-- 1. HERO -->
     <section class="hero">
-        <div class="particles" id="particles"></div>
-        <div class="hero-content">
-            <div class="logo-container">
-                <img src="cn-favicon-05 1-1.webp" alt="Canton Network Logo" class="canton-logo">
-            </div>
-            <div class="hero-subtitle">Community-Powered Movement</div>
-            <h1>
-                CANTON<br>
-                <span class="highlight">ARMY</span>
-            </h1>
-            <p class="hero-description">
-                An independent fan community supporting Canton Network. Building awareness, sharing knowledge, and growing the movement for privacy-first institutional blockchain.
-            </p>
-            <button class="cta-button" onclick="window.location.href='cantonbattle/'" >PLAY CANTON BATTLE</button>
+        <nav class="hero-nav" data-fade style="--fy:-20px; --fd:0s;">
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#projects">Projects</a>
+            <a href="#community">Community</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="hero-title-wrap">
+            <h1 class="hero-title hero-heading" data-fade style="--fy:40px; --fd:0.15s;">Canton&nbsp;Army</h1>
         </div>
-        <div class="hero-credits">COMMUNITY HUB / 2025</div>
-        <div class="hero-location">WORLDWIDE</div>
+
+        <div class="hero-bottom">
+            <p class="hero-tagline" data-fade style="--fy:20px; --fd:0.35s;">
+                An independent community powering the <strong>Canton Network</strong> movement
+            </p>
+            <div data-fade style="--fy:20px; --fd:0.5s;">
+                <a href="#contact" class="btn-primary">Work With Us</a>
+            </div>
+        </div>
+
+        <div class="magnet-wrap" data-fade style="--fy:30px; --fd:0.6s;">
+            <div class="magnet-inner" id="magnet">
+                <img src="army.png" alt="Canton Army soldier holding the C shield" class="hero-portrait">
+            </div>
+        </div>
     </section>
 
-    <!-- Stats Section -->
-<section class="stats-section">
-    <div class="stats-grid">
-        <div class="stat-card">
+    <!-- Live stats strip -->
+    <section class="stats-strip" aria-label="Canton Coin live stats">
+        <div class="stat" data-fade style="--fd:0s;">
             <div class="stat-label">Community Members</div>
             <div class="stat-value">110,000+</div>
         </div>
-        <div class="stat-card">
+        <div class="stat" data-fade style="--fd:0.1s;">
             <div class="stat-label">$CC Price</div>
             <div class="stat-value" id="cc-price">Loading...</div>
         </div>
-        <div class="stat-card">
+        <div class="stat" data-fade style="--fd:0.2s;">
             <div class="stat-label">Market Cap</div>
             <div class="stat-value" id="market-cap">Loading...</div>
         </div>
-        <div class="stat-card">
+        <div class="stat" data-fade style="--fd:0.3s;">
             <div class="stat-label">Volume (24H)</div>
             <div class="stat-value" id="volume-24h">Loading...</div>
         </div>
-    </div>
-</section>
+    </section>
 
-    <!-- About Section -->
-    <section class="content-section section-light" id="about">
-        <div class="content-wrapper">
-            <h2 class="section-title">MISSION<br>DRIVEN</h2>
-            <div class="section-content">
-                <div class="content-text">
-                    <h3>Independent Community Support</h3>
-                    <p>Canton Army is an unofficial, grassroots community dedicated to supporting and promoting Canton Network. We're passionate advocates who believe in the power of privacy-first blockchain technology.</p>
-                    <p>Our mission is to educate, engage, and grow the Canton ecosystem through community-driven content, discussions, and outreach. We're not affiliated with the official project, but we're committed to its success.</p>
-                </div>
-                <img src="army.png" alt="Canton Army" class="army-hero-img">
+    <!-- 2. MARQUEE -->
+    <section class="marquee-section" id="marquee">
+        <div class="marquee-row" id="marquee-row-1">
+            <div class="tile tile-img contain"><img src="army.png" alt="Canton Army soldier" loading="lazy"></div>
+            <div class="tile tile-text t-dark">Privacy<br>First</div>
+            <div class="tile tile-img"><img src="battlefront/Canton-Army-vs-Bears-keyart.png" alt="Canton Army vs Bears battlefield" loading="lazy"></div>
+            <div class="tile tile-text t-yellow">CantonArmy</div>
+            <div class="tile tile-img contain"><img src="flag.png" alt="Canton Army flag bearer" loading="lazy"></div>
+            <div class="tile tile-text t-green">110K+<br>Strong</div>
+            <div class="tile tile-img contain"><img src="cn-favicon-05 1-1.webp" alt="Canton Network logo" loading="lazy"></div>
+            <div class="tile tile-text t-light">Community<br>Powered</div>
+        </div>
+        <div class="marquee-row" id="marquee-row-2">
+            <div class="tile tile-text t-green">Canton<br>Network</div>
+            <div class="tile tile-img contain"><img src="battlefront/Canton-Army-vs-Bears-emblem.png" alt="Canton Army vs Bears emblem" loading="lazy"></div>
+            <div class="tile tile-text t-yellow">Join The<br>Movement</div>
+            <div class="tile tile-img contain"><img src="flag.png" alt="Canton Army flag bearer" loading="lazy"></div>
+            <div class="tile tile-text t-dark">CC ▸ Canton<br>Coin</div>
+            <div class="tile tile-img contain"><img src="army.png" alt="Canton Army soldier" loading="lazy"></div>
+            <div class="tile tile-text t-light">Built<br>Different</div>
+            <div class="tile tile-img"><img src="battlefront/Canton-Army-vs-Bears-keyart.png" alt="Canton Army vs Bears battlefield" loading="lazy"></div>
+        </div>
+    </section>
+
+    <!-- 3. ABOUT -->
+    <section class="about-section" id="about">
+        <div class="about-deco deco-tl deco-round">
+            <img src="cantonarmy.jpg" alt="Canton Army logo" loading="lazy">
+        </div>
+        <div class="about-deco deco-tr deco-round">
+            <img src="battlefront/Canton-Army-vs-Bears-emblem.png" alt="Canton Army vs Bears emblem" loading="lazy">
+        </div>
+        <div class="about-deco deco-bl deco-card">
+            <img src="flag.png" alt="Canton Army flag bearer" loading="lazy">
+        </div>
+        <div class="about-deco deco-br">
+            <div class="cc-coin">$CC</div>
+        </div>
+
+        <div class="about-body">
+            <h2 class="section-heading hero-heading" data-fade style="--fy:40px;">About Us</h2>
+            <p class="about-text" id="about-text">Canton Army is an independent, community-powered movement supporting Canton Network — the privacy-first blockchain built for institutions. We educate, we amplify, and we grow the ecosystem from the ground up. Join the Army and help build what's next!</p>
+            <div class="about-cta" data-fade style="--fy:20px;">
+                <a href="#community" class="btn-primary">Join The Army</a>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="content-section section-dark" id="features">
-        <div class="content-wrapper">
-            <h2 class="section-title">CORE<br>VALUES</h2>
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <div class="feature-number">01</div>
-                    <h4>Community First</h4>
-                    <p>Built by the community, for the community. Every voice matters in shaping our direction and initiatives.</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-number">02</div>
-                    <h4>Educational Focus</h4>
-                    <p>Sharing knowledge about Canton Network's technology, use cases, and impact on institutional blockchain.</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-number">03</div>
-                    <h4>Transparent Operations</h4>
-                    <p>Open communication about our activities, goals, and relationship with the official Canton Network project.</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-number">04</div>
-                    <h4>Global Reach</h4>
-                    <p>Building a worldwide network of supporters and advocates for privacy-focused blockchain technology.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Mission Section -->
-    <section class="content-section section-light" id="mission">
-        <div class="content-wrapper">
-            <h2 class="section-title">PRIVACY<br>MATTERS</h2>
-            <div class="section-content">
-                <img src="flag.png" alt="Canton Army" class="army-hero-img">
-                <div class="content-text">
-                    <h3>Supporting Next-Gen Blockchain</h3>
-                    <p>Canton Network represents a breakthrough in institutional blockchain - combining privacy, security, and interoperability in ways never seen before. We believe this technology will reshape how financial institutions interact.</p>
-                    <p>As an independent community, we're dedicated to spreading awareness about Canton's unique approach to privacy-preserving smart contracts and synchronized data sharing across decentralized networks.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Battle Game Section -->
-    <section class="content-section section-dark" id="battle">
-        <div class="content-wrapper">
-            <h2 class="section-title">CANTON ARMY<br>BATTLE</h2>
-            <div class="section-content">
-                <div class="content-text">
-                    <h3>Test Your Skills in Canton Battle Royale</h3>
-                    <p>Think you have what it takes to be a true Canton Army soldier? Jump into our exclusive Canton Battle game and prove your reflexes, strategy, and endurance!</p>
-                    <p>Defend the base, destroy enemy targets, avoid poison traps, and climb the leaderboard. Only the strongest survive!</p>
-                    <ul class="degen-list" style="list-style: none; margin-top: 2rem;">
-                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">Fast-paced action gameplay</li>
-                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">Multiple target types and challenges</li>
-                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">Combo system for high scores</li>
-                        <li style="padding: 1rem 0; border-bottom: 1px solid rgba(212, 225, 87, 0.2);">Progressive difficulty levels</li>
-                    </ul>
-                    <button class="cta-button" style="margin-top: 2rem; padding: 1.2rem 3rem; font-size: 1.1rem;" onclick="window.location.href='cantonbattle/'">PLAY NOW</button>
-                </div>
-                <div class="battle-preview" style="width: 100%; max-height: 500px; border-radius: 20px; border: 2px solid var(--primary-yellow); overflow: hidden; box-shadow: 0 20px 60px rgba(212, 225, 87, 0.3);">
-                    <video
-                        src="gameplayy.mp4"
-                        autoplay
-                        muted
-                        loop
-                        playsinline
-                        style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 20px;"
-                    >
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Battlefront Section -->
-    <section class="content-section section-light" id="battlefront">
-        <div class="content-wrapper">
-            <h2 class="section-title">CANTON ARMY<br>VS BEARS</h2>
-            <div class="section-content">
-                <div class="content-text">
-                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                        <img src="battlefront/Canton-Army-vs-Bears-emblem.png" alt="Canton Army vs Bears emblem" style="width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--primary-yellow); box-shadow: 0 0 20px rgba(212, 225, 87, 0.4);">
-                        <span style="font-family: 'Orbitron', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; color: var(--primary-green); text-transform: uppercase; border: 1px solid var(--primary-green); border-radius: 50px; padding: 0.4rem 1rem;">Live 3D Battlefield</span>
-                    </div>
-                    <h3>The Battlefront, Rendered in Real Time</h3>
-                    <p>Watch the Canton Army clash with the bears on a living 3D battlefield driven entirely by the live CC/USD price. Every tick of Canton Coin pushes the front line — green candles rally the troops, red candles summon the bears.</p>
-                    <p>Drop into live chat, fire off reactions, and watch the war shift in real time as the market moves.</p>
-                    <button class="cta-button" style="margin-top: 1rem; padding: 1.2rem 3rem; font-size: 1.1rem;" onclick="window.location.href='battlefront/'">ENTER THE BATTLEFRONT</button>
-                </div>
-                <div class="battlefront-preview" style="width: 100%; max-height: 500px; border-radius: 20px; border: 2px solid var(--primary-yellow); overflow: hidden; box-shadow: 0 20px 60px rgba(212, 225, 87, 0.3); cursor: pointer;" onclick="window.location.href='battlefront/'">
-                    <img src="battlefront/Canton-Army-vs-Bears-keyart.png" alt="Canton Army vs Bears — live CC/USD 3D battlefield" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Work With Us Section -->
-<section class="why-section" id="why">
-    <div class="why-inner">
-        <div class="why-label">Why Work With Us</div>
-        <h2 class="section-title" style="margin-bottom: 1.5rem;">
-            CANTON-EXCLUSIVE.<br>
-            <span style="background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--primary-green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">NOTHING ELSE.</span>
-        </h2>
-        <p class="why-desc">
+    <!-- 4. WHY US -->
+    <section class="why-section" id="why">
+        <div class="why-label" data-fade>Why Work With Us</div>
+        <h2 class="why-heading" data-fade style="--fd:0.1s;">Canton-Exclusive.<br><span class="accent">Nothing Else.</span></h2>
+        <p class="why-desc" data-fade style="--fd:0.2s;">
             Canton Army is a community platform dedicated exclusively to the Canton ecosystem.
             We do not cover multiple chains or generic Web3 topics —
             everything we do is focused on Canton Network and the projects building within it.
         </p>
-
         <div class="why-stats">
-            <div class="why-stat">
-                <div class="why-stat-number">12,000+</div>
+            <div class="why-stat" data-fade style="--fd:0s;">
+                <div class="why-stat-number">20,000+</div>
                 <div class="why-stat-label">X followers actively following and using Canton Network applications</div>
             </div>
-            <div class="why-stat">
+            <div class="why-stat" data-fade style="--fd:0.1s;">
                 <div class="why-stat-number">Alpha</div>
                 <div class="why-stat-label">Dedicated Telegram group for ecosystem discussion, insights, and project discovery</div>
             </div>
-            <div class="why-stat">
+            <div class="why-stat" data-fade style="--fd:0.2s;">
                 <div class="why-stat-number">Direct</div>
                 <div class="why-stat-label">Strong relationships with founders and teams building on Canton</div>
             </div>
         </div>
-
-        <div class="why-mission">
+        <div class="why-mission" data-fade style="--fd:0.3s;">
             Our mission is simple: grow the Canton ecosystem, increase awareness, and help projects succeed.
         </div>
-    </div>
-</section>
+    </section>
 
-    <!-- Services Section -->
+    <!-- 5. SERVICES -->
     <section class="services-section" id="services">
-        <div style="max-width: 1400px; margin: 0 auto;">
-            <h2 class="section-title" style="text-align:center; margin-bottom: 1.5rem;">OUR<br>SERVICES</h2>
-            <div class="services-intro">
-                <p>Canton Army is a community-driven growth platform focused entirely on the Canton ecosystem.</p>
-                <p>We help projects increase visibility, activate users, and build long-term presence within Canton.</p>
+        <h2 class="section-heading dark-heading" data-fade style="--fy:40px;">Services</h2>
+        <p class="services-intro" data-fade style="--fd:0.15s;">
+            Canton Army is a community-driven growth platform focused entirely on the Canton ecosystem.
+            We help projects increase visibility, activate users, and build long-term presence within Canton.
+        </p>
+
+        <div class="services-list">
+            <div class="service-item" data-fade style="--fd:0s;">
+                <div class="service-num">01</div>
+                <div class="service-info">
+                    <div class="service-name">Social Media Management</div>
+                    <p class="service-desc">Structured content planning, publishing, and narrative positioning that keeps your project visible across the Canton ecosystem — with analytics to prove it.</p>
+                </div>
             </div>
-
-            <div class="services-grid">
-
-    <!-- Social Media Management -->
-    <div class="service-card">
-        <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H4z"/><path d="M8 20h8"/><path d="M12 16v4"/></svg></span>
-        <h3>Social Media Management</h3>
-        <p class="service-desc">Structured social media execution designed to build awareness, maintain visibility, and support ecosystem growth.</p>
-        <ul class="service-bullets">
-            <li>Content planning and strategy</li>
-            <li>Social account management</li>
-            <li>Content creation and publishing</li>
-            <li>Announcement and update distribution</li>
-            <li>Community interaction and engagement</li>
-            <li>Campaign amplification and coordination</li>
-            <li>Performance analytics and reporting</li>
-            <li>Narrative and brand positioning</li>
-        </ul>
-        <span class="service-tag">Sustained Digital Visibility</span>
-    </div>
-
-    <!-- Community Management -->
-    <div class="service-card">
-        <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
-        <h3>Community Management</h3>
-        <p class="service-desc">Full-service Telegram and Discord community operations with experienced moderators and 1 dedicated Community Manager.</p>
-        <ul class="service-bullets">
-            <li>Telegram &amp; Discord setup and structuring</li>
-            <li>1 Dedicated Community Manager</li>
-            <li>24/7 moderation coverage</li>
-            <li>Bot setup &amp; automation</li>
-            <li>Security and role configuration</li>
-            <li>Announcement and update management</li>
-            <li>Event coordination</li>
-            <li>Ongoing community engagement</li>
-            <li>Community growth strategy</li>
-            <li>Dedicated support</li>
-        </ul>
-        <span class="service-tag">Round-the-Clock Ops</span>
-    </div>
-
-    <!-- Campaign Strategy -->
-    <div class="service-card">
-        <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-        <h3>Campaign Strategy</h3>
-        <p class="service-desc">Strategic planning and execution support for growth campaigns, product launches, and ecosystem activations.</p>
-        <ul class="service-bullets">
-            <li>Campaign concept development</li>
-            <li>Incentive and reward structure design</li>
-            <li>Product launch campaign planning</li>
-            <li>Community activation strategies</li>
-            <li>Giveaway and engagement campaign design</li>
-            <li>Partner and ecosystem collaboration campaigns</li>
-            <li>Campaign performance analysis and optimization</li>
-        </ul>
-        <span class="service-tag">Growth Campaigns That Deliver</span>
-    </div>
-
-    <!-- Ambassador Programs -->
-    <div class="service-card">
-        <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
-        <h3>Ambassador Programs</h3>
-        <p class="service-desc">Building and managing ambassador communities to expand reach, increase visibility, and drive organic engagement.</p>
-        <ul class="service-bullets">
-            <li>Ambassador recruitment and onboarding</li>
-            <li>Program structure and incentive design</li>
-            <li>Ambassador content guidance</li>
-            <li>Performance tracking and reporting</li>
-            <li>Community-led promotion initiatives</li>
-            <li>Ongoing ambassador coordination and support</li>
-        </ul>
-        <span class="service-tag">Community Powered Growth</span>
-    </div>
-
-    <!-- X Spaces & Livestreams -->
-    <div class="service-card">
-        <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></span>
-        <h3>X Spaces &amp; Livestreams</h3>
-        <ul class="service-bullets">
-            <li>Fully hosted X Spaces</li>
-            <li>Livestream sessions</li>
-            <li>Two speakers per session</li>
-            <li>Structured discussion format</li>
-            <li>Promotion across Canton Army channels</li>
-            <li>Guest coordination and scheduling</li>
-            <li>Topic preparation and moderation</li>
-            <li>Community Q&amp;A segments</li>
-        </ul>
-        <span class="service-tag">Deep Dives &amp; Updates</span>
-    </div>
-
-    <!-- Ecosystem Introductions -->
-    <div class="service-card">
-        <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.77.77L12 21l7.65-7.65.77-.77a5.4 5.4 0 0 0 0-7.65z"/></svg></span>
-        <h3>Ecosystem Introductions</h3>
-        <ul class="service-bullets">
-            <li>Strategic introductions</li>
-            <li>Co-marketing coordination</li>
-            <li>Cross-community collaborations</li>
-            <li>Multi-project Spaces</li>
-            <li>Partner matchmaking within the Canton ecosystem</li>
-            <li>Collaboration campaign support</li>
-            <li>Ecosystem networking opportunities</li>
-            <li>Builder and founder connections</li>
-        </ul>
-        <span class="service-tag">Deeper Canton Integration</span>
-    </div>
-
-    <!-- Telegram Alpha -->
-<div class="service-card">
-    <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 16-7z"/></svg></span>
-    <h3>Telegram Alpha Group Access</h3>
-    <p class="service-desc">Direct exposure to our curated Canton-native Telegram Alpha community.</p>
-    <ul class="service-bullets">
-        <li>Alpha announcements</li>
-        <li>Early access distribution</li>
-        <li>Beta code drops</li>
-        <li>Exclusive updates</li>
-        <li>Targeted campaign visibility</li>
-    </ul>
-    <span class="service-tag">High-intent Canton members</span>
-</div>
-
-<!-- Battle Campaigns -->
-<div class="service-card">
-    <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m-2-2v4"/><circle cx="16" cy="11" r="1" fill="#D4E157"/><circle cx="18" cy="13" r="1" fill="#D4E157"/></svg></span>
-    <h3>Canton Army Battle Campaigns</h3>
-    <p class="service-desc">Leverage our native game infrastructure for high-engagement campaigns.</p>
-    <ul class="service-bullets">
-        <li>Custom game branding for your project</li>
-        <li>Integrated wallet support</li>
-        <li>Special in-game events</li>
-        <li>Campaign-based competitions</li>
-        <li>Reward integration</li>
-        <li>Gamified user activation</li>
-    </ul>
-    <span class="service-tag">Beyond traditional promos</span>
-</div>
-
-</div>
+            <div class="service-item" data-fade style="--fd:0.1s;">
+                <div class="service-num">02</div>
+                <div class="service-info">
+                    <div class="service-name">Community Management</div>
+                    <p class="service-desc">Full Telegram &amp; Discord operations — a dedicated community manager, 24/7 moderation, bot automation, security setup, and ongoing engagement.</p>
+                </div>
+            </div>
+            <div class="service-item" data-fade style="--fd:0.2s;">
+                <div class="service-num">03</div>
+                <div class="service-info">
+                    <div class="service-name">Campaign Strategy</div>
+                    <p class="service-desc">Growth campaigns, product launch planning, incentive design, and ecosystem activations — planned, executed, and optimized end to end.</p>
+                </div>
+            </div>
+            <div class="service-item" data-fade style="--fd:0.3s;">
+                <div class="service-num">04</div>
+                <div class="service-info">
+                    <div class="service-name">Ambassador Programs</div>
+                    <p class="service-desc">Recruiting, structuring, and coordinating ambassador communities that expand reach and drive organic, community-led promotion.</p>
+                </div>
+            </div>
+            <div class="service-item" data-fade style="--fd:0.4s;">
+                <div class="service-num">05</div>
+                <div class="service-info">
+                    <div class="service-name">X Spaces &amp; Livestreams</div>
+                    <p class="service-desc">Fully hosted Spaces and livestream sessions — guest coordination, topic preparation, moderation, Q&amp;A, and promotion across Canton Army channels.</p>
+                </div>
+            </div>
+            <div class="service-item" data-fade style="--fd:0.5s;">
+                <div class="service-num">06</div>
+                <div class="service-info">
+                    <div class="service-name">Ecosystem Introductions</div>
+                    <p class="service-desc">Strategic introductions, co-marketing coordination, partner matchmaking, and direct founder connections deep inside the Canton ecosystem.</p>
+                </div>
+            </div>
+            <div class="service-item" data-fade style="--fd:0.6s;">
+                <div class="service-num">07</div>
+                <div class="service-info">
+                    <div class="service-name">Telegram Alpha Access</div>
+                    <p class="service-desc">Direct exposure to our curated Canton-native alpha community — announcements, early access drops, beta codes, and targeted campaign visibility.</p>
+                </div>
+            </div>
+            <div class="service-item" data-fade style="--fd:0.7s;">
+                <div class="service-num">08</div>
+                <div class="service-info">
+                    <div class="service-name">Battle Campaigns</div>
+                    <p class="service-desc">Gamified activations on our native game infrastructure — custom branding, wallet integration, in-game events, competitions, and reward drops.</p>
+                </div>
+            </div>
         </div>
     </section>
 
+    <!-- 6. PROJECTS -->
+    <section class="projects-section" id="projects">
+        <h2 class="section-heading hero-heading" data-fade style="--fy:40px;">Projects</h2>
+        <p class="projects-intro" data-fade style="--fd:0.15s;">
+            Built by the Army, for the Army — live experiences that turn the Canton community into a battlefield.
+        </p>
 
-    <!-- Contact / Calendly Section -->
-    <section class="contact-section" id="contact">
-        <div class="contact-inner">
-            <div class="contact-subtitle">Work With Us</div>
-            <h2 class="section-title" style="margin-bottom: 1.5rem;">CONTACT<br><span style="background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--primary-green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">US</span></h2>
-            <p class="contact-desc">
-                Ready to grow your project inside the Canton ecosystem? Book a strategy call directly — no middlemen, no forms, no waiting.
-            </p>
-
-            <div class="contact-cards">
-                <div class="contact-card">
-                    <span class="contact-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-                    <h4>Fast Onboarding</h4>
-                    <p>Get started within 24 hours of your call. We move at Canton speed.</p>
-                </div>
-                <div class="contact-card">
-                    <span class="contact-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
-                    <h4>Tailored Strategy</h4>
-                    <p>Every campaign is built around your project's goals, timeline, and audience.</p>
-                </div>
-                <div class="contact-card">
-                    <span class="contact-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D4E157" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-                    <h4>Canton-Native Only</h4>
-                    <p>We work exclusively within the Canton ecosystem — full focus, zero dilution.</p>
-                </div>
-            </div>
-
-            <div class="calendly-wrapper">
-                <div
-                    class="calendly-inline-widget"
-                    data-url="https://calendly.com/cantonarmy/30min?hide_landing_page_details=1&hide_gdpr_banner=1&background_color=1a1a1a&text_color=ffffff&primary_color=d4e157"
-                    style="min-width:320px; height:700px;">
-                </div>
-                <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-
-                <noscript>
-                    <div class="calendly-fallback">
-                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">JavaScript is required to load the booking calendar.</p>
-                        <a href="https://calendly.com/cantonarmy/30min" target="_blank" class="cta-button" style="text-decoration:none; display:inline-block;">
-                            OPEN BOOKING PAGE ↗
-                        </a>
+        <div class="cards-stack">
+            <div class="card-wrap" id="battle">
+                <div class="project-card">
+                    <div class="card-head">
+                        <div class="card-num">01</div>
+                        <div class="card-meta">
+                            <div class="card-cat">Browser Game</div>
+                            <div class="card-name">Canton Battle</div>
+                        </div>
+                        <a href="cantonbattle/" class="btn-ghost">Play Now</a>
                     </div>
-                </noscript>
+                    <div class="card-media">
+                        <video src="gameplayy.mp4" autoplay muted loop playsinline></video>
+                    </div>
+                </div>
             </div>
 
-            <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-secondary);">
-                Can't see the calendar? 
-                <a href="https://calendly.com/cantonarmy/30min" target="_blank" style="color: var(--primary-yellow); text-decoration: none; font-weight: 700;">Open booking page directly ↗</a>
-            </p>
+            <div class="card-wrap" id="battlefront">
+                <div class="project-card">
+                    <div class="card-head">
+                        <div class="card-num">02</div>
+                        <div class="card-meta">
+                            <div class="card-cat">Live 3D Battlefield</div>
+                            <div class="card-name">Battlefront</div>
+                        </div>
+                        <a href="battlefront/" class="btn-ghost">Enter Battlefront</a>
+                    </div>
+                    <div class="card-media">
+                        <img src="battlefront/Canton-Army-vs-Bears-keyart.png" alt="Canton Army vs Bears — live CC/USD 3D battlefield" loading="lazy">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-wrap" id="news">
+                <div class="project-card">
+                    <div class="card-head">
+                        <div class="card-num">03</div>
+                        <div class="card-meta">
+                            <div class="card-cat">Media &amp; Intel</div>
+                            <div class="card-name">Canton News</div>
+                        </div>
+                        <a href="https://cantonnews.org" target="_blank" rel="noopener noreferrer" class="btn-ghost">Read The News</a>
+                    </div>
+                    <div class="card-media">
+                        <div class="news-media">
+                            <div class="nm-title">Cantonnews.org</div>
+                            <p class="nm-sub">Your best source for everything Canton Network — news, analysis &amp; ecosystem updates.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Community Section -->
+    <!-- 7. CONTACT -->
+    <section class="contact-section" id="contact">
+        <div class="why-label" data-fade>Work With Us</div>
+        <h2 class="section-heading hero-heading" data-fade style="--fy:40px; --fd:0.1s;">Contact</h2>
+        <p class="contact-desc" data-fade style="--fd:0.2s;">
+            Ready to grow your project inside the Canton ecosystem? Book a strategy call directly — no middlemen, no forms, no waiting.
+        </p>
 
+        <div class="contact-cards">
+            <div class="contact-card" data-fade style="--fd:0s;">
+                <span class="contact-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4D784E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                <h4>Fast Onboarding</h4>
+                <p>Get started within 24 hours of your call. We move at Canton speed.</p>
+            </div>
+            <div class="contact-card" data-fade style="--fd:0.1s;">
+                <span class="contact-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4D784E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+                <h4>Tailored Strategy</h4>
+                <p>Every campaign is built around your project's goals, timeline, and audience.</p>
+            </div>
+            <div class="contact-card" data-fade style="--fd:0.2s;">
+                <span class="contact-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4D784E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                <h4>Canton-Native Only</h4>
+                <p>We work exclusively within the Canton ecosystem — full focus, zero dilution.</p>
+            </div>
+        </div>
+
+        <div class="calendly-wrapper" data-fade style="--fd:0.2s;">
+            <div
+                class="calendly-inline-widget"
+                data-url="https://calendly.com/cantonarmy/30min?hide_landing_page_details=1&hide_gdpr_banner=1&background_color=ffffff&text_color=17211a&primary_color=4d784e"
+                style="min-width:320px; height:700px;">
+            </div>
+            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+            <noscript>
+                <div style="padding:3rem; text-align:center;">
+                    <p style="color:var(--ink-soft); margin-bottom:1.5rem;">JavaScript is required to load the booking calendar.</p>
+                    <a href="https://calendly.com/cantonarmy/30min" target="_blank" class="btn-primary" style="text-decoration:none; display:inline-block;">Open Booking Page ↗</a>
+                </div>
+            </noscript>
+        </div>
+
+        <p style="margin-top:2rem; font-size:0.9rem; font-weight:300; color:var(--ink-soft);">
+            Can't see the calendar?
+            <a href="https://calendly.com/cantonarmy/30min" target="_blank" style="color:var(--green); text-decoration:none; font-weight:600;">Open booking page directly ↗</a>
+        </p>
+    </section>
+
+    <!-- 8. COMMUNITY -->
     <section class="community-section" id="community">
-    <div class="content-wrapper">
-        <h2 class="section-title">JOIN THE<br>ARMY</h2>
-        <p style="font-size: 1.3rem; color: var(--text-secondary); max-width: 700px; margin: 2rem auto;">
+        <h2 class="section-heading hero-heading" data-fade style="--fy:40px;">Join The Army</h2>
+        <p class="community-desc" data-fade style="--fd:0.15s;">
             Connect with fellow Canton supporters worldwide. Share insights, learn together, and help build the future of institutional blockchain.
         </p>
-        
-        <div class="community-buttons" style="justify-content: center; margin-bottom: 2.5rem;">
-            <a href="https://x.com/CantonArmy" target="_blank" class="social-button">TWITTER (Canton Army)</a>
-            <a href="https://t.me/CantonArmyAnnouncements" target="_blank" class="social-button">TELEGRAM ANNOUNCEMENTS (Canton Army)</a>
-            <a href="https://t.me/CantonArmyAlpha" target="_blank" class="social-button">TELEGRAM CHAT (Canton Army)</a>
+
+        <div class="community-buttons" data-fade style="--fd:0.2s;">
+            <a href="https://x.com/CantonArmy" target="_blank" class="social-button">Twitter (Canton Army)</a>
+            <a href="https://t.me/CantonArmyAnnouncements" target="_blank" class="social-button">Telegram Announcements</a>
+            <a href="https://t.me/CantonArmyAlpha" target="_blank" class="social-button">Telegram Chat</a>
         </div>
 
-        <div class="official-links-wrapper"
-            style="margin: 0 auto; max-width: 700px; background: rgba(212,225,87,0.05); padding:2rem 1rem; border-radius: 16px; border: 1px solid var(--primary-yellow); margin-bottom:2.5rem;">
-            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color:var(--primary-yellow); margin-bottom:1rem; text-transform:uppercase;">Official Links of Canton Network</h3>
-            <div class="community-buttons official-links"
-                style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;">
-                <a href="https://x.com/CantonNetwork" target="_blank" class="social-button">TWITTER (Official)</a>
-                <a href="https://discord.com/invite/canton" target="_blank" class="social-button">DISCORD (Official)</a>
-                <a href="https://t.me/CantonNetwork1" target="_blank" class="social-button">TELEGRAM (Official)</a>
-                <a href="https://canton.network" target="_blank" class="social-button">EXPLORE CANTON NETWORK</a>
+        <div class="official-links-wrapper" data-fade style="--fd:0.3s;">
+            <h3>Official Links of Canton Network</h3>
+            <div class="community-buttons" style="margin-bottom:0;">
+                <a href="https://x.com/CantonNetwork" target="_blank" class="social-button">Twitter (Official)</a>
+                <a href="https://discord.com/invite/canton" target="_blank" class="social-button">Discord (Official)</a>
+                <a href="https://t.me/CantonNetwork1" target="_blank" class="social-button">Telegram (Official)</a>
+                <a href="https://canton.network" target="_blank" class="social-button">Explore Canton Network</a>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer>
-        <div style="display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;margin-bottom:2.5rem;">
-            <a href="#about" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">About</a>
-            <a href="#mission" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">Mission</a>
-            <a href="#why" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">Why Us</a>
-            <a href="#services" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">Services</a>
-            <a href="#battle" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">Battle Game</a>
-            <a href="#contact" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">Contact</a>
-            <a href="#community" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s ease;" onmouseover="this.style.color='#D4E157'" onmouseout="this.style.color='#B0B0B0'">Community</a>
+        <div class="footer-links">
+            <a href="#about">About</a>
+            <a href="#why">Why Us</a>
+            <a href="#services">Services</a>
+            <a href="#projects">Projects</a>
+            <a href="#battle">Battle Game</a>
+            <a href="#contact">Contact</a>
+            <a href="#community">Community</a>
         </div>
-        <div style="display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:2.5rem;">
-            <a href="https://x.com/CantonArmy" target="_blank" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:1px solid rgba(212,225,87,0.3);padding:0.4rem 1rem;border-radius:50px;transition:all 0.3s ease;" onmouseover="this.style.borderColor='#D4E157';this.style.color='#D4E157'" onmouseout="this.style.borderColor='rgba(212,225,87,0.3)';this.style.color='#B0B0B0'">X / Twitter</a>
-            <a href="https://t.me/CantonArmyAnnouncements" target="_blank" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:1px solid rgba(212,225,87,0.3);padding:0.4rem 1rem;border-radius:50px;transition:all 0.3s ease;" onmouseover="this.style.borderColor='#D4E157';this.style.color='#D4E157'" onmouseout="this.style.borderColor='rgba(212,225,87,0.3)';this.style.color='#B0B0B0'">Telegram</a>
+        <div class="footer-socials">
+            <a href="https://x.com/CantonArmy" target="_blank">X / Twitter</a>
+            <a href="https://t.me/CantonArmyAnnouncements" target="_blank">Telegram</a>
         </div>
 
-        <p style="font-size: 1.1rem; margin-bottom: 2rem;">CANTON ARMY © <span id="footer-year"></span> | COMMUNITY-POWERED INITIATIVE</p>
-        
+        <p class="footer-brand">CANTON ARMY © <span id="footer-year"></span> | COMMUNITY-POWERED INITIATIVE</p>
+
         <div class="disclaimer">
             <h4>Important Disclaimer</h4>
-            <p style="margin-bottom: 1rem;">Canton Army is an unofficial, independent fan community. We are not affiliated with, endorsed by, or officially connected to Canton Network or Digital Asset Holdings in any capacity.</p>
+            <p style="margin-bottom:1rem;">Canton Army is an unofficial, independent fan community. We are not affiliated with, endorsed by, or officially connected to Canton Network or Digital Asset Holdings in any capacity.</p>
             <p>This platform is operated by community volunteers who are passionate about Canton Network's technology and mission. All content represents community perspectives and should not be considered official project communications or financial advice.</p>
         </div>
-        
-        <p style="margin-top: 2rem; font-size: 0.85rem;">Canton Network is developed by Digital Asset Holdings. For official information, visit canton.network</p>
+
+        <p class="footer-note">Canton Network is developed by Digital Asset Holdings. For official information, visit canton.network</p>
     </footer>
 
-    <script>
-        function positionNewsBanner() {
-            const nav = document.querySelector('nav');
-            const banner = document.querySelector('.news-banner');
-            if (nav && banner) banner.style.top = nav.offsetHeight + 'px';
-        }
-        positionNewsBanner();
-        window.addEventListener('load', positionNewsBanner);
-        window.addEventListener('resize', positionNewsBanner);
-        if (window.ResizeObserver) {
-            const navEl = document.querySelector('nav');
-            if (navEl) new ResizeObserver(positionNewsBanner).observe(navEl);
-        }
+</main>
 
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
+<script>
+(function () {
+    'use strict';
 
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const particleCount = 30;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-                container.appendChild(particle);
-            }
-        }
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        window.addEventListener('load', createParticles);
-
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.content-section, .stats-section, .community-section').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(50px)';
-            section.style.transition = 'all 1s ease';
-            observer.observe(section);
-        });
-
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.style.background = 'rgba(10, 10, 10, 0.98)';
-                nav.style.boxShadow = '0 5px 20px rgba(212, 225, 87, 0.2)';
-            } else {
-                nav.style.background = 'rgba(10, 10, 10, 0.95)';
-                nav.style.boxShadow = 'none';
+    /* ── FadeIn on view ─────────────────────────────── */
+    var fadeObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                fadeObserver.unobserve(entry.target);
             }
         });
-        
-        async function fetchCCData() {
-            try {
-                const response = await fetch('https://api.coingecko.com/api/v3/coins/canton-network');
-                const data = await response.json();
-        
-                document.getElementById('cc-price').textContent = '$' + data.market_data.current_price.usd.toFixed(4);
-                document.getElementById('market-cap').textContent = '$' + formatNumber(data.market_data.market_cap.usd);
-                document.getElementById('volume-24h').textContent = '$' + formatNumber(data.market_data.total_volume.usd);
-            } catch (error) {
-                console.error('Error:', error);
-                showErrorState();
-            }
-        }
-        function formatNumber(num) {
-            if (num >= 1000000000) {
-                return (num / 1000000000).toFixed(2) + 'B';
-        } else if (num >= 1000000) {
-                return (num / 1000000).toFixed(2) + 'M';
-            } else if (num >= 1000) {
-                return (num / 1000).toFixed(2) + 'K';
+    }, { rootMargin: '50px', threshold: 0 });
+    document.querySelectorAll('[data-fade]').forEach(function (el) { fadeObserver.observe(el); });
+
+    /* ── Magnet (mouse-following hero portrait) ─────── */
+    var magnet = document.getElementById('magnet');
+    var heroSection = document.querySelector('.hero');
+    var finePointer = window.matchMedia('(pointer: fine)').matches;
+    if (magnet && heroSection && finePointer && !reducedMotion) {
+        var STRENGTH = 3;
+        var magnetActive = false;
+        window.addEventListener('mousemove', function (e) {
+            var heroRect = heroSection.getBoundingClientRect();
+            var inside =
+                e.clientX >= heroRect.left && e.clientX <= heroRect.right &&
+                e.clientY >= heroRect.top && e.clientY <= heroRect.bottom;
+            if (inside) {
+                if (!magnetActive) {
+                    magnet.style.transition = 'transform 0.3s ease-out';
+                    magnetActive = true;
                 }
-            return num.toFixed(2);
-        }
-
-        function showErrorState() {
-            document.getElementById('cc-price').textContent = 'N/A';
-            document.getElementById('market-cap').textContent = 'N/A';
-            document.getElementById('volume-24h').textContent = 'N/A';
-        }
-
-        fetchCCData();
-
-        setInterval(fetchCCData, 60000);
-
-        function copyDonationAddress() {
-    const address = 'consolewallet-cantonarmy::1220f154b6078ac0969f9d7bfa696fc4b42b8e1c9723c77b9381d855f47483044159';
-    navigator.clipboard.writeText(address).then(() => {
-        alert('✅ Wallet address copied to clipboard!');
-    }).catch(err => {
-        console.error('Failed to copy:', err);
-        alert('❌ Failed to copy. Please copy manually.');
-    });
-}
-
-function toggleMenu() {
-    const menu = document.getElementById('navMenu');
-    const hamburger = document.querySelector('.hamburger');
-    
-    menu.classList.toggle('active');
-    hamburger.classList.toggle('active');
-}
-
-window.addEventListener('click', function(event) {
-    const menu = document.getElementById('navMenu');
-    const hamburger = document.querySelector('.hamburger');
-    if (
-        menu.classList.contains('active') &&
-        !hamburger.contains(event.target) &&
-        !menu.contains(event.target)
-    ) {
-        menu.classList.remove('active');
-        hamburger.classList.remove('active');
+                /* offset from the wrapper's resting center so the portrait
+                   follows the cursor across the full section, both sides */
+                var wrapRect = magnet.parentElement.getBoundingClientRect();
+                var cx = wrapRect.left + wrapRect.width / 2;
+                var cy = wrapRect.top + wrapRect.height / 2;
+                var tx = (e.clientX - cx) / STRENGTH;
+                var ty = (e.clientY - cy) / STRENGTH;
+                magnet.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
+            } else if (magnetActive) {
+                magnet.style.transition = 'transform 0.6s ease-in-out';
+                magnet.style.transform = 'translate3d(0,0,0)';
+                magnetActive = false;
+            }
+        }, { passive: true });
     }
-});
-document.getElementById('footer-year').textContent = new Date().getFullYear();
 
-        const scrollTopBtn = document.getElementById('scrollTop');
-        window.addEventListener('scroll', function() {
-            scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+    /* ── About text: char-by-char scroll reveal ─────── */
+    var aboutText = document.getElementById('about-text');
+    var chars = [];
+    if (aboutText) {
+        var words = aboutText.textContent.trim().split(/\s+/);
+        aboutText.textContent = '';
+        words.forEach(function (word, wi) {
+            var w = document.createElement('span');
+            w.className = 'word';
+            for (var i = 0; i < word.length; i++) {
+                var c = document.createElement('span');
+                c.className = 'ch';
+                c.textContent = word[i];
+                w.appendChild(c);
+                chars.push(c);
+            }
+            aboutText.appendChild(w);
+            if (wi < words.length - 1) aboutText.appendChild(document.createTextNode(' '));
         });
-    </script>
-    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-    </button>
-    </script>
+    }
+
+    function updateAboutText() {
+        if (!aboutText || !chars.length || reducedMotion) return;
+        var rect = aboutText.getBoundingClientRect();
+        var vh = window.innerHeight;
+        /* progress 0 → top hits 80% of viewport, 1 → bottom hits 20% */
+        var start = vh * 0.8;
+        var end = vh * 0.2;
+        var total = (start - end) + rect.height;
+        var p = (start - rect.top) / total;
+        p = Math.max(0, Math.min(1, p));
+        var visible = p * chars.length;
+        for (var i = 0; i < chars.length; i++) {
+            var o = Math.max(0, Math.min(1, visible - i));
+            chars[i].style.opacity = (0.15 + 0.85 * o).toFixed(3);
+        }
+    }
+
+    /* ── Marquee: scroll-driven horizontal rows ─────── */
+    var marqueeSection = document.getElementById('marquee');
+    var row1 = document.getElementById('marquee-row-1');
+    var row2 = document.getElementById('marquee-row-2');
+    /* triple each row's tiles for a seamless track */
+    [row1, row2].forEach(function (row) {
+        if (!row) return;
+        var original = row.innerHTML;
+        row.innerHTML = original + original + original;
+    });
+
+    function updateMarquee() {
+        if (!marqueeSection || reducedMotion) return;
+        var sectionTop = marqueeSection.offsetTop;
+        var offset = (window.scrollY - sectionTop + window.innerHeight) * 0.3;
+        if (row1) row1.style.transform = 'translateX(' + (offset - 200) + 'px)';
+        if (row2) row2.style.transform = 'translateX(' + (-(offset - 200)) + 'px)';
+    }
+
+    /* ── Projects: sticky-stacking card scale ───────── */
+    var cardWraps = Array.prototype.slice.call(document.querySelectorAll('.card-wrap'));
+    var totalCards = cardWraps.length;
+
+    function updateCards() {
+        if (reducedMotion) return;
+        cardWraps.forEach(function (wrap, index) {
+            var card = wrap.querySelector('.project-card');
+            if (!card) return;
+            var targetScale = 1 - (totalCards - 1 - index) * 0.03;
+            var rect = wrap.getBoundingClientRect();
+            var stickyTop = window.innerWidth >= 768 ? 128 : 90;
+            var progress = (stickyTop - rect.top) / Math.max(rect.height, 1);
+            progress = Math.max(0, Math.min(1, progress));
+            var scale = 1 + (targetScale - 1) * progress;
+            card.style.top = (stickyTop + index * 28) + 'px';
+            card.style.transform = 'scale(' + scale + ')';
+        });
+    }
+
+    /* ── rAF-throttled scroll loop ──────────────────── */
+    var ticking = false;
+    function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+            updateAboutText();
+            updateMarquee();
+            updateCards();
+            ticking = false;
+        });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    window.addEventListener('load', onScroll);
+    onScroll();
+
+    /* ── Live $CC data (CoinGecko) ──────────────────── */
+    function formatNumber(num) {
+        if (num >= 1000000000) return (num / 1000000000).toFixed(2) + 'B';
+        if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
+        if (num >= 1000) return (num / 1000).toFixed(2) + 'K';
+        return num.toFixed(2);
+    }
+    function showErrorState() {
+        document.getElementById('cc-price').textContent = 'N/A';
+        document.getElementById('market-cap').textContent = 'N/A';
+        document.getElementById('volume-24h').textContent = 'N/A';
+    }
+    async function fetchCCData() {
+        try {
+            var response = await fetch('https://api.coingecko.com/api/v3/coins/canton-network');
+            var data = await response.json();
+            document.getElementById('cc-price').textContent = '$' + data.market_data.current_price.usd.toFixed(4);
+            document.getElementById('market-cap').textContent = '$' + formatNumber(data.market_data.market_cap.usd);
+            document.getElementById('volume-24h').textContent = '$' + formatNumber(data.market_data.total_volume.usd);
+        } catch (error) {
+            console.error('Error:', error);
+            showErrorState();
+        }
+    }
+    fetchCCData();
+    setInterval(fetchCCData, 60000);
+
+    /* ── Footer year ────────────────────────────────── */
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+})();
+</script>
 </body>
 </html>
