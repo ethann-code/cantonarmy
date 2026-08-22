@@ -1285,7 +1285,7 @@ let dayOpen=0, dayOpenSym='';
 function liveConnect(){
   liveClose();
   setBadge('rec','CONNECTING…');
-  const poll=async()=>{ try{const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=canton&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true&precision=full',{cache:'no-store'});if(!r.ok)throw new Error('CoinGecko '+r.status);const d=(await r.json()).canton;
+  const poll=async()=>{ try{const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=canton-network&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true&precision=full',{cache:'no-store'});if(!r.ok)throw new Error('CoinGecko '+r.status);const d=(await r.json())['canton-network'];
       const price=+d.usd;if(!price)throw new Error('No Canton price');authoritativePrice=price;authoritativeChange24=+d.usd_24h_change||0;lastLiveAt=performance.now();dayOpen=price/(1+authoritativeChange24/100);dayOpenSym='CCUSDT';
       lastLivePrice=price;if(performance.now()-okxLastAt>15000)ME.mid=price;if(liveSync){ME.anchor=price;ME.frontZ=0;ME.flow=0;lastGridAnchor=0;liveSync=false}
       liveActive=true;wsFails=0;setBadge('live','LIVE ●');const stamp=d.last_updated_at?new Date(d.last_updated_at*1000).toLocaleTimeString([],{hour12:false}):new Date().toLocaleTimeString([],{hour12:false});$('feed-state').textContent='PRICE SYNC '+stamp+' · LIVE ORDER FLOW';
