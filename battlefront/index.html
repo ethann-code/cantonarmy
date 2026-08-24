@@ -353,7 +353,7 @@ const CONFIG = {
   dataMode:'SIM', symbol:'CCUSDT',
   levelsPerSide:18, fieldWidth:200, fieldDepth:150,
   maxSoldiersPerSide:2000, maxSoldiersPerLevel:300, minArmy:520,
-  soldiersPerRow:32, soldierSpacing:{x:1.7,z:1.9},
+  soldiersPerRow:80,
   unitQty:{CCUSDT:5000, ETHUSDT:0.8, SOLUSDT:25},
   startPrice:{CCUSDT:0.132, ETHUSDT:3050, SOLUSDT:145},
   priceDecimals:{CCUSDT:4, ETHUSDT:2, SOLUSDT:2},
@@ -1108,7 +1108,6 @@ function ambientCombatStep(dt){if(CONFIG.dataMode!=='LIVE'||!laneMembers[0].leng
     else{for(let k=0;k<6;k++)flash(x+rnd(-2,2),rnd(.4,2.4),z+rnd(-2,2));puff(x,1,z,1.1,0x8d9187,1,.28);shake(.07)}}
   if(ambientSupportT<=0){ambientSupportT=6/Math.min(heat,1.8);const kinds=['tank','heli','jet'],kind=kinds[ambientSupportCycle%kinds.length],team=Math.abs(ME.flow)>.05?(ME.flow>0?0:1):(ambientSupportCycle%2);ambientSupportCycle++;spawnSupport(kind,team,true)}
 }
-// streak detector: consecutive same-direction seconds call in escalating support
 let streakClock=0, streakLastMid=CONFIG.startPrice[CONFIG.symbol], streak=0, streakDir=0, streakFired=false;
 function sampleStreak(){ const d=ME.mid-streakLastMid; streakLastMid=ME.mid; const dir=d>0?1:(d<0?-1:0); if(!dir)return;
   if(dir===streakDir)streak++; else { streakDir=dir; streak=1; streakFired=false; }
@@ -1151,10 +1150,10 @@ function renderMarketCandles(rows){marketCandles=rows.slice(-CANDLE_CAP);if(!mar
 /* ============================================================ MAPPING ENGINE */
 const ME={
   book:{bids:[],asks:[]}, mid:CONFIG.startPrice[CONFIG.symbol], anchor:CONFIG.startPrice[CONFIG.symbol],
-  frontZ:0, flow:0, spread:0, lastBook:0, marketMid:0, sideTarget:[0,0],
+  frontZ:0, flow:0, pushZ:0, spread:0, lastBook:0, marketMid:0, sideTarget:[0,0],
   stats:{gKills:0,rKills:0,gLoss:0,rLoss:0},
 };
-const FIELD_HALF=CONFIG.fieldDepth/2-8, GAP=3.5;
+const FIELD_HALF=CONFIG.fieldDepth/2-8, GAP=3.5, FRONT_SPAN=34;
 /* Market pulse: rolling trade stats turn raw flow into battlefield intensity.
    energy   — spikes on every fill, decays; drives ambient fire, strikes, tank cadence
    imbalance— buy$ vs sell$ over 60s; biases army sizes and picks who gets support
@@ -1181,10 +1180,14 @@ function onBook(book){
   ME.spread=Math.max(0,bestAsk-bestBid);
   if(liveSync){ ME.anchor=ME.mid; ME.frontZ=0; ME.flow=0; lastGridAnchor=0; liveSync=false; } // center on the real price
   const dens=CONFIG.density;
+  // CC's real 24h move is the dominant driver of army size: pumping days give Canton
+  // a visibly overwhelming headcount over the bears, red days flip it — the tug of war
+  // should read as "who's winning today", not just short-term order-flow noise.
+  const dayBias=clamp(authoritativeChange24/6,-1,1);
   for(let team=0;team<2;team++){ const side= team===0?book.bids:book.asks; let sum=0;
     for(let i=0;i<CONFIG.levelsPerSide;i++){ const lv=side[i]; if(lv) sum+=soldiersForQty(lv[1]); }
-    // buy pressure swells the Canton ranks, sell pressure swells the bears
-    const bias=clamp(1+(team===0?1:-1)*MKT.imbalance*0.6,0.55,1.6);
+    // buy pressure and the daily trend both swell the Canton ranks; sell pressure and red days swell the bears
+    const bias=clamp(1+(team===0?1:-1)*(MKT.imbalance*0.5+dayBias*1.3),0.42,2.3);
     ME.sideTarget[team]=clamp(Math.round(Math.max(sum,CONFIG.minArmy)*dens*bias),0,CONFIG.maxSoldiersPerSide); }
   reconcileArmies();
 }
@@ -1212,13 +1215,17 @@ function reconcileArmies(){
   }
 }
 
-// place every member each frame relative to the current frontline; front-first so gaps close automatically
-function layoutArmies(){ const perRow=CONFIG.soldiersPerRow;
-  for(let team=0;team<2;team++){ const m=laneMembers[team], N=m.length, zdir=sideZdir[team], w=Math.min(N,perRow);
-    for(let p=0;p<N;p++){ const so=pool[team][m[p]]; const row=(p/perRow)|0, inRow=p%perRow;
-      so.hx=(inRow-(w-1)/2)*CONFIG.soldierSpacing.x + (row&1?0.55:0) + so.jx;
-      so.hz=ME.frontZ + zdir*(GAP + row*CONFIG.soldierSpacing.z) + so.jz;
-      so.facing=-zdir; so.row=row;
+// place every member each frame relative to the current frontline. Every soldier gets a
+// stable, hashed slot spread across the *entire* field width and a deep front-to-rear band —
+// a scattered mob, not tidy rows — so the clash reads as fighting breaking out everywhere on
+// the map at once instead of one line or column parked in the center.
+function layoutArmies(){
+  for(let team=0;team<2;team++){ const m=laneMembers[team], N=m.length, zdir=sideZdir[team];
+    for(let p=0;p<N;p++){ const idx=m[p], so=pool[team][idx];
+      const rx=hash2(idx*3+1,team*7+1), rz=hash2(idx*5+2,team*11+3); // stable per-soldier scatter, 0..1
+      so.hx=(rx-0.5)*CONFIG.fieldWidth*0.78 + so.jx;
+      so.hz=ME.frontZ + zdir*Math.max(1.0, GAP + rz*FRONT_SPAN) + so.jz;
+      so.facing=-zdir; so.row=(rz*24)|0;
     }
   }
 }
@@ -1612,8 +1619,14 @@ function frame(now){ requestAnimationFrame(frame); if(!running)return;
   // Simulation is isolated to explicit SIM mode. LIVE mode never invents market activity.
   if(CONFIG.dataMode!=='LIVE')simStep(sdt);
   else if(liveActive&&performance.now()-lastLiveAt>90000){liveActive=false;setBadge('rec','PRICE RESYNCING');}
-  // frontline = price on a fixed axis, plus a gentle flow term that eases toward the winner then relaxes
-  const ftar = zFromPrice(ME.mid) + clamp(ME.flow,-6,6);
+  // frontline = price on a fixed axis, plus a moderate sustained push from whoever has the bigger army
+  // (so a real rout can advance well past center without permanently camping in one corner), plus a
+  // slow roam so the whole clash tours the map over time instead of parking, plus a flow term from
+  // recent kills that eases toward the winner then relaxes.
+  const dominance = clamp((ME.sideTarget[0]-ME.sideTarget[1])/Math.max(1,ME.sideTarget[0]+ME.sideTarget[1]),-1,1);
+  const roam = Math.sin(now*0.00011)*6 + Math.sin(now*0.00034+1.7)*3.5;
+  ME.pushZ += (dominance*FIELD_HALF*0.28 + roam - ME.pushZ)*Math.min(1,dt*0.3);
+  const ftar = clamp(zFromPrice(ME.mid)+ME.pushZ,-(FIELD_HALF-FRONT_SPAN-2),FIELD_HALF-FRONT_SPAN-2) + clamp(ME.flow,-6,6);
   ME.frontZ += (ftar-ME.frontZ)*Math.min(1,dt*2.2);
   ME.flow *= Math.exp(-2.0*dt);
   // the field only readjusts after a large price move
@@ -1791,7 +1804,7 @@ function resetWorld(){ // zero all soldiers/corpses, reset ME
   for(const p of shellPool){if(p.active){p.active=false;p.m.visible=false}} for(const p of grenPool){if(p.active){p.active=false;p.m.visible=false}}
   for(const b of bombPool){if(b.active){b.active=false;b.m.visible=false}}
   canopies.forEach(c=>{c.idx=-1;c.dying=0;c.m.visible=false;c.m.scale.set(1,1,1);c.domeMat.opacity=1;c.lineMat.opacity=.85}); transport.visible=false; PARA.active=false; MKT.energy=.4;
-  ME.mid=CONFIG.startPrice[CONFIG.symbol]; ME.anchor=ME.mid; ME.frontZ=0; ME.flow=0; lastGridAnchor=0;
+  ME.mid=CONFIG.startPrice[CONFIG.symbol]; ME.anchor=ME.mid; ME.frontZ=0; ME.flow=0; ME.pushZ=0; lastGridAnchor=0;
   ME.stats={gKills:0,rKills:0,gLoss:0,rLoss:0};
 }
 document.querySelectorAll('[data-sym]').forEach(b=>b.onclick=()=>{ initAudio(); setSymbol(b.dataset.sym); });
