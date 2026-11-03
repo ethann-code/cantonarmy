@@ -54,6 +54,7 @@
             --dark: #141B15;
             --dark-line: rgba(243, 245, 236, 0.14);
             --radius-xl: clamp(40px, 5vw, 60px);
+            --section-space: clamp(3rem, 6vw, 5rem);
         }
 
         html { scroll-behavior: smooth; background: var(--bg); }
@@ -73,14 +74,6 @@
 
         .hero-heading {
             background: linear-gradient(180deg, #24361F 0%, #6EA171 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: transparent;
-        }
-
-        .dark-heading {
-            background: linear-gradient(180deg, #8FA98F 0%, #EDF3E3 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -334,7 +327,7 @@
 
         /* ── Marquee ────────────────────────────────────── */
         .marquee-section {
-            padding: clamp(6rem, 10vw, 10rem) 0 2.5rem;
+            padding: var(--section-space) 0 1.5rem;
             overflow: hidden;
         }
         .marquee-row {
@@ -373,19 +366,19 @@
 
         /* ── About ──────────────────────────────────────── */
         .about-section {
-            min-height: 100vh;
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
-            padding: 5rem clamp(1.25rem, 4vw, 2.5rem);
+            padding: var(--section-space) clamp(1.25rem, 4vw, 2.5rem);
             text-align: center;
         }
         @media (max-width: 639px) {
             .about-section {
                 min-height: auto;
-                padding: 4.5rem 1.25rem 3rem;
+                padding: 4.5rem 1.25rem 2rem;
             }
         }
         .about-deco {
@@ -430,7 +423,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: clamp(2.5rem, 5vw, 4rem);
+            gap: clamp(1.5rem, 3vw, 2.5rem);
         }
         .about-text {
             font-size: clamp(1rem, 2vw, 1.35rem);
@@ -440,11 +433,11 @@
         }
         .about-text .ch { opacity: 0.15; }
         .about-text .word { display: inline-block; white-space: nowrap; }
-        .about-cta { margin-top: clamp(1.5rem, 4vw, 3rem); }
+        .about-cta { margin-top: 0.5rem; }
 
         /* ── Why section ────────────────────────────────── */
         .why-section {
-            padding: clamp(5rem, 9vw, 8rem) clamp(1.25rem, 4vw, 2.5rem);
+            padding: var(--section-space) clamp(1.25rem, 4vw, 2.5rem);
             text-align: center;
         }
         .why-label {
@@ -474,14 +467,14 @@
             font-weight: 300;
             color: var(--ink-soft);
             max-width: 720px;
-            margin: 2rem auto 3.5rem;
+            margin: 1.5rem auto 2.5rem;
             line-height: 1.8;
         }
         .why-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             max-width: 1100px;
-            margin: 0 auto 3.5rem;
+            margin: 0 auto 2.5rem;
             background: var(--surface);
             border: 1px solid var(--line);
             border-radius: 1.5rem;
@@ -521,69 +514,13 @@
             .why-mission { padding: 0.9rem 1.4rem; }
         }
 
-        /* ── Services (dark panel) ──────────────────────── */
-        .services-section {
-            background: var(--dark);
-            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-            padding: clamp(5rem, 9vw, 8rem) clamp(1.25rem, 4vw, 2.5rem) clamp(8rem, 12vw, 11rem);
-            position: relative;
-        }
-        .services-intro {
-            max-width: 760px;
-            margin: 1.75rem auto 0;
-            text-align: center;
-            font-size: clamp(0.95rem, 1.6vw, 1.2rem);
-            font-weight: 300;
-            color: rgba(243, 245, 236, 0.65);
-            line-height: 1.8;
-        }
-        .services-list {
-            max-width: 1024px;
-            margin: clamp(3.5rem, 7vw, 6rem) auto 0;
-        }
-        .service-item {
-            display: flex;
-            align-items: flex-start;
-            gap: clamp(1.25rem, 4vw, 3.5rem);
-            padding: clamp(1.75rem, 4vw, 3rem) 0;
-            border-bottom: 1px solid var(--dark-line);
-        }
-        .service-item:first-child { border-top: 1px solid var(--dark-line); }
-        .service-num {
-            font-size: clamp(2.6rem, 9vw, 120px);
-            font-weight: 900;
-            line-height: 0.9;
-            color: transparent;
-            -webkit-text-stroke: 1.5px rgba(212, 225, 87, 0.75);
-            flex: 0 0 auto;
-            min-width: clamp(4.2rem, 12vw, 11rem);
-        }
-        .service-info { padding-top: clamp(0.2rem, 1vw, 0.8rem); }
-        .service-name {
-            font-size: clamp(1rem, 2.2vw, 2rem);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: #EDF3E3;
-            line-height: 1.2;
-        }
-        .service-desc {
-            margin-top: 0.6rem;
-            font-size: clamp(0.85rem, 1.5vw, 1.2rem);
-            font-weight: 300;
-            line-height: 1.7;
-            color: rgba(243, 245, 236, 0.6);
-            max-width: 42rem;
-        }
-
         /* ── Projects (sticky stack) ────────────────────── */
         .projects-section {
             background: var(--bg);
             border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-            margin-top: calc(-1 * clamp(2.5rem, 5vw, 3.5rem));
             position: relative;
             z-index: 10;
-            padding: clamp(5rem, 9vw, 8rem) clamp(1rem, 4vw, 2.5rem) clamp(4rem, 8vw, 7rem);
+            padding: var(--section-space) clamp(1rem, 4vw, 2.5rem);
         }
         .projects-intro {
             max-width: 720px;
@@ -596,9 +533,10 @@
         }
         .cards-stack {
             max-width: 1200px;
-            margin: clamp(3rem, 6vw, 5rem) auto 0;
+            margin: clamp(2rem, 4vw, 3rem) auto 0;
         }
         .card-wrap { height: 88vh; }
+        .card-wrap:last-child { height: auto; }
         .project-card {
             position: sticky;
             top: 90px;
@@ -684,51 +622,16 @@
 
         /* ── Contact ────────────────────────────────────── */
         .contact-section {
-            padding: clamp(5rem, 9vw, 8rem) clamp(1.25rem, 4vw, 2.5rem);
+            padding: var(--section-space) clamp(1.25rem, 4vw, 2.5rem);
             text-align: center;
         }
         .contact-desc {
             max-width: 640px;
-            margin: 1.75rem auto 3.5rem;
+            margin: 1.5rem auto 2.5rem;
             font-size: clamp(0.95rem, 1.6vw, 1.2rem);
             font-weight: 300;
             color: var(--ink-soft);
             line-height: 1.8;
-        }
-        .contact-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.25rem;
-            max-width: 1100px;
-            margin: 0 auto 3rem;
-        }
-        .contact-card {
-            background: var(--surface);
-            border: 1px solid var(--line);
-            border-radius: 1.5rem;
-            padding: 2rem 1.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            text-align: left;
-        }
-        .contact-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(77, 120, 78, 0.5);
-            box-shadow: 0 18px 44px rgba(36, 54, 31, 0.12);
-        }
-        .contact-card-icon { margin-bottom: 1rem; }
-        .contact-card h4 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--green-deep);
-            margin-bottom: 0.4rem;
-        }
-        .contact-card p {
-            font-size: 0.92rem;
-            font-weight: 300;
-            color: var(--ink-soft);
-            line-height: 1.6;
         }
         .calendly-wrapper {
             max-width: 1100px;
@@ -741,18 +644,17 @@
         }
         .calendly-inline-widget { min-width: 320px; height: 700px; }
         @media (max-width: 900px) {
-            .contact-cards { grid-template-columns: 1fr; }
             .calendly-inline-widget { height: 900px; }
         }
 
         /* ── Community ──────────────────────────────────── */
         .community-section {
-            padding: clamp(5rem, 9vw, 8rem) clamp(1.25rem, 4vw, 2.5rem);
+            padding: var(--section-space) clamp(1.25rem, 4vw, 2.5rem);
             text-align: center;
         }
         .community-desc {
             max-width: 680px;
-            margin: 1.75rem auto 3rem;
+            margin: 1.5rem auto 2rem;
             font-size: clamp(0.95rem, 1.6vw, 1.2rem);
             font-weight: 300;
             color: var(--ink-soft);
@@ -763,7 +665,7 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 1rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
         .social-button {
             display: inline-block;
@@ -809,7 +711,7 @@
             background: var(--dark);
             color: rgba(243, 245, 236, 0.65);
             border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-            padding: clamp(3.5rem, 7vw, 6rem) 5% 3rem;
+            padding: clamp(2.5rem, 5vw, 4rem) 5% 2.5rem;
             text-align: center;
         }
         .footer-links, .footer-socials {
@@ -902,7 +804,6 @@
     <section class="hero">
         <nav class="hero-nav" data-fade style="--fy:-20px; --fd:0s;">
             <a href="#about">About</a>
-            <a href="#services">Services</a>
             <a href="#projects">Projects</a>
             <a href="#community">Community</a>
             <a href="#contact">Contact</a>
@@ -917,7 +818,7 @@
                 An independent community powering the <strong>Canton Network</strong> movement
             </p>
             <div data-fade style="--fy:20px; --fd:0.5s;">
-                <a href="#contact" class="btn-primary">Work With Us</a>
+                <a href="#contact" class="btn-primary">Get In Touch</a>
             </div>
         </div>
 
@@ -996,9 +897,9 @@
         </div>
     </section>
 
-    <!-- 4. WHY US -->
+    <!-- 4. OUR COMMUNITY -->
     <section class="why-section" id="why">
-        <div class="why-label" data-fade>Why Work With Us</div>
+        <div class="why-label" data-fade>Our Community</div>
         <h2 class="why-heading" data-fade style="--fd:0.1s;">Canton-Exclusive.<br><span class="accent">Nothing Else.</span></h2>
         <p class="why-desc" data-fade style="--fd:0.2s;">
             Canton Army is a community platform dedicated exclusively to the Canton ecosystem.
@@ -1015,84 +916,16 @@
                 <div class="why-stat-label">Dedicated Telegram group for ecosystem discussion, insights, and project discovery</div>
             </div>
             <div class="why-stat" data-fade style="--fd:0.2s;">
-                <div class="why-stat-number">Direct</div>
-                <div class="why-stat-label">Strong relationships with founders and teams building on Canton</div>
+                <div class="why-stat-number">Together</div>
+                <div class="why-stat-label">Canton supporters sharing knowledge and exploring the ecosystem together</div>
             </div>
         </div>
         <div class="why-mission" data-fade style="--fd:0.3s;">
-            Our mission is simple: grow the Canton ecosystem, increase awareness, and help projects succeed.
+            Our mission is simple: connect Canton supporters, share knowledge, and explore the ecosystem together.
         </div>
     </section>
 
-    <!-- 5. SERVICES -->
-    <section class="services-section" id="services">
-        <h2 class="section-heading dark-heading" data-fade style="--fy:40px;">Services</h2>
-        <p class="services-intro" data-fade style="--fd:0.15s;">
-            Canton Army is a community-driven growth platform focused entirely on the Canton ecosystem.
-            We help projects increase visibility, activate users, and build long-term presence within Canton.
-        </p>
-
-        <div class="services-list">
-            <div class="service-item" data-fade style="--fd:0s;">
-                <div class="service-num">01</div>
-                <div class="service-info">
-                    <div class="service-name">Social Media Management</div>
-                    <p class="service-desc">Structured content planning, publishing, and narrative positioning that keeps your project visible across the Canton ecosystem — with analytics to prove it.</p>
-                </div>
-            </div>
-            <div class="service-item" data-fade style="--fd:0.1s;">
-                <div class="service-num">02</div>
-                <div class="service-info">
-                    <div class="service-name">Community Management</div>
-                    <p class="service-desc">Full Telegram &amp; Discord operations — a dedicated community manager, 24/7 moderation, bot automation, security setup, and ongoing engagement.</p>
-                </div>
-            </div>
-            <div class="service-item" data-fade style="--fd:0.2s;">
-                <div class="service-num">03</div>
-                <div class="service-info">
-                    <div class="service-name">Campaign Strategy</div>
-                    <p class="service-desc">Growth campaigns, product launch planning, incentive design, and ecosystem activations — planned, executed, and optimized end to end.</p>
-                </div>
-            </div>
-            <div class="service-item" data-fade style="--fd:0.3s;">
-                <div class="service-num">04</div>
-                <div class="service-info">
-                    <div class="service-name">Ambassador Programs</div>
-                    <p class="service-desc">Recruiting, structuring, and coordinating ambassador communities that expand reach and drive organic, community-led promotion.</p>
-                </div>
-            </div>
-            <div class="service-item" data-fade style="--fd:0.4s;">
-                <div class="service-num">05</div>
-                <div class="service-info">
-                    <div class="service-name">X Spaces &amp; Livestreams</div>
-                    <p class="service-desc">Fully hosted Spaces and livestream sessions — guest coordination, topic preparation, moderation, Q&amp;A, and promotion across Canton Army channels.</p>
-                </div>
-            </div>
-            <div class="service-item" data-fade style="--fd:0.5s;">
-                <div class="service-num">06</div>
-                <div class="service-info">
-                    <div class="service-name">Ecosystem Introductions</div>
-                    <p class="service-desc">Strategic introductions, co-marketing coordination, partner matchmaking, and direct founder connections deep inside the Canton ecosystem.</p>
-                </div>
-            </div>
-            <div class="service-item" data-fade style="--fd:0.6s;">
-                <div class="service-num">07</div>
-                <div class="service-info">
-                    <div class="service-name">Telegram Alpha Access</div>
-                    <p class="service-desc">Direct exposure to our curated Canton-native alpha community — announcements, early access drops, beta codes, and targeted campaign visibility.</p>
-                </div>
-            </div>
-            <div class="service-item" data-fade style="--fd:0.7s;">
-                <div class="service-num">08</div>
-                <div class="service-info">
-                    <div class="service-name">Battle Campaigns</div>
-                    <p class="service-desc">Gamified activations on our native game infrastructure — custom branding, wallet integration, in-game events, competitions, and reward drops.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. PROJECTS -->
+    <!-- 5. PROJECTS -->
     <section class="projects-section" id="projects">
         <h2 class="section-heading hero-heading" data-fade style="--fy:40px;">Projects</h2>
         <p class="projects-intro" data-fade style="--fd:0.15s;">
@@ -1153,31 +986,13 @@
         </div>
     </section>
 
-    <!-- 7. CONTACT -->
+    <!-- 6. CONTACT -->
     <section class="contact-section" id="contact">
-        <div class="why-label" data-fade>Work With Us</div>
+        <div class="why-label" data-fade>Get In Touch</div>
         <h2 class="section-heading hero-heading" data-fade style="--fy:40px; --fd:0.1s;">Contact</h2>
         <p class="contact-desc" data-fade style="--fd:0.2s;">
-            Ready to grow your project inside the Canton ecosystem? Book a strategy call directly — no middlemen, no forms, no waiting.
+            Have a question about Canton Army or want to connect with the community? Choose a time below for a conversation.
         </p>
-
-        <div class="contact-cards">
-            <div class="contact-card" data-fade style="--fd:0s;">
-                <span class="contact-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4D784E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-                <h4>Fast Onboarding</h4>
-                <p>Get started within 24 hours of your call. We move at Canton speed.</p>
-            </div>
-            <div class="contact-card" data-fade style="--fd:0.1s;">
-                <span class="contact-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4D784E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
-                <h4>Tailored Strategy</h4>
-                <p>Every campaign is built around your project's goals, timeline, and audience.</p>
-            </div>
-            <div class="contact-card" data-fade style="--fd:0.2s;">
-                <span class="contact-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4D784E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-                <h4>Canton-Native Only</h4>
-                <p>We work exclusively within the Canton ecosystem — full focus, zero dilution.</p>
-            </div>
-        </div>
 
         <div class="calendly-wrapper" data-fade style="--fd:0.2s;">
             <div
@@ -1189,18 +1004,18 @@
             <noscript>
                 <div style="padding:3rem; text-align:center;">
                     <p style="color:var(--ink-soft); margin-bottom:1.5rem;">JavaScript is required to load the booking calendar.</p>
-                    <a href="https://calendly.com/cantonarmy/30min" target="_blank" class="btn-primary" style="text-decoration:none; display:inline-block;">Open Booking Page ↗</a>
+                    <a href="https://calendly.com/cantonarmy/30min" target="_blank" rel="noopener noreferrer" class="btn-primary" style="text-decoration:none; display:inline-block;">Open Booking Page ↗</a>
                 </div>
             </noscript>
         </div>
 
         <p style="margin-top:2rem; font-size:0.9rem; font-weight:300; color:var(--ink-soft);">
             Can't see the calendar?
-            <a href="https://calendly.com/cantonarmy/30min" target="_blank" style="color:var(--green); text-decoration:none; font-weight:600;">Open booking page directly ↗</a>
+            <a href="https://calendly.com/cantonarmy/30min" target="_blank" rel="noopener noreferrer" style="color:var(--green); text-decoration:none; font-weight:600;">Open booking page directly ↗</a>
         </p>
     </section>
 
-    <!-- 8. COMMUNITY -->
+    <!-- 7. COMMUNITY -->
     <section class="community-section" id="community">
         <h2 class="section-heading hero-heading" data-fade style="--fy:40px;">Join The Army</h2>
         <p class="community-desc" data-fade style="--fd:0.15s;">
@@ -1228,8 +1043,7 @@
     <footer>
         <div class="footer-links">
             <a href="#about">About</a>
-            <a href="#why">Why Us</a>
-            <a href="#services">Services</a>
+            <a href="#why">Our Community</a>
             <a href="#projects">Projects</a>
             <a href="#battle">Battle Game</a>
             <a href="#contact">Contact</a>
